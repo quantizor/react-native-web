@@ -1,0 +1,34 @@
+{
+  "sections": [
+    {
+      "key": "Getting Started",
+      "title": "Getting Started",
+      "url": false
+    },
+    {
+      "key": "Components",
+      "title": "Components",
+      "url": false
+    },
+    {
+      "key": "APIs",
+      "title": "APIs",
+      "url": false
+    },
+    {
+      "key": "Hooks",
+      "title": "Hooks",
+      "url": false
+    },
+    {
+      "key": "Concepts",
+      "title": "Concepts",
+      "url": false
+    },
+    {
+      "key": "Appendix",
+      "title": "Appendix",
+      "url": false
+    }
+  ]
+}

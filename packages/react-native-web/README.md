@@ -1,5 +1,10 @@
 THIS IS A FORK. It will differ from `react-native-web` in some ways because I am incorporating various community PRs that have been sitting for some time.
 
+```shell
+# to install, simply alias your existing setup to the fork
+npm install react-native-web@npm:react-native-web-fork
+```
+
 Merged changes:
 
 - [x] Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728)

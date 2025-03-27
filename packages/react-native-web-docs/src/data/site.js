@@ -1,4 +1,4 @@
-const packageJson = require('../../package.json');
+const packageJson = require('../../../react-native-web/package.json');
 
 module.exports = {
   name: 'React Native for Web',
@@ -7,7 +7,7 @@ module.exports = {
   url: 'https://necolas.github.io/react-native-web',
   githubUrl: 'https://github.com/necolas/react-native-web',
   githubBranch: 'master',
-  packageName: 'react-native-web',
+  packageName: packageJson.name,
   packageUrl: 'https://www.npmjs.com/package/react-native-web',
   packageVersion: packageJson.version,
 

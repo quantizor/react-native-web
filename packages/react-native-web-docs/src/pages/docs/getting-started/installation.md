@@ -15,7 +15,7 @@ An overview of how to install and use {{ site.name }}.
 React Native for Web can be used for multi-platform and web-only applications. It can be incrementally adopted by existing React Web apps and integrated with existing React Native apps. Preact is also supported.
 
 ```shell
-npm install react-dom {{ site.packageName }}
+npm install react-dom react-native-web@npm:{{ site.packageName }}
 ```
 
 The Babel plugin is recommended for build-time optimizations.
@@ -39,6 +39,6 @@ npm install --save-dev babel-plugin-react-native-web
 ```shell
 npx create-react-app my-app
 cd my-app
-npm install react-native-web
+npm install react-native-web@npm:{{ site.packageName }}
 npm start
 ```

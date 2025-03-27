@@ -59,7 +59,7 @@ workspaces.forEach(({ directory, packageJson, packageJsonPath }) => {
   );
 });
 
-execSync('npm install');
+execSync('yarn install');
 
 // Commit changes
 if (!skipGit) {

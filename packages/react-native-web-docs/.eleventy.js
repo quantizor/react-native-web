@@ -180,8 +180,6 @@ module.exports = function (eleventyConfig) {
       includes: 'includes',
       data: 'data',
       output: 'dist'
-    },
-    // Matches the GitHub Pages subdirectory of the site (necolas.github.io/react-native-web)
-    pathPrefix: '/react-native-web/'
+    }
   };
 };
