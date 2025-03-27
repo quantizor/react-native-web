@@ -1,30 +1,41 @@
+THIS IS A FORK. It will differ from `react-native-web` in some ways because I am incorporating various community PRs that have been sitting for some time.
+
+Merged changes:
+
+- [x] Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728)
+- [x] fix: support for react 19 and next15 (https://github.com/necolas/react-native-web/pull/2731)
+- [x] refactor(deps): removing fbjs dependency by creating a local module for invariant and warning (https://github.com/necolas/react-native-web/pull/2727)
+- [x] Add ...children rest parameter to unstable_createElement (https://github.com/necolas/react-native-web/pull/2761)
+- [x] inline-style-prefixer version bump (https://github.com/necolas/react-native-web/pull/2764)
+- [x] [ImageLoader] Simplify getSize implementation, call failure callback when decoding fails (https://github.com/necolas/react-native-web/pull/2750)
+
 # Development monorepo
 
 This is the development monorepo for "React Native for Web" and related projects.
 
 ## Structure
 
-* `.github`
-  * Contains workflows used by GitHub Actions.
-  * Contains issue templates.
-* `configs`
-  * Contains configuration files used by the monorepo tooling (compiling, linting, testing, etc.)
-* `packages`
-  * [react-native-web](https://github.com/necolas/react-native-web/blob/master/packages/react-native-web)
-  * Contains the individual packages managed in the monorepo.
-* `scripts`
-  * Contains Node.js scripts for miscellaneous tasks.
+- `.github`
+  - Contains workflows used by GitHub Actions.
+  - Contains issue templates.
+- `configs`
+  - Contains configuration files used by the monorepo tooling (compiling, linting, testing, etc.)
+- `packages`
+  - [react-native-web](https://github.com/necolas/react-native-web/blob/master/packages/react-native-web)
+  - Contains the individual packages managed in the monorepo.
+- `scripts`
+  - Contains Node.js scripts for miscellaneous tasks.
 
 ## Tasks
 
-* `build`
-  * Use `npm run build` to run the build script in every package.
-  * Use `npm run build -w <package-name>` to run the build script for a specific package.
-* `dev`
-  * Use `npm run dev` to run the dev script in every package.
-  * Use `npm run dev -w <package-name>` to run the dev script for a specific package.
-* `test`
-  * Use `npm run test` to run tests for every package.
+- `build`
+  - Use `npm run build` to run the build script in every package.
+  - Use `npm run build -w <package-name>` to run the build script for a specific package.
+- `dev`
+  - Use `npm run dev` to run the dev script in every package.
+  - Use `npm run dev -w <package-name>` to run the dev script for a specific package.
+- `test`
+  - Use `npm run test` to run tests for every package.
 
 More details can be found in the contributing guide below.
 
