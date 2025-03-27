@@ -34,7 +34,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    width: 'fit-content',
+    margin: 'auto'
   },
   back: {
     position: 'absolute',
