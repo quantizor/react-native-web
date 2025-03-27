@@ -9428,8 +9428,8 @@ __metadata:
   linkType: soft
 
 "react-native-web@file:../react-native-web::locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples":
-  version: 0.20.1
-  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=130962&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
+  version: 0.20.2
+  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=8bd25a&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
   dependencies:
     "@babel/runtime": "npm:^7.18.6"
     "@react-native/normalize-colors": "npm:^0.74.1"
@@ -9441,7 +9441,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
-  checksum: 10c0/eb51970a688a3f6bc6cd76b6f2a0bcf58891c6fffc687b420ec99670a22486e83ae4e9928f197403865433a4a7a86ec7459aa309a20ad725fe712ff616124d13
+  checksum: 10c0/cc9085b36bf35e73ded8c4131b34e8d008f7a8ac48cce21a1813fda0e67b96a86e97504d1193f1be8fc2829d4602371b99cbd71d79542792093373ccc62744f5
   languageName: node
   linkType: hard
 
