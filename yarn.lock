@@ -10052,14 +10052,14 @@ __metadata:
     postcss-value-parser: "npm:^4.2.0"
     styleq: "npm:^0.1.3"
   peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
 "react-native-web@file:../react-native-web::locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples":
-  version: 0.19.13
-  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=cee4a2&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
+  version: 0.20.1
+  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=e4e863&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
   dependencies:
     "@babel/runtime": "npm:^7.18.6"
     "@react-native/normalize-colors": "npm:^0.74.1"
@@ -10069,9 +10069,9 @@ __metadata:
     postcss-value-parser: "npm:^4.2.0"
     styleq: "npm:^0.1.3"
   peerDependencies:
-    react: ^18.0.0
-    react-dom: ^18.0.0
-  checksum: 10c0/73ca6d53c707b307fa229cd78b0a07c37a9d9b54c6c0394a3675f03ecd009cdf02ce3d0b1e31cbd319bdb2ca2ac0301cdb983327ae280e7a5a104da037cf3bf6
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 10c0/5872fc1f9ed60b15cdda2fcbc928e8941652de8ed26d3c2dd363d14b13ffba9f06321e105b9556395de547358b806e14fd89ecedc44fb21c6ddd583c7788f96f
   languageName: node
   linkType: hard
 
