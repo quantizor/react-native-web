@@ -1,3 +1,14 @@
+THIS IS A FORK. It will differ from `react-native-web` in some ways because I am incorporating various community PRs that have been sitting for some time.
+
+Merged changes:
+
+- [x] Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728)
+- [x] fix: support for react 19 and next15 (https://github.com/necolas/react-native-web/pull/2731)
+- [x] refactor(deps): removing fbjs dependency by creating a local module for invariant and warning (https://github.com/necolas/react-native-web/pull/2727)
+- [x] Add ...children rest parameter to unstable_createElement (https://github.com/necolas/react-native-web/pull/2761)
+- [x] inline-style-prefixer version bump (https://github.com/necolas/react-native-web/pull/2764)
+- [x] [ImageLoader] Simplify getSize implementation, call failure callback when decoding fails (https://github.com/necolas/react-native-web/pull/2750)
+
 # React Native for Web
 
 [![npm version][package-badge]][package-url] [![Build Status][ci-badge]][ci-url] [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
@@ -35,7 +46,9 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('App', () => App);
-AppRegistry.runApplication('App', { rootTag: document.getElementById('react-root') });
+AppRegistry.runApplication('App', {
+  rootTag: document.getElementById('react-root')
+});
 ```
 
 ## Contributing
@@ -58,11 +71,7 @@ To help you get you familiar with the contribution process, there is a list of [
 
 React Native for Web is [MIT licensed](./LICENSE). By contributing to React Native for Web, you agree that your contributions will be licensed under its MIT license.
 
-[package-badge]: https://img.shields.io/npm/v/react-native-web.svg?style=flat
-[package-url]: https://www.npmjs.com/package/react-native-web
-[ci-badge]: https://github.com/necolas/react-native-web/workflows/tests/badge.svg
-[ci-url]: https://github.com/necolas/react-native-web/actions
+[package-badge]: https://img.shields.io/npm/v/react-native-web-fork.svg?style=flat
+[package-url]: https://www.npmjs.com/package/react-native-web-fork
 [react-native-url]: https://reactnative.dev/
-[contributing-url]: https://github.com/necolas/react-native-web/blob/master/.github/CONTRIBUTING.md
-[good-first-issue-url]: https://github.com/necolas/react-native-web/labels/good%20first%20issue
-[code-of-conduct]: https://opensource.fb.com/code-of-conduct/
+[contributing-url]: https://github.com/quantizor/react-native-web-fork/blob/master/.github/CONTRIBUTING.md
