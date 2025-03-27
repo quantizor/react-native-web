@@ -11,7 +11,7 @@ Merged changes:
 
 # React Native for Web
 
-[![npm version][package-badge]][package-url] [![Build Status][ci-badge]][ci-url] [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
+[![npm version][package-badge]][package-url][![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
 
 "React Native for Web" makes it possible to run [React Native][react-native-url] components and APIs on the web using React DOM.
 
