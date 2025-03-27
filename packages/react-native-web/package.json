@@ -2,9 +2,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "name": "react-native-web",
+  "name": "react-native-web-fork",
   "version": "0.19.13",
-  "description": "React Native for Web",
+  "description": "React Native for Web (forked by quantizor for ongoing maintenance)",
   "module": "dist/index.js",
   "main": "dist/cjs/index.js",
   "sideEffects": false,
@@ -36,6 +36,9 @@
     "react-dom": "^18.0.0"
   },
   "author": "Nicolas Gallagher",
+  "contributors": [
+    "Evan Jacobs <x@quantizor.dev>"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
