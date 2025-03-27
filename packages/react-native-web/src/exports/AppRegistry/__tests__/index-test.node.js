@@ -32,11 +32,28 @@ describe('AppRegistry', () => {
       );
 
       expect(element).toMatchInlineSnapshot(`
-        <AppContainer
-          rootTag={{}}
-        >
-          <NoopComponent />
-        </AppContainer>
+        {
+          "$$typeof": Symbol(react.transitional.element),
+          "_owner": null,
+          "_store": {},
+          "key": null,
+          "props": {
+            "WrapperComponent": undefined,
+            "children": {
+              "$$typeof": Symbol(react.transitional.element),
+              "_owner": null,
+              "_store": {},
+              "key": null,
+              "props": {},
+              "type": [Function],
+            },
+            "rootTag": {},
+          },
+          "type": {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          },
+        }
       `);
       expect(styleElement).toMatchInlineSnapshot(`
         "<style id="react-native-stylesheet">[stylesheet-group="0"]{}
@@ -52,6 +69,7 @@ describe('AppRegistry', () => {
         .r-display-krxsd3{display:-webkit-box;}
         .r-display-xoduu5{display:inline-flex;}
         .r-flex-13awgt0{flex:1;}
+        .r-overflow-1qsk4np{overflow-x:clip;overflow-y:clip;}
         .r-overflow-1udh08x{overflow-x:hidden;overflow-y:hidden;}
         [stylesheet-group="3"]{}
         .r-WebkitBoxOrient-8akbws{-webkit-box-orient:vertical;}
@@ -109,6 +127,7 @@ describe('AppRegistry', () => {
         .r-display-krxsd3{display:-webkit-box;}
         .r-display-xoduu5{display:inline-flex;}
         .r-flex-13awgt0{flex:1;}
+        .r-overflow-1qsk4np{overflow-x:clip;overflow-y:clip;}
         .r-overflow-1udh08x{overflow-x:hidden;overflow-y:hidden;}
         [stylesheet-group="3"]{}
         .r-WebkitBoxOrient-8akbws{-webkit-box-orient:vertical;}
@@ -158,6 +177,7 @@ describe('AppRegistry', () => {
         .r-display-krxsd3{display:-webkit-box;}
         .r-display-xoduu5{display:inline-flex;}
         .r-flex-13awgt0{flex:1;}
+        .r-overflow-1qsk4np{overflow-x:clip;overflow-y:clip;}
         .r-overflow-1udh08x{overflow-x:hidden;overflow-y:hidden;}
         [stylesheet-group="3"]{}
         .r-WebkitBoxOrient-8akbws{-webkit-box-orient:vertical;}

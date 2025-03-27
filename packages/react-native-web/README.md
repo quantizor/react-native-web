@@ -7,6 +7,7 @@ npm install react-native-web@npm:react-native-web-fork
 
 Merged changes:
 
+- Fix: Multiline Text though clipped can be scrolled into view (https://github.com/necolas/react-native-web/pull/2584) thanks @tienifr
 - Implement maintainVisibleContentPosition (https://github.com/necolas/react-native-web/pull/2588) thanks @janicduplessis
 - Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728) thanks @scottmas
 - fix: support for react 19 and next15 (https://github.com/necolas/react-native-web/pull/2731) thanks @Viraj-10
