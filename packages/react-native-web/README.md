@@ -7,12 +7,13 @@ npm install react-native-web@npm:react-native-web-fork
 
 Merged changes:
 
-- [x] Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728)
-- [x] fix: support for react 19 and next15 (https://github.com/necolas/react-native-web/pull/2731)
-- [x] refactor(deps): removing fbjs dependency by creating a local module for invariant and warning (https://github.com/necolas/react-native-web/pull/2727)
-- [x] Add ...children rest parameter to unstable_createElement (https://github.com/necolas/react-native-web/pull/2761)
-- [x] inline-style-prefixer version bump (https://github.com/necolas/react-native-web/pull/2764)
-- [x] [ImageLoader] Simplify getSize implementation, call failure callback when decoding fails (https://github.com/necolas/react-native-web/pull/2750)
+- Implement maintainVisibleContentPosition (https://github.com/necolas/react-native-web/pull/2588) thanks @janicduplessis
+- Add Image.resolveAssetSource (https://github.com/necolas/react-native-web/pull/2728) thanks @scottmas
+- fix: support for react 19 and next15 (https://github.com/necolas/react-native-web/pull/2731) thanks @Viraj-10
+- refactor(deps): removing fbjs dependency by creating a local module for invariant and warning (https://github.com/necolas/react-native-web/pull/2727) thanks @mateoguzmana
+- Add ...children rest parameter to unstable_createElement (https://github.com/necolas/react-native-web/pull/2761) thanks @faceyspacey
+- inline-style-prefixer version bump (https://github.com/necolas/react-native-web/pull/2764) thanks @karmatys8
+- [ImageLoader] Simplify getSize implementation, call failure callback when decoding fails (https://github.com/necolas/react-native-web/pull/2750) thanks @lkinasiewicz
 
 # React Native for Web
 
