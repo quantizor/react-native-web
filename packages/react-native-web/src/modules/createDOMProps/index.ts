@@ -39,6 +39,7 @@ const pointerEventsStyles = StyleSheet.create({
   }
 } as const);
 
+// TODO: re-evaluate this code, we need to pull in RN types so this is correct
 const createDOMProps = <T extends React.ComponentType<any> | keyof React.JSX.IntrinsicElements>(elementType: T, rawProps?: React.ComponentProps<T>, options?: any) => {
   const props = rawProps ?? emptyObject as React.ComponentProps<T>;
 

@@ -7,11 +7,11 @@
 
 import * as React from 'react';
 
-export default function mergeRefs(
-  ...args: ReadonlyArray<React.Ref<unknown>>
-): (node: HTMLElement | null) => void {
-  return function forwardRef(node: HTMLElement | null) {
-    args.forEach((ref: React.Ref<unknown>) => {
+export default function mergeRefs<T>(
+  ...args: ReadonlyArray<React.Ref<T>>
+): (node: T | null) => void {
+  return function forwardRef(node: T | null) {
+    args.forEach((ref: React.Ref<T>) => {
       if (ref == null) {
         return;
       }

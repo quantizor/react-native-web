@@ -12,15 +12,15 @@ import Text from '../Text';
 import TouchableOpacity from '../TouchableOpacity';
 
 type ButtonProps = {
-  accessibilityLabel?: string | null | undefined,
+  accessibilityLabel?: string | undefined,
   color?: string | null | undefined,
   disabled?: boolean,
   onPress?: ((e: any) => void) | null | undefined,
-  testID?: string | null | undefined,
+  testID?: string | undefined,
   title: string
 };
 
-const Button = React.forwardRef((props: ButtonProps, forwardedRef: React.Ref<typeof TouchableOpacity>) => {
+const Button = React.forwardRef((props: ButtonProps, forwardedRef: React.Ref<HTMLDivElement>) => {
   const { accessibilityLabel, color, disabled, onPress, testID, title } = props;
 
   return (
