@@ -1,6 +1,7 @@
 name: react@next integration
 
 on:
+  workflow_dispatch:
   schedule:
     # Run every Monday at 12:00 (see https://crontab.guru)
     - cron: '0 12 * * 1'
