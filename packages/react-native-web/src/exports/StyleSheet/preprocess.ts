@@ -9,8 +9,6 @@ import normalizeColor from './compiler/normalizeColor';
 import normalizeValueWithProperty from './compiler/normalizeValueWithProperty';
 import { warnOnce } from '../../modules/warnOnce';
 
-import type { StyleProp } from '../../types';
-
 const emptyObject = {};
 
 /**
@@ -19,14 +17,14 @@ const emptyObject = {};
 
 const defaultOffset = { height: 0, width: 0 };
 
-export type BoxShadowStyle = {
+export type CreateBoxShadowStyle = {
   shadowColor?: string;
   shadowOffset?: { height: number; width: number };
   shadowOpacity?: number;
   shadowRadius?: number;
 };
 
-export const createBoxShadowValue = (style: BoxShadowStyle): void | string => {
+export const createBoxShadowValue = (style: CreateBoxShadowStyle): void | string => {
   const { shadowColor, shadowOffset, shadowOpacity, shadowRadius } = style;
   const { height, width } = shadowOffset || defaultOffset;
   const offsetX = normalizeValueWithProperty(width);
@@ -69,9 +67,19 @@ export const createTextShadowValue = (style: TextShadowStyle): void | string => 
   }
 };
 
+export type BoxShadowStyle = {
+  offsetX: number;
+  offsetY: number;
+  blurRadius: number;
+  spreadDistance: number;
+  color: string;
+  inset: boolean;
+};
+
+
 // { offsetX: 1, offsetY: 2, blurRadius: 3, spreadDistance: 4, color: 'rgba(255, 0, 0)', inset: true }
 // => 'rgba(255, 0, 0) 1px 2px 3px 4px inset'
-const mapBoxShadow = (boxShadow: Object | string): string => {
+const mapBoxShadow = (boxShadow: BoxShadowStyle | string): string => {
   if (typeof boxShadow === 'string') {
     return boxShadow;
   }
@@ -85,7 +93,7 @@ const mapBoxShadow = (boxShadow: Object | string): string => {
   return `${position}${offsetX} ${offsetY} ${blurRadius} ${spreadDistance} ${color}`;
 };
 
-export const createBoxShadowArrayValue = (value: Array<Object>): string => {
+export const createBoxShadowArrayValue = (value: Array<BoxShadowStyle>): string => {
   return value.map(mapBoxShadow).join(', ');
 };
 
@@ -209,7 +217,7 @@ export const preprocess = <T extends Record<string, unknown>>(
 
     const originalValue = style[originalProp];
     const prop = PROPERTIES_STANDARD[originalProp] || originalProp;
-    let value = originalValue;
+    let value: unknown = originalValue;
 
     if (
       !Object.prototype.hasOwnProperty.call(style, originalProp) ||
@@ -262,7 +270,6 @@ export const preprocess = <T extends Record<string, unknown>>(
     }
   }
 
-  // $FlowIgnore
   return nextStyle;
 };
 
