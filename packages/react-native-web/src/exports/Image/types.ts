@@ -6,7 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ColorValue, GenericStyleProp } from '../../types';
+import type { StyleProp } from 'react-native';
+import type { ColorValue } from '../../types';
 import type { ViewProps, ViewStyle } from '../View/types';
 
 type SourceObject = {
@@ -94,6 +95,6 @@ export interface ImageProps extends ViewProps {
   onProgress?: (e: any) => void,
   resizeMode?: ResizeMode,
   source?: Source,
-  style?: GenericStyleProp<ImageStyle>,
+  style?: StyleProp<ImageStyle>,
   tintColor?: ColorValue
 };

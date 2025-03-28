@@ -17,10 +17,10 @@ import StyleSheet from '../StyleSheet';
 import View from '../View';
 
 interface CheckBoxProps extends ViewProps {
-  color?: ColorValue | null | undefined,
+  color?: ColorValue | undefined,
   disabled?: boolean,
-  onChange?: ((e: any) => void) | null | undefined,
-  onValueChange?: ((e: any) => void) | null | undefined,
+  onChange?: ((e: any) => void) | undefined,
+  onValueChange?: ((e: any) => void) | undefined,
   readOnly?: boolean,
   value?: boolean
 };

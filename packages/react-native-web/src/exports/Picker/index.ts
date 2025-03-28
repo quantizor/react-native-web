@@ -23,7 +23,6 @@ interface PickerProps extends ViewProps {
   enabled?: boolean,
   onValueChange?: (value: number | string, selectedIndex: number) => void,
   selectedValue?: number | string,
-  style?: any,
   /* compat */
   itemStyle?: any,
   mode?: string,
@@ -34,7 +33,7 @@ let Picker: React.ForwardRefExoticComponent<PickerProps & React.RefAttributes<HT
   Item?: typeof PickerItem
 };
 
-Picker = React.forwardRef((props, forwardedRef) => {
+Picker = React.forwardRef((props: PickerProps, forwardedRef: React.Ref<HTMLSelectElement & PlatformMethods>) => {
   const {
     children,
     enabled,
@@ -57,7 +56,7 @@ Picker = React.forwardRef((props, forwardedRef) => {
     }
   }
 
-  const supportedProps: React.JSX.IntrinsicElements['select'] = {
+  const supportedProps = {
     children,
     disabled: enabled === false ? true : undefined,
     onChange: handleChange,
@@ -67,11 +66,11 @@ Picker = React.forwardRef((props, forwardedRef) => {
     ...other
   };
 
-  const platformMethodsRef = usePlatformMethods(supportedProps);
+  const platformMethodsRef = usePlatformMethods();
 
   const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
 
-  supportedProps.ref = setRef as (node: HTMLSelectElement | null) => void;
+  supportedProps.ref = setRef as (node: HTMLSelectElement & PlatformMethods | null) => void;
 
   return createElement('select', supportedProps);
 });

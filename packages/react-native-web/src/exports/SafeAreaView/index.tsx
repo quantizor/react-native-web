@@ -4,11 +4,9 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
-import type { ViewProps } from '../View';
+import type { ViewProps, ViewRef } from '../View';
 
 import * as React from 'react';
 import StyleSheet from '../StyleSheet';
@@ -27,10 +25,7 @@ const cssFunction: 'constant' | 'env' = (function () {
   return 'env';
 })();
 
-const SafeAreaView: React.AbstractComponent<
-  ViewProps,
-  React.ElementRef<typeof View>
-> = React.forwardRef((props, ref) => {
+const SafeAreaView = React.forwardRef((props: ViewProps, ref: React.Ref<ViewRef>) => {
   const { style, ...rest } = props;
   return <View {...rest} ref={ref} style={[styles.root, style]} />;
 });
@@ -44,6 +39,6 @@ const styles = StyleSheet.create({
     paddingBottom: `${cssFunction}(safe-area-inset-bottom)`,
     paddingLeft: `${cssFunction}(safe-area-inset-left)`
   }
-});
+} as const);
 
 export default SafeAreaView;

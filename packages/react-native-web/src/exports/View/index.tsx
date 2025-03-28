@@ -4,14 +4,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 'use client';
 
 import type { PlatformMethods } from '../../types';
-import type { ViewProps } from './types';
+import type { ViewProps, ViewStyle } from './types';
 
 import * as React from 'react';
 import createElement from '../createElement';
@@ -24,8 +22,9 @@ import useResponderEvents from '../../modules/useResponderEvents';
 import StyleSheet from '../StyleSheet';
 import TextAncestorContext from '../Text/TextAncestorContext';
 import { useLocaleContext, getLocaleDirection } from '../../modules/useLocale';
+import { ComponentType } from 'react';
 
-export type ViewRef = HTMLElement & PlatformMethods
+type ViewRef = HTMLElement & PlatformMethods
 
 const customForwardedProps = {
   href: true,
@@ -33,20 +32,19 @@ const customForwardedProps = {
   onScroll: true,
   onWheel: true,
   pointerEvents: true
-}
+} as const;
 
-const forwardPropsList = Object.assign(
-  {},
-  forwardedProps.defaultProps,
-  forwardedProps.accessibilityProps,
-  forwardedProps.clickProps,
-  forwardedProps.focusProps,
-  forwardedProps.keyboardProps,
-  forwardedProps.mouseProps,
-  forwardedProps.touchProps,
-  forwardedProps.styleProps,
-  customForwardedProps
-) as Record<keyof ViewProps, boolean>;
+const forwardPropsList = {
+  ...forwardedProps.defaultProps,
+  ...forwardedProps.accessibilityProps,
+  ...forwardedProps.clickProps,
+  ...forwardedProps.focusProps,
+  ...forwardedProps.keyboardProps,
+  ...forwardedProps.mouseProps,
+  ...forwardedProps.touchProps,
+  ...forwardedProps.styleProps,
+  ...customForwardedProps
+};
 
 const pickProps = (props: ViewProps) => pick(props, forwardPropsList);
 
@@ -108,14 +106,14 @@ const View =
       onStartShouldSetResponderCapture
     });
 
-    let component = 'div';
+    let component: ComponentType<any> | keyof React.JSX.IntrinsicElements = 'div';
 
     const langDirection =
       props.lang != null ? getLocaleDirection(props.lang) : null;
     const componentDirection = props.dir || langDirection || undefined;
     const writingDirection = componentDirection || contextDirection;
 
-    const supportedProps = pickProps(rest) as ViewProps;
+    const supportedProps = pickProps(rest);
     supportedProps.dir = componentDirection;
     supportedProps.style = [
       styles.view$raw,
@@ -142,10 +140,9 @@ const View =
       }
     }
 
-    const platformMethodsRef = usePlatformMethods(supportedProps);
+    const platformMethodsRef = usePlatformMethods();
     const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
 
-    // @ts-ignore circle back to this
     supportedProps.ref = setRef;
 
     return createElement(component, supportedProps, { writingDirection });
@@ -178,6 +175,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export type { ViewProps };
+export type { ViewProps, ViewRef, ViewStyle };
 
 export default View;

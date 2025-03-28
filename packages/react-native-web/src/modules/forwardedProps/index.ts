@@ -18,7 +18,7 @@ export const defaultProps = {
   // @deprecated
   focusable: true,
   nativeID: true
-};
+} as const;
 
 export const accessibilityProps = {
   'aria-activedescendant': true,
@@ -114,7 +114,7 @@ export const accessibilityProps = {
   accessibilityValueMin: true,
   accessibilityValueNow: true,
   accessibilityValueText: true
-};
+} as const;
 
 export const clickProps = {
   onClick: true,
@@ -130,19 +130,19 @@ export const clickProps = {
   onPointerOut: true,
   onPointerOver: true,
   onPointerUp: true
-};
+} as const;
 
 export const focusProps = {
   onBlur: true,
   onFocus: true
-};
+} as const;
 
 export const keyboardProps = {
   onKeyDown: true,
   onKeyDownCapture: true,
   onKeyUp: true,
   onKeyUpCapture: true
-};
+} as const;
 
 export const mouseProps = {
   onMouseDown: true,
@@ -152,7 +152,7 @@ export const mouseProps = {
   onMouseOver: true,
   onMouseOut: true,
   onMouseUp: true
-};
+} as const;
 
 export const touchProps = {
   onTouchCancel: true,
@@ -163,8 +163,8 @@ export const touchProps = {
   onTouchMoveCapture: true,
   onTouchStart: true,
   onTouchStartCapture: true
-};
+} as const;
 
 export const styleProps = {
   style: true
-};
+} as const ;

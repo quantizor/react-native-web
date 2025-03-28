@@ -7,12 +7,12 @@
 
 'use client';
 
+import React from 'react';
 import AccessibilityUtil from '../../modules/AccessibilityUtil';
 import createDOMProps from '../../modules/createDOMProps';
-import React from 'react';
 import { LocaleProvider } from '../../modules/useLocale';
 
-const createElement = <T extends React.ComponentType<any> | keyof React.JSX.IntrinsicElements>(component: T, props: React.ComponentProps<T>, ...children: any[]) => {
+const createElement = <T extends React.ComponentType<any> | keyof React.JSX.IntrinsicElements>(component: T, props: Record<string, unknown>, ...children: any[]) => {
   // Use equivalent platform elements where possible.
   let accessibilityComponent: T | undefined;
   if (component && component.constructor === String) {
@@ -21,7 +21,7 @@ const createElement = <T extends React.ComponentType<any> | keyof React.JSX.Intr
       AccessibilityUtil.propsToAccessibilityComponent(props);
   }
   const Component = accessibilityComponent || component;
-  const domProps = createDOMProps(Component, props);
+  const domProps = createDOMProps(Component, props as React.ComponentProps<T>);
 
   const element = React.createElement(Component, domProps, ...children);
 

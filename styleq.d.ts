@@ -1,5 +1,3 @@
-import ''
-
 type CompiledStyle = {
   [key: string]: string,
 } & { $$css: boolean };
@@ -29,7 +27,7 @@ declare module 'styleq' {
     factory: (options?: StyleqOptions) => Styleq,
   };
 
-  export const { IStyleq };
+  export const styleq: IStyleq;
 }
 
 declare module "styleq/transform-localize-style" {

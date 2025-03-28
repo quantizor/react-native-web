@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     touchAction: 'manipulation'
   }
-});
+} as const);
 
 const MemoedTouchableOpacity = React.memo(React.forwardRef(TouchableOpacity));
 MemoedTouchableOpacity.displayName = 'TouchableOpacity';

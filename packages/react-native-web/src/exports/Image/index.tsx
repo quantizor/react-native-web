@@ -339,7 +339,7 @@ const Image = React.forwardRef((props: ImageProps, ref: React.Ref<React.Componen
         styles.undo,
         // TEMP: avoid deprecated shadow props regression
         // until Image refactored to use createElement.
-        { boxShadow: null }
+        { boxShadow: undefined }
       ]}
     >
       <View
@@ -410,15 +410,15 @@ const styles = StyleSheet.create({
   undo: {
     // These styles are converted to CSS filters applied to the
     // element displaying the background image.
-    blurRadius: null,
-    shadowColor: null,
-    shadowOpacity: null,
-    shadowOffset: null,
-    shadowRadius: null,
-    tintColor: null,
+    blurRadius: undefined,
+    shadowColor: undefined,
+    shadowOpacity: undefined,
+    shadowOffset: undefined,
+    shadowRadius: undefined,
+    tintColor: undefined,
     // These styles are not supported
-    overlayColor: null,
-    resizeMode: null
+    overlayColor: undefined,
+    resizeMode: undefined
   },
   image: {
     ...StyleSheet.absoluteFillObject,

@@ -429,7 +429,7 @@ TextInput = React.forwardRef((props: TextInputProps, forwardedRef: React.Ref<HTM
   supportedProps.virtualkeyboardpolicy =
     showSoftInputOnFocus === false ? 'manual' : 'auto';
 
-  const platformMethodsRef = usePlatformMethods(supportedProps);
+  const platformMethodsRef = usePlatformMethods();
 
   const setRef = useMergeRefs(
     hostRef,

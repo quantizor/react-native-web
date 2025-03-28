@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ColorValue, GenericStyleProp } from '../../types';
+import type { StyleProp } from 'react-native';
+import type { ColorValue } from '../../types';
 import type { TextStyle } from '../Text/types';
 import type { ViewProps } from '../View/types';
 
@@ -14,18 +15,18 @@ export interface TextInputStyle extends TextStyle {
   resize?: 'none' | 'vertical' | 'horizontal' | 'both';
 }
 
-export interface TextInputProps extends Omit<ViewProps, 'dir'> {
+export interface TextInputProps extends Omit<ViewProps, 'autoCorrect' | 'dir' | 'style'> {
   autoCapitalize?: 'characters' | 'none' | 'sentences' | 'words',
-  autoComplete?: string | null,
-  autoCompleteType?: string | null, // Compat with React Native (Bug react-native#26003)
-  autoCorrect?: boolean | null,
-  autoFocus?: boolean | null,
-  blurOnSubmit?: boolean | null,
-  caretHidden?: boolean | null,
-  clearTextOnFocus?: boolean | null,
-  defaultValue?: string | null,
-  dir?: 'auto' | 'ltr' | 'rtl' | null,
-  disabled?: boolean | null,
+  autoComplete?: string | undefined,
+  autoCompleteType?: string | undefined, // Compat with React Native (Bug react-native#26003)
+  autoCorrect?: boolean | undefined,
+  autoFocus?: boolean | undefined,
+  blurOnSubmit?: boolean | undefined,
+  caretHidden?: boolean | undefined,
+  clearTextOnFocus?: boolean | undefined,
+  defaultValue?: string | undefined,
+  dir?: 'auto' | 'ltr' | 'rtl' | undefined,
+  disabled?: boolean | undefined,
   enterKeyHint?:
     | 'enter'
     | 'done'
@@ -34,7 +35,7 @@ export interface TextInputProps extends Omit<ViewProps, 'dir'> {
     | 'previous'
     | 'search'
     | 'send',
-  inputAccessoryViewID?: string | null,
+  inputAccessoryViewID?: string | undefined,
   inputMode?:
     | 'decimal'
     | 'email'
@@ -44,8 +45,8 @@ export interface TextInputProps extends Omit<ViewProps, 'dir'> {
     | 'tel'
     | 'text'
     | 'url',
-  maxLength?: number | null,
-  multiline?: boolean | null,
+  maxLength?: number | undefined,
+  multiline?: boolean | undefined,
   onChange?: (e: any) => void,
   onChangeText?: (e: string) => void,
   onContentSizeChange?: (e: any) => void,
@@ -54,23 +55,23 @@ export interface TextInputProps extends Omit<ViewProps, 'dir'> {
   onSelectionChange?: (e: any) => void,
   onScroll?: (e: any) => void,
   onSubmitEditing?: (e: any) => void,
-    placeholder?: string | null,
-  placeholderTextColor?: ColorValue | null,
-  readOnly?: boolean | null,
-  rows?: number | null,
-  secureTextEntry?: boolean | null,
-  selectTextOnFocus?: boolean | null,
+    placeholder?: string | undefined,
+  placeholderTextColor?: ColorValue | undefined,
+  readOnly?: boolean | undefined,
+  rows?: number | undefined,
+  secureTextEntry?: boolean | undefined,
+  selectTextOnFocus?: boolean | undefined,
   selection?: {
     start: number,
     end?: number
   },
-  selectionColor?: ColorValue | null,
-  showSoftInputOnFocus?: boolean | null,
-  spellCheck?: boolean | null,
-  style?: GenericStyleProp<TextInputStyle> | null,
-  value?: string | null,
+  selectionColor?: ColorValue | undefined,
+  showSoftInputOnFocus?: boolean | undefined,
+  spellCheck?: boolean | undefined,
+  style?: StyleProp<TextInputStyle> | undefined,
+  value?: string | undefined,
   // deprecated
-  editable?: boolean | null,
+  editable?: boolean | undefined,
   keyboardType?:
     | 'default'
     | 'email-address'
@@ -82,7 +83,7 @@ export interface TextInputProps extends Omit<ViewProps, 'dir'> {
     | 'url'
     | 'web-search'
     | 'decimal-pad',
-  numberOfLines?: number | null,
+  numberOfLines?: number | undefined,
   returnKeyType?:
     | 'enter'
     | 'done'

@@ -13,9 +13,9 @@ import TouchableOpacity from '../TouchableOpacity';
 
 type ButtonProps = {
   accessibilityLabel?: string | undefined,
-  color?: string | null | undefined,
+  color?: string | undefined,
   disabled?: boolean,
-  onPress?: ((e: any) => void) | null | undefined,
+  onPress?: ((e: any) => void) | undefined,
   testID?: string | undefined,
   title: string
 };

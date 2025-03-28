@@ -6,22 +6,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ColorValue, GenericStyleProp, LayoutEvent } from '../../types';
+import type { Animated, ViewProps as RNViewProps, ViewStyle as RNViewStyle, StyleProp } from 'react-native';
+import type { LayoutEvent, PlatformMethods } from '../../types';
 
-import type {
-  AnimationStyles,
-  BorderStyles,
-  InteractionStyles,
-  LayoutStyles,
-  ShadowStyles,
-  TransformStyles
-} from '../../types/styles';
 
-type NumberOrString = number | string;
-type OverscrollBehaviorValue = 'auto' | 'contain' | 'none';
 type idRef = string;
 type idRefList = idRef | Array<idRef>;
 
+// TODO: investigate using RN types directly
 export type AccessibilityProps = {
   'aria-activedescendant'?: idRef | undefined,
   'aria-atomic'?: boolean | undefined,
@@ -174,50 +166,20 @@ export type EventProps = {
   onWheel?: (e: any) => void
 };
 
-export type ViewStyle = AnimationStyles & BorderStyles & InteractionStyles & LayoutStyles & ShadowStyles & TransformStyles & {
-  backdropFilter?: string | undefined,
-  backgroundAttachment?: string | undefined,
-  backgroundBlendMode?: string | undefined,
-  backgroundClip?: string | undefined,
-  backgroundColor?: ColorValue | undefined,
-  backgroundImage?: string | undefined,
-  backgroundOrigin?: 'border-box' | 'content-box' | 'padding-box',
-  backgroundPosition?: string | undefined,
-  backgroundRepeat?: string | undefined,
-  backgroundSize?: string | undefined,
-  boxShadow?: string | undefined,
-  clip?: string | undefined,
-  filter?: string | undefined,
-  opacity?: number | undefined,
-  outlineColor?: ColorValue | undefined,
-  outlineOffset?: NumberOrString | undefined,
-  outlineStyle?: string | undefined,
-  outlineWidth?: NumberOrString | undefined,
-  overscrollBehavior?: OverscrollBehaviorValue | undefined,
-  overscrollBehaviorX?: OverscrollBehaviorValue | undefined,
-  overscrollBehaviorY?: OverscrollBehaviorValue | undefined,
-  pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
-  scrollbarWidth?: 'auto' | 'none' | 'thin',
-  scrollSnapAlign?: string | undefined,
-  scrollSnapType?: string | undefined,
-  WebkitMaskImage?: string | undefined,
-  WebkitOverflowScrolling?: 'auto' | 'touch'
+type ExcludeAnimated<T> = {
+  [K in keyof T]: T[K] extends Animated.AnimatedNode ? never : T[K];
 };
 
-export type ViewProps = AccessibilityProps & EventProps & {
-  children?: any,
-  dataSet?: {},
-  dir?: 'ltr' | 'rtl',
-  id?: string,
-  lang?: string,
-  style?: GenericStyleProp<ViewStyle>,
-  tabIndex?: 0 | -1 | undefined,
-  testID?: string,
+type ViewStyleWithoutAnimated = ExcludeAnimated<RNViewStyle>;
+
+export type ViewStyle = React.CSSProperties & {
+  [K in Exclude<keyof ViewStyleWithoutAnimated, keyof React.CSSProperties>]?: ViewStyleWithoutAnimated[K];
+};
+
+export type ViewProps = AccessibilityProps & EventProps & Pick<RNViewProps, 'children' | 'tabIndex' | 'testID' | 'focusable' | 'pointerEvents' | 'nativeID'> & Omit<React.HTMLAttributes<HTMLElement>, 'style'> & {
+  ref?: React.Ref<HTMLElement & PlatformMethods>,
+  style?: StyleProp<ViewStyle>,
   // unstable
   href?: string | undefined,
   hrefAttrs?: { download?: boolean, rel?: string, target?: string },
-  // @deprecated
-  focusable?: boolean | undefined,
-  pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
-  nativeID?: string | undefined
 };

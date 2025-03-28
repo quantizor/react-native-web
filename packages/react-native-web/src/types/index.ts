@@ -3,11 +3,9 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
-export type ColorValue = null | string;
+export type ColorValue = string;
 
 export type DimensionValue = null | number | string;
 
@@ -18,19 +16,13 @@ export type EdgeInsetsValue = {
   bottom: number
 };
 
-export type GenericStyleProp<T extends {}> =
-  | null
-  | void
-  | Readonly<T>
-  | false
-  | ''
-  | ReadonlyArray<GenericStyleProp<T>>;
-
 export type LayoutValue = {
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  left: number,
+  top: number
 };
 
 export type LayoutEvent = {

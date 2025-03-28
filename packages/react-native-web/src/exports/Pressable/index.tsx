@@ -27,7 +27,7 @@ export type StateCallbackType = {
 
 type ViewStyleProp = ViewProps['style'];
 
-interface Props extends Omit<ViewProps, 'style'> {
+interface Props extends Omit<ViewProps, 'children' | 'style'> {
   children: React.ReactNode | ((state: StateCallbackType) => React.ReactNode),
   // Duration (in milliseconds) from `onPressIn` before `onLongPress` is called.
   delayLongPress?: number | undefined,
@@ -205,6 +205,7 @@ function Pressable(props: Props, forwardedRef: React.Ref<ViewRef>): React.ReactN
       onKeyDown={keyDownHandler}
       ref={setRef}
       style={[
+        // @ts-expect-error RN-specific value that will be handled in createElement
         disabled ? styles.disabled : styles.active,
         typeof style === 'function' ? style(interactionState) : style
       ]}

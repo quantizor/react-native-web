@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export default function pick<T extends Record<string, unknown>, K extends Record<Extract<keyof T, string>, boolean>>(obj: T, list: K): PickTrue<T, Extract<keyof K, string>> {
-  const nextObj = {} as PickTrue<T, Extract<keyof K, string>>;
+export default function pick<T extends Record<string, any>, K extends string>(obj: T, list: Record<K, boolean>): PickTrue<T, K> {
+  const nextObj = {} as PickTrue<T, K>;
 
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
-      if (list[key] === true) {
+      if (list[key as unknown as K] === true) {
         // @ts-ignore come back to this
         nextObj[key] = obj[key];
       }
@@ -19,8 +19,6 @@ export default function pick<T extends Record<string, unknown>, K extends Record
   return nextObj;
 }
 
-type PickTrue<T extends Record<string, unknown>, K extends keyof T> = Pick<T, {
-  [P in K]: T[P] extends true ? P : never;
-}[K]>;
-
-
+type PickTrue<T extends Record<string, unknown>, K extends string> = Pick<T, {
+  [P in Extract<keyof T, string>]: P extends K ? P : never;
+}[Extract<keyof T, string>]>;

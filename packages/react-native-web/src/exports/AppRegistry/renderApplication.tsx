@@ -40,6 +40,7 @@ export default function renderApplication<T extends ComponentType<any>>(
       ref={callback}
       rootTag={rootTag}
     >
+      {/* @ts-ignore no idea what's going on here */}
       <RootComponent {...initialProps} />
     </AppContainer>,
     rootTag

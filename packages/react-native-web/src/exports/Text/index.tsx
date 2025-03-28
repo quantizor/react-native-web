@@ -22,23 +22,21 @@ import useResponderEvents from '../../modules/useResponderEvents';
 import StyleSheet from '../StyleSheet';
 import TextAncestorContext from './TextAncestorContext';
 import { useLocaleContext, getLocaleDirection } from '../../modules/useLocale';
+import { ComponentType } from 'react';
 
-const forwardPropsList = Object.assign(
-  {},
-  forwardedProps.defaultProps,
-  forwardedProps.accessibilityProps,
-  forwardedProps.clickProps,
-  forwardedProps.focusProps,
-  forwardedProps.keyboardProps,
-  forwardedProps.mouseProps,
-  forwardedProps.touchProps,
-  forwardedProps.styleProps,
-  {
-    href: true,
-    lang: true,
-    pointerEvents: true
-  }
-) as Record<Extract<keyof TextProps, string>, boolean>;
+const forwardPropsList = {
+  ...forwardedProps.defaultProps,
+  ...forwardedProps.accessibilityProps,
+  ...forwardedProps.clickProps,
+  ...forwardedProps.focusProps,
+  ...forwardedProps.keyboardProps,
+  ...forwardedProps.mouseProps,
+  ...forwardedProps.touchProps,
+  ...forwardedProps.styleProps,
+  href: true,
+  lang: true,
+  pointerEvents: true
+} as const;
 
 const pickProps = (props: TextProps) => pick(props, forwardPropsList);
 
@@ -115,10 +113,10 @@ const Text =
       [onClick, onPress]
     );
 
-    let component = hasTextAncestor ? 'span' : 'div';
+    let component: ComponentType<any> | keyof React.JSX.IntrinsicElements = hasTextAncestor ? 'span' : 'div';
 
     const langDirection =
-      props.lang != null ? getLocaleDirection(props.lang) : null;
+      props.lang != null ? getLocaleDirection(props.lang) : undefined;
     const componentDirection = props.dir || langDirection;
     const writingDirection = componentDirection || contextDirection;
 
@@ -151,19 +149,19 @@ const Text =
       if (hrefAttrs != null) {
         const { download, rel, target } = hrefAttrs;
         if (download != null) {
-          supportedProps.download = download;
+          (supportedProps as React.JSX.IntrinsicElements['a']).download = download;
         }
         if (rel != null) {
-          supportedProps.rel = rel;
+          (supportedProps as React.JSX.IntrinsicElements['a']).rel = rel;
         }
         if (typeof target === 'string') {
-          supportedProps.target =
+          (supportedProps as React.JSX.IntrinsicElements['a']).target =
             target.charAt(0) !== '_' ? '_' + target : target;
         }
       }
     }
 
-    const platformMethodsRef = usePlatformMethods(supportedProps);
+    const platformMethodsRef = usePlatformMethods();
     const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
 
     supportedProps.ref = setRef;
@@ -198,7 +196,7 @@ const textStyle = {
   textDecoration: 'none',
   whiteSpace: 'pre-wrap',
   wordWrap: 'break-word'
-};
+} as const satisfies React.CSSProperties;
 
 const styles = StyleSheet.create({
   text$raw: textStyle,
@@ -233,6 +231,6 @@ const styles = StyleSheet.create({
   pressable: {
     cursor: 'pointer'
   }
-});
+} as const);
 
 export default Text;

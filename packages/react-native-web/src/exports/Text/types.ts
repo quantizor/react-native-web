@@ -6,7 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ColorValue, GenericStyleProp } from '../../types';
+import type { StyleProp } from 'react-native';
+import type { ColorValue } from '../../types';
 import type { ViewProps, ViewStyle } from '../View/types';
 
 type FontWeightValue =
@@ -24,7 +25,7 @@ type FontWeightValue =
 
 type NumberOrString = number | string;
 
-export interface TextStyle extends ViewStyle {
+export interface TextStyle extends Omit<ViewStyle, 'fontVariant' | 'textAlign' | 'wordWrap'> {
   color?: ColorValue | undefined,
   fontFamily?: string | undefined,
   fontFeatureSettings?: string | undefined,
@@ -88,7 +89,7 @@ export interface TextStyle extends ViewStyle {
   textAlignVertical?: string | undefined
 };
 
-export interface TextProps extends Omit<ViewProps, 'dir'> {
+export interface TextProps extends Omit<ViewProps, 'dir' | 'style'> {
   dir?: 'auto' | 'ltr' | 'rtl',
   numberOfLines?: number | undefined,
   role?:
@@ -100,7 +101,7 @@ export interface TextProps extends Omit<ViewProps, 'dir'> {
     | 'listitem'
     | 'none'
     | 'text',
-  style?: GenericStyleProp<TextStyle>,
+  style?: StyleProp<TextStyle>,
   testID?: string | undefined,
   // @deprecated
   accessibilityRole?:

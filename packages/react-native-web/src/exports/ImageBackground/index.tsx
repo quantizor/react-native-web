@@ -13,7 +13,7 @@ import Image, {type ImageProps} from '../Image';
 import StyleSheet from '../StyleSheet';
 import View, { ViewRef, type ViewProps } from '../View';
 
-interface ImageBackgroundProps extends ImageProps {
+interface ImageBackgroundProps extends Omit<ImageProps, 'style'> {
   imageRef?: any,
   imageStyle?: ImageProps['style'],
   style?: ViewProps['style']

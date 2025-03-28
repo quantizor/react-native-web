@@ -29,7 +29,8 @@ function getResizeObserver(): ResizeObserver | null {
             UIManager.measure(node, (x, y, width, height, left, top) => {
               const event: LayoutEvent = {
                 nativeEvent: {
-                  layout: { x, y, width, height, left, top }
+                  layout: { x, y, width, height, left, top },
+                  target: entry.target
                 },
                 timeStamp: Date.now()
               };

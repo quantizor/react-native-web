@@ -12,7 +12,7 @@ import type { ViewProps } from '../View';
 import View from '../View';
 import React from 'react';
 
-interface RefreshControlProps extends ViewProps {
+export interface RefreshControlProps extends ViewProps {
   colors?: Array<ColorValue>,
   enabled?: boolean,
   onRefresh?: () => void,

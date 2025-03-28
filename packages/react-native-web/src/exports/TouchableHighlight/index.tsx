@@ -182,6 +182,7 @@ function TouchableHighlight(props: Props, forwardedRef: React.Ref<HTMLElement>):
       ]}
     >
       {React.isValidElement(child) ? React.cloneElement(child, {
+        // @ts-expect-error need to resolve the style prop from RN-style to web-style like in the custom createElement?
         style: [child.props!.style, extraStyles && extraStyles.child].filter(Boolean)
       }) : child}
     </View>
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     touchAction: 'manipulation'
   }
-});
+} as const);
 
 const MemoedTouchableHighlight = React.memo(
   React.forwardRef(TouchableHighlight)

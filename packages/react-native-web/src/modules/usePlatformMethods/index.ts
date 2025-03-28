@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { GenericStyleProp } from '../../types';
-import type { ViewProps } from '../../exports/View';
-
 import UIManager from '../../exports/UIManager';
 import useStable from '../useStable';
 
@@ -15,13 +12,7 @@ import useStable from '../useStable';
  * Adds non-standard methods to the hode element. This is temporarily until an
  * API like `ReactNative.measure(hostRef, callback)` is added to React Native.
  */
-export default function usePlatformMethods({
-  pointerEvents,
-  style
-}: {
-  style?: GenericStyleProp<any>,
-  pointerEvents?: ViewProps['pointerEvents']
-}): (hostNode: any) => void {
+export default function usePlatformMethods(): (hostNode: any) => void {
   // Avoid creating a new ref on every render.
   const ref = useStable(() => (hostNode: any) => {
     if (hostNode != null) {
