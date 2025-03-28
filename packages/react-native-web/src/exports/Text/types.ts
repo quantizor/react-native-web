@@ -4,8 +4,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 import type { ColorValue, GenericStyleProp } from '../../types';
@@ -26,23 +24,22 @@ type FontWeightValue =
 
 type NumberOrString = number | string;
 
-export type TextStyle = {
-  ...ViewStyle,
-  color?: ?ColorValue,
-  fontFamily?: ?string,
-  fontFeatureSettings?: ?string,
-  fontSize?: ?NumberOrString,
-  fontStyle?: 'italic' | 'normal',
-  fontWeight?: ?FontWeightValue,
-  fontVariant?: $ReadOnlyArray<
+export interface TextStyle extends ViewStyle {
+  color?: ColorValue | undefined,
+  fontFamily?: string | undefined,
+  fontFeatureSettings?: string | undefined,
+  fontSize?: NumberOrString | undefined,
+  fontStyle?: 'italic' | 'normal' | undefined,
+  fontWeight?: FontWeightValue | undefined,
+  fontVariant?: ReadonlyArray<
     | 'small-caps'
     | 'oldstyle-nums'
     | 'lining-nums'
     | 'tabular-nums'
     | 'proportional-nums'
   >,
-  letterSpacing?: ?NumberOrString,
-  lineHeight?: ?NumberOrString,
+  letterSpacing?: NumberOrString | undefined,
+  lineHeight?: NumberOrString | undefined,
   textAlign?:
     | 'center'
     | 'end'
@@ -52,24 +49,24 @@ export type TextStyle = {
     | 'left'
     | 'right'
     | 'start',
-  textDecorationColor?: ?ColorValue,
+  textDecorationColor?: ColorValue | undefined,
   textDecorationLine?:
     | 'none'
     | 'underline'
     | 'line-through'
     | 'underline line-through',
   textDecorationStyle?: 'solid' | 'double' | 'dotted' | 'dashed',
-  textIndent?: ?NumberOrString,
-  textOverflow?: ?string,
+  textIndent?: NumberOrString | undefined,
+  textOverflow?: string | undefined,
   textRendering?:
     | 'auto'
     | 'geometricPrecision'
     | 'optimizeLegibility'
     | 'optimizeSpeed',
-  textShadow?: ?string,
-  textShadowColor?: ?ColorValue,
-  textShadowOffset?: {| width?: number, height?: number |},
-  textShadowRadius?: ?number,
+  textShadow?: string | undefined,
+  textShadowColor?: ColorValue | undefined,
+  textShadowOffset?: { width?: number, height?: number } | undefined,
+  textShadowRadius?: number | undefined,
   textTransform?: 'capitalize' | 'lowercase' | 'none' | 'uppercase',
   unicodeBidi?:
     | 'normal'
@@ -79,22 +76,21 @@ export type TextStyle = {
     | 'isolate-override'
     | 'plaintext',
   userSelect?: 'none' | 'text',
-  verticalAlign?: ?string,
-  whiteSpace?: ?string,
+  verticalAlign?: string | undefined,
+  whiteSpace?: string | undefined,
   wordBreak?: 'normal' | 'break-all' | 'break-word' | 'keep-all',
-  wordWrap?: ?string,
+  wordWrap?: string | undefined,
   writingDirection?: 'auto' | 'ltr' | 'rtl',
   /* @platform web */
-  MozOsxFontSmoothing?: ?string,
-  WebkitFontSmoothing?: ?string,
+  MozOsxFontSmoothing?: string | undefined,
+  WebkitFontSmoothing?: string | undefined,
   // deprecated
-  textAlignVertical?: ?string
+  textAlignVertical?: string | undefined
 };
 
-export type TextProps = {
-  ...ViewProps,
+export interface TextProps extends Omit<ViewProps, 'dir'> {
   dir?: 'auto' | 'ltr' | 'rtl',
-  numberOfLines?: ?number,
+  numberOfLines?: number | undefined,
   role?:
     | 'button'
     | 'header'
@@ -105,7 +101,7 @@ export type TextProps = {
     | 'none'
     | 'text',
   style?: GenericStyleProp<TextStyle>,
-  testID?: ?string,
+  testID?: string | undefined,
   // @deprecated
   accessibilityRole?:
     | 'button'

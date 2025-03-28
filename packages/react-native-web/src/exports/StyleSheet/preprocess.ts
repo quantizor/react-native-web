@@ -3,13 +3,13 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 import normalizeColor from './compiler/normalizeColor';
 import normalizeValueWithProperty from './compiler/normalizeValueWithProperty';
 import { warnOnce } from '../../modules/warnOnce';
+
+import type { StyleProp } from '../../types';
 
 const emptyObject = {};
 
@@ -19,7 +19,14 @@ const emptyObject = {};
 
 const defaultOffset = { height: 0, width: 0 };
 
-export const createBoxShadowValue = (style: Object): void | string => {
+export type BoxShadowStyle = {
+  shadowColor?: string;
+  shadowOffset?: { height: number; width: number };
+  shadowOpacity?: number;
+  shadowRadius?: number;
+};
+
+export const createBoxShadowValue = (style: BoxShadowStyle): void | string => {
   const { shadowColor, shadowOffset, shadowOpacity, shadowRadius } = style;
   const { height, width } = shadowOffset || defaultOffset;
   const offsetX = normalizeValueWithProperty(width);
@@ -36,7 +43,13 @@ export const createBoxShadowValue = (style: Object): void | string => {
   }
 };
 
-export const createTextShadowValue = (style: Object): void | string => {
+export type TextShadowStyle = {
+  textShadowColor?: string;
+  textShadowOffset?: { height: number; width: number };
+  textShadowRadius?: number;
+};
+
+export const createTextShadowValue = (style: TextShadowStyle): void | string => {
   const { textShadowColor, textShadowOffset, textShadowRadius } = style;
   const { height, width } = textShadowOffset || defaultOffset;
   const radius = textShadowRadius || 0;
@@ -71,6 +84,7 @@ const mapBoxShadow = (boxShadow: Object | string): string => {
   const position = boxShadow.inset ? 'inset ' : '';
   return `${position}${offsetX} ${offsetY} ${blurRadius} ${spreadDistance} ${color}`;
 };
+
 export const createBoxShadowArrayValue = (value: Array<Object>): string => {
   return value.map(mapBoxShadow).join(', ');
 };
@@ -132,12 +146,12 @@ const ignoredProps = {
 /**
  * Preprocess styles
  */
-export const preprocess = <T: {| [key: string]: any |}>(
+export const preprocess = <T extends Record<string, unknown>>(
   originalStyle: T,
-  options?: { shadow?: boolean, textShadow?: boolean } = {}
+  options: { shadow?: boolean, textShadow?: boolean } = {}
 ): T => {
   const style = originalStyle || emptyObject;
-  const nextStyle = {};
+  const nextStyle = {} as T;
 
   // Convert shadow styles
   if (
@@ -181,7 +195,7 @@ export const preprocess = <T: {| [key: string]: any |}>(
   for (const originalProp in style) {
     if (
       // Ignore some React Native styles
-      ignoredProps[originalProp] != null ||
+      ignoredProps[originalProp as keyof typeof ignoredProps] != null ||
       originalProp === 'shadowColor' ||
       originalProp === 'shadowOffset' ||
       originalProp === 'shadowOpacity' ||

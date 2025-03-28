@@ -3,8 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict-local
  */
 
 import type { OrderedCSSStyleSheet } from './createOrderedCSSStyleSheet';
@@ -12,14 +10,13 @@ import canUseDOM from '../../../modules/canUseDom';
 import createCSSStyleSheet from './createCSSStyleSheet';
 import createOrderedCSSStyleSheet from './createOrderedCSSStyleSheet';
 
-type Sheet = {
-  ...OrderedCSSStyleSheet,
-  id: string
-};
+interface Sheet extends OrderedCSSStyleSheet {
+  id: string;
+}
 
 const defaultId = 'react-native-stylesheet';
 const roots = new WeakMap<Node, number>();
-const sheets = [];
+const sheets: Array<OrderedCSSStyleSheet> = [];
 
 const initialRules = [
   // minimal top-level reset
@@ -32,12 +29,12 @@ const initialRules = [
 
 export function createSheet(
   root?: HTMLElement,
-  id?: string = defaultId
+  id: string = defaultId
 ): Sheet {
-  let sheet;
+  let sheet: OrderedCSSStyleSheet;
 
   if (canUseDOM) {
-    const rootNode: Node = root != null ? root.getRootNode() : document;
+    const rootNode: Document = root != null ? root.getRootNode() as Document : document;
     // Create the initial style sheet
     if (sheets.length === 0) {
       sheet = createOrderedCSSStyleSheet(createCSSStyleSheet(id));
@@ -55,7 +52,7 @@ export function createSheet(
           initialSheet != null ? initialSheet.getTextContent() : '';
         // Cast rootNode to 'any' because Flow types for getRootNode are wrong
         sheet = createOrderedCSSStyleSheet(
-          createCSSStyleSheet(id, (rootNode: any), textContent)
+          createCSSStyleSheet(id, rootNode, textContent)
         );
         roots.set(rootNode, sheets.length);
         sheets.push(sheet);

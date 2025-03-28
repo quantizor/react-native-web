@@ -4,8 +4,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 'use client';
@@ -14,9 +12,9 @@ import canUseDOM from '../../modules/canUseDom';
 
 export type ColorSchemeName = 'light' | 'dark';
 
-export type AppearancePreferences = {|
+export type AppearancePreferences = {
   colorScheme: ColorSchemeName
-|};
+};
 
 type AppearanceListener = (preferences: AppearancePreferences) => void;
 type DOMAppearanceListener = (ev: MediaQueryListEvent) => any;

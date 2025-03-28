@@ -11,7 +11,7 @@
 
 import canUseDOM from '../../modules/canUseDom';
 
-function isScreenReaderEnabled(): Promise<*> {
+function isScreenReaderEnabled(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     resolve(true);
   });
@@ -22,7 +22,7 @@ const prefersReducedMotionMedia =
     ? window.matchMedia('(prefers-reduced-motion: reduce)')
     : null;
 
-function isReduceMotionEnabled(): Promise<*> {
+function isReduceMotionEnabled(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     resolve(
       prefersReducedMotionMedia ? prefersReducedMotionMedia.matches : true
@@ -46,7 +46,7 @@ function removeChangeListener(fn) {
   }
 }
 
-const handlers = {};
+const handlers = new Map<Function, Function>();
 
 const AccessibilityInfo = {
   /**
@@ -73,7 +73,7 @@ const AccessibilityInfo = {
   /**
    * Add an event handler. Supported events: reduceMotionChanged
    */
-  addEventListener: function (eventName: string, handler: Function): Object {
+  addEventListener: function (eventName: string, handler: Function): {remove: () => void} | void {
     if (eventName === 'reduceMotionChanged') {
       if (!prefersReducedMotionMedia) {
         return;
@@ -82,7 +82,7 @@ const AccessibilityInfo = {
         handler(event.matches);
       };
       addChangeListener(listener);
-      handlers[handler] = listener;
+      handlers.set(handler, listener);
     }
 
     return {
@@ -105,11 +105,12 @@ const AccessibilityInfo = {
    */
   removeEventListener: function (eventName: string, handler: Function): void {
     if (eventName === 'reduceMotionChanged') {
-      const listener = handlers[handler];
+      const listener = handlers.get(handler);
       if (!listener || !prefersReducedMotionMedia) {
         return;
       }
       removeChangeListener(listener);
+      handlers.delete(handler);
     }
     return;
   }

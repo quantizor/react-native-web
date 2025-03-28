@@ -25,6 +25,16 @@ import StyleSheet from '../StyleSheet';
 import TextAncestorContext from '../Text/TextAncestorContext';
 import { useLocaleContext, getLocaleDirection } from '../../modules/useLocale';
 
+export type ViewRef = HTMLElement & PlatformMethods
+
+const customForwardedProps = {
+  href: true,
+  lang: true,
+  onScroll: true,
+  onWheel: true,
+  pointerEvents: true
+}
+
 const forwardPropsList = Object.assign(
   {},
   forwardedProps.defaultProps,
@@ -35,19 +45,13 @@ const forwardPropsList = Object.assign(
   forwardedProps.mouseProps,
   forwardedProps.touchProps,
   forwardedProps.styleProps,
-  {
-    href: true,
-    lang: true,
-    onScroll: true,
-    onWheel: true,
-    pointerEvents: true
-  }
-);
+  customForwardedProps
+) as Record<keyof ViewProps, boolean>;
 
-const pickProps = (props) => pick(props, forwardPropsList);
+const pickProps = (props: ViewProps) => pick(props, forwardPropsList);
 
-const View: React.AbstractComponent<ViewProps, HTMLElement & PlatformMethods> =
-  React.forwardRef((props, forwardedRef) => {
+const View =
+  React.forwardRef((props: ViewProps, forwardedRef: React.Ref<ViewRef>) => {
     const {
       hrefAttrs,
       onLayout,
@@ -108,10 +112,10 @@ const View: React.AbstractComponent<ViewProps, HTMLElement & PlatformMethods> =
 
     const langDirection =
       props.lang != null ? getLocaleDirection(props.lang) : null;
-    const componentDirection = props.dir || langDirection;
+    const componentDirection = props.dir || langDirection || undefined;
     const writingDirection = componentDirection || contextDirection;
 
-    const supportedProps = pickProps(rest);
+    const supportedProps = pickProps(rest) as ViewProps;
     supportedProps.dir = componentDirection;
     supportedProps.style = [
       styles.view$raw,
@@ -123,12 +127,15 @@ const View: React.AbstractComponent<ViewProps, HTMLElement & PlatformMethods> =
       if (hrefAttrs != null) {
         const { download, rel, target } = hrefAttrs;
         if (download != null) {
+          // @ts-ignore circle back to this
           supportedProps.download = download;
         }
         if (rel != null) {
+          // @ts-ignore circle back to this
           supportedProps.rel = rel;
         }
         if (typeof target === 'string') {
+          // @ts-ignore circle back to this
           supportedProps.target =
             target.charAt(0) !== '_' ? '_' + target : target;
         }
@@ -138,6 +145,7 @@ const View: React.AbstractComponent<ViewProps, HTMLElement & PlatformMethods> =
     const platformMethodsRef = usePlatformMethods(supportedProps);
     const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
 
+    // @ts-ignore circle back to this
     supportedProps.ref = setRef;
 
     return createElement(component, supportedProps, { writingDirection });

@@ -4,8 +4,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 import * as React from 'react';
@@ -13,15 +11,14 @@ import StyleSheet from '../StyleSheet';
 import View from '../View';
 
 type Props = {
-  WrapperComponent?: ?React.ComponentType<*>,
-  // $FlowFixMe
-  children?: React.Children,
+  WrapperComponent?: React.ComponentType<any> | undefined,
+  children?: React.ReactNode,
   rootTag: any
 };
 
 const RootTagContext: React.Context<any> = React.createContext(null);
 
-const AppContainer: React.AbstractComponent<Props> = React.forwardRef(
+const AppContainer = React.forwardRef(
   (props: Props, forwardedRef?: React.Ref<any>) => {
     const { children, WrapperComponent } = props;
 

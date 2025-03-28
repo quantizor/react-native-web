@@ -3,17 +3,15 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict-local
  */
 
-type Groups = { [key: number]: { start: ?number, rules: Array<string> } };
+type Groups = { [key: number]: { start: number | null | undefined, rules: Array<string> } };
 type Selectors = { [key: string]: boolean };
 
-export type OrderedCSSStyleSheet = {|
+export type OrderedCSSStyleSheet = {
   getTextContent: () => string,
   insert: (cssText: string, groupValue: number) => void
-|};
+};
 
 const slice = Array.prototype.slice;
 
@@ -33,7 +31,7 @@ const slice = Array.prototype.slice;
  * https://gist.github.com/necolas/aa0c37846ad6bd3b05b727b959e82674
  */
 export default function createOrderedCSSStyleSheet(
-  sheet: ?CSSStyleSheet
+  sheet: CSSStyleSheet | null | undefined
 ): OrderedCSSStyleSheet {
   const groups: Groups = {};
   const selectors: Selectors = {};
@@ -99,7 +97,9 @@ export default function createOrderedCSSStyleSheet(
           // build-time extraction of the style sheet.
           const marker = rules.shift();
           rules.sort();
-          rules.unshift(marker);
+          if (marker) {
+            rules.unshift(marker);
+          }
           return rules.join('\n');
         })
         .join('\n');

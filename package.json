@@ -4,21 +4,21 @@
   "name": "react-ui-monorepo",
   "scripts": {
     "clean": "rimraf './packages/*/dist'",
-    "build": "npm run clean && npm run build --workspaces --if-present",
-    "compile": "npm run build",
-    "dev": "npm run dev --workspaces --if-present",
+    "build": "yarn clean && yarn build --workspaces --if-present",
+    "compile": "yarn build",
+    "dev": "yarn dev --workspaces --if-present",
     "flow": "flow --flowconfig-name ./configs/.flowconfig",
-    "format": "prettier --check --ignore-path ./configs/.prettierignore \"**/*.js\"",
-    "format:fix": "prettier --write --ignore-path ./configs/.prettierignore \"**/*.js\"",
+    "format": "prettier --check \"**/*.js\"",
+    "format:fix": "prettier --write \"**/*.js\"",
     "lint": "eslint configs packages scripts --config ./configs/.eslintrc",
-    "lint:fix": "npm run lint --fix",
-    "prerelease": "npm run test && npm run build",
+    "lint:fix": "yarn lint --fix",
+    "prerelease": "yarn test && yarn build",
     "release": "node ./scripts/releaseReactNativeWebPackages.js",
     "release:benchmarks": "git checkout gh-pages && rm -rf ./docs/benchmarks && mv packages/benchmarks/dist ./docs/benchmarks && git add -A && git commit -m \"Deploy benchmarks\" && git push origin gh-pages && git checkout -",
     "release:react-native-web-docs": "git checkout gh-pages && rm -rf ./docs && mv packages/react-native-web-docs/dist ./docs && git add ./docs && git commit -m \"Deploy documentation\" && git push origin gh-pages && git checkout -",
-    "postrelease": "npm run release:react-native-web-docs && npm run release:benchmarks",
+    "postrelease": "yarn release:react-native-web-docs && yarn release:benchmarks",
     "prepare": "husky install configs/husky",
-    "test": "npm run flow && npm run format && npm run lint && npm run unit --runInBand",
+    "test": "yarn flow && yarn format && yarn lint && yarn unit --runInBand",
     "unit": "npm-run-all \"unit:* {@}\" --",
     "unit:dom": "jest --config ./configs/jest.config.js",
     "unit:node": "jest --config ./configs/jest.config.node.js"
@@ -35,6 +35,7 @@
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@testing-library/react": "^13.3.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^29.7.0",
     "babel-plugin-add-module-exports": "^1.0.4",
@@ -75,13 +76,9 @@
       "prettier --write ./packages/babel-plugin-react-native-web/src/moduleMap.js"
     ],
     "**/*.js": [
-      "npm run format:fix",
-      "npm run lint:fix"
+      "yarn format:fix",
+      "yarn lint:fix"
     ]
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "none"
   },
   "author": "Nicolas Gallagher",
   "license": "MIT",

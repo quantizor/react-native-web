@@ -3,8 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 import { atomic, classic, inline } from './compiler';
@@ -14,6 +12,14 @@ import { preprocess } from './preprocess';
 import { styleq } from 'styleq';
 import { validate } from './validate';
 import canUseDOM from '../../modules/canUseDom';
+
+declare global {
+  interface Window {
+    __REACT_DEVTOOLS_GLOBAL_HOOK__: {
+      resolveRNStyle: (style: any) => any;
+    };
+  }
+}
 
 const staticStyleMap: WeakMap<Object, Object> = new WeakMap();
 const sheet = createSheet();
@@ -76,7 +82,7 @@ const absoluteFill = create({ x: { ...absoluteFillObject } }).x;
 /**
  * create
  */
-function create<T: Object>(styles: T): $ReadOnly<T> {
+function create<T extends Record<string, unknown>>(styles: T): Readonly<T> {
   Object.keys(styles).forEach((key) => {
     const styleObj = styles[key];
     // Only compile at runtime if the style is not already compiled
@@ -151,14 +157,14 @@ function getSheet(): { id: string, textContent: string } {
 /**
  * resolve
  */
-type StyleProps = [string, { [key: string]: mixed } | null];
+type StyleProps = [string, { [key: string]: string } | null];
 type Options = {
   shadow?: boolean,
   textShadow?: boolean,
-  writingDirection: 'ltr' | 'rtl'
+  writingDirection?: 'ltr' | 'rtl'
 };
 
-function StyleSheet(styles: any, options?: Options = {}): StyleProps {
+function StyleSheet(styles: any, options: Options = {} as Options): StyleProps {
   const isRTL = options.writingDirection === 'rtl';
   const styleProps: StyleProps = customStyleq(styles, options);
   if (Array.isArray(styleProps) && styleProps[1] != null) {
@@ -182,7 +188,7 @@ if (canUseDOM && window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
 }
 
 export type IStyleSheet = {
-  (styles: $ReadOnlyArray<any>, options?: Options): StyleProps,
+  (styles: ReadonlyArray<any>, options?: Options): StyleProps,
   absoluteFill: Object,
   absoluteFillObject: Object,
   create: typeof create,

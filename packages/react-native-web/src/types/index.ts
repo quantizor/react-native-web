@@ -11,20 +11,20 @@ export type ColorValue = null | string;
 
 export type DimensionValue = null | number | string;
 
-export type EdgeInsetsValue = {|
+export type EdgeInsetsValue = {
   top: number,
   left: number,
   right: number,
   bottom: number
-|};
+};
 
-export type GenericStyleProp<+T> =
+export type GenericStyleProp<T extends {}> =
   | null
   | void
-  | $ReadOnly<T>
+  | Readonly<T>
   | false
   | ''
-  | $ReadOnlyArray<GenericStyleProp<T>>;
+  | ReadonlyArray<GenericStyleProp<T>>;
 
 export type LayoutValue = {
   x: number,
@@ -41,10 +41,10 @@ export type LayoutEvent = {
   timeStamp: number
 };
 
-export type PointValue = {|
+export type PointValue = {
   x: number,
   y: number
-|};
+};
 
 type LayoutCallback = (
   x: number,

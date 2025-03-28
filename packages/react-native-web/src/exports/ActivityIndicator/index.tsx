@@ -4,8 +4,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
  */
 
 'use client';
@@ -14,24 +12,20 @@ import type { ViewProps } from '../View';
 
 import * as React from 'react';
 import StyleSheet from '../StyleSheet';
-import View from '../View';
+import View, { type ViewRef } from '../View';
 
 const createSvgCircle = (style) => (
   <circle cx="16" cy="16" fill="none" r="14" strokeWidth="4" style={style} />
 );
 
-type ActivityIndicatorProps = {
-  ...ViewProps,
+type ActivityIndicatorProps = ViewProps & {
   animating?: boolean,
-  color?: ?string,
+  color?: string | undefined,
   hidesWhenStopped?: boolean,
   size?: 'small' | 'large' | number
 };
 
-const ActivityIndicator: React.AbstractComponent<
-  ActivityIndicatorProps,
-  React.ElementRef<typeof View>
-> = React.forwardRef((props, forwardedRef) => {
+const ActivityIndicator = React.forwardRef((props: ActivityIndicatorProps, forwardedRef: React.Ref<ViewRef>) => {
   const {
     animating = true,
     color = '#1976D2',

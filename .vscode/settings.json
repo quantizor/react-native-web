@@ -1,4 +1,6 @@
 {
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "javascript.validate.enable": false,
   "typescript.validate.enable": true,
   "flow.useNPMPackagedFlow": true,
