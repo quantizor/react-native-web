@@ -3,7 +3,7 @@ name: tests
 on:
   push:
     branches:
-      - "master"
+      - 'trunk'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -11,39 +11,43 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm install
-    - run: npm run format
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+          node-version-file: .nvmrc
+      - run: yarn --immutable
+      - run: yarn format
 
   type-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm install
-    - run: npm run flow
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+          node-version-file: .nvmrc
+      - run: yarn --immutable
+      - run: yarn flow
 
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm install
-    - run: npm run lint
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+          node-version-file: .nvmrc
+      - run: yarn --immutable
+      - run: yarn lint
 
   unit-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm install
-    - run: npm run unit
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+          node-version-file: .nvmrc
+      - run: yarn --immutable
+      - run: yarn unit
