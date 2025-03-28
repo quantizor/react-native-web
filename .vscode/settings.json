@@ -1,6 +1,6 @@
 {
   "javascript.validate.enable": false,
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
   "flow.useNPMPackagedFlow": true,
   "flow.pathToFlow": "${workspaceFolder}/node_modules/.bin/flow"
 }

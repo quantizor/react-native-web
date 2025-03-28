@@ -186,7 +186,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/cli@npm:^7.18.6":
+"@babel/cli@npm:^7.18.6, @babel/cli@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/cli@npm:7.27.0"
   dependencies:
@@ -303,7 +303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-create-class-features-plugin@npm:^7.18.6, @babel/helper-create-class-features-plugin@npm:^7.25.9":
+"@babel/helper-create-class-features-plugin@npm:^7.18.6, @babel/helper-create-class-features-plugin@npm:^7.25.9, @babel/helper-create-class-features-plugin@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/helper-create-class-features-plugin@npm:7.27.0"
   dependencies:
@@ -802,7 +802,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-typescript@npm:^7.7.2":
+"@babel/plugin-syntax-typescript@npm:^7.25.9, @babel/plugin-syntax-typescript@npm:^7.7.2":
   version: 7.25.9
   resolution: "@babel/plugin-syntax-typescript@npm:7.25.9"
   dependencies:
@@ -1442,6 +1442,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-transform-typescript@npm:^7.27.0":
+  version: 7.27.0
+  resolution: "@babel/plugin-transform-typescript@npm:7.27.0"
+  dependencies:
+    "@babel/helper-annotate-as-pure": "npm:^7.25.9"
+    "@babel/helper-create-class-features-plugin": "npm:^7.27.0"
+    "@babel/helper-plugin-utils": "npm:^7.26.5"
+    "@babel/helper-skip-transparent-expression-wrappers": "npm:^7.25.9"
+    "@babel/plugin-syntax-typescript": "npm:^7.25.9"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 10c0/028e75dd6195495dc2d105ca8ded19d62aef90a215d597451cee57c35325960a87963913aa9a21b8ade190c638b588422292ea7e23b21565baf53c469254dbd4
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-transform-unicode-escapes@npm:^7.25.9":
   version: 7.25.9
   resolution: "@babel/plugin-transform-unicode-escapes@npm:7.25.9"
@@ -1607,6 +1622,21 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 10c0/b470dcba11032ef6c832066f4af5c75052eaed49feb0f445227231ef1b5c42aacd6e216988c0bd469fd5728cd27b6b059ca307c9ecaa80c6bb5da4bf1c833e12
+  languageName: node
+  linkType: hard
+
+"@babel/preset-typescript@npm:^7.27.0":
+  version: 7.27.0
+  resolution: "@babel/preset-typescript@npm:7.27.0"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^7.26.5"
+    "@babel/helper-validator-option": "npm:^7.25.9"
+    "@babel/plugin-syntax-jsx": "npm:^7.25.9"
+    "@babel/plugin-transform-modules-commonjs": "npm:^7.26.3"
+    "@babel/plugin-transform-typescript": "npm:^7.27.0"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 10c0/986b20edab3c18727d911a6e1a14095c1271afc6cc625b02f42b371f06c1e041e5d7c1baf2afe8b0029b60788a06f02fd6844dedfe54183b148ab9a7429438a9
   languageName: node
   linkType: hard
 
@@ -5665,6 +5695,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gen-flow-files@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "gen-flow-files@npm:0.5.0"
+  dependencies:
+    "@babel/core": "npm:^7.7.5"
+    "@babel/generator": "npm:^7.7.4"
+    "@babel/parser": "npm:^7.7.5"
+    "@babel/plugin-proposal-throw-expressions": "npm:^7.7.4"
+    "@babel/plugin-syntax-flow": "npm:^7.7.4"
+    "@babel/traverse": "npm:^7.7.4"
+    "@babel/types": "npm:^7.7.4"
+    glob: "npm:^7.1.6"
+    mkdirp: "npm:^0.5.1"
+    yargs: "npm:^15.0.2"
+  bin:
+    gen-flow-files: bin/gen-flow-files.js
+  checksum: 10c0/3ca8e6082d6d446427643c406631ee74c84aa66ce9c06bfb5595548a30f0a8ebea274923dde2f7ce1cebe6a2fcfefb8d200e805d400547eaada0d8cf6733d525
+  languageName: node
+  linkType: hard
+
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
@@ -8335,7 +8385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"npm-run-all@npm:^4.1.3":
+"npm-run-all@npm:^4.1.5":
   version: 4.1.5
   resolution: "npm-run-all@npm:4.1.5"
   dependencies:
@@ -9213,12 +9263,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-native-web-fork@workspace:packages/react-native-web"
   dependencies:
+    "@babel/cli": "npm:^7.27.0"
     "@babel/runtime": "npm:^7.18.6"
     "@react-native/normalize-colors": "npm:^0.74.1"
+    cross-env: "npm:^7.0.3"
+    gen-flow-files: "npm:^0.5.0"
     inline-style-prefixer: "npm:^7.0.1"
     memoize-one: "npm:^6.0.0"
+    npm-run-all: "npm:^4.1.5"
     nullthrows: "npm:^1.1.1"
     postcss-value-parser: "npm:^4.2.0"
+    rimraf: "npm:^6.0.1"
     styleq: "npm:^0.1.3"
   peerDependencies:
     react: ^18.0.0 || ^19.0.0
@@ -9228,7 +9283,7 @@ __metadata:
 
 "react-native-web@file:../react-native-web::locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples":
   version: 0.20.2
-  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=581a60&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
+  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=5fcbd5&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
   dependencies:
     "@react-native/normalize-colors": "npm:^0.74.1"
     inline-style-prefixer: "npm:^7.0.1"
@@ -9239,7 +9294,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
-  checksum: 10c0/9bca0260c77d3978e5999ab15b644db707d631788e12218aa2153746e9fbcadf3bb4930f89bfa7871e270052f332eeb75e72168b3fceca6948f39a66f189c976
+  checksum: 10c0/b376a306f6ced68fed5bf17443c147c621631d1e7634f3e8a4f26f97422952d0da887c49eb653076ed6e84cbb38e97de13f564b59ec12b8293a222cff97506ce
   languageName: node
   linkType: hard
 
@@ -9275,6 +9330,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.18.6"
     "@babel/preset-flow": "npm:^7.18.6"
     "@babel/preset-react": "npm:^7.18.6"
+    "@babel/preset-typescript": "npm:^7.27.0"
     "@testing-library/react": "npm:^13.3.0"
     babel-eslint: "npm:^10.1.0"
     babel-jest: "npm:^29.7.0"
@@ -9297,9 +9353,10 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     lint-staged: "npm:^13.0.3"
     minimist: "npm:^1.2.6"
-    npm-run-all: "npm:^4.1.3"
+    npm-run-all: "npm:^4.1.5"
     prettier: "npm:^2.7.1"
     rimraf: "npm:^6.0.1"
+    typescript: "npm:^5.8.2"
   languageName: unknown
   linkType: soft
 
@@ -10753,6 +10810,26 @@ __metadata:
     possible-typed-array-names: "npm:^1.0.0"
     reflect.getprototypeof: "npm:^1.0.6"
   checksum: 10c0/e38f2ae3779584c138a2d8adfa8ecf749f494af3cd3cdafe4e688ce51418c7d2c5c88df1bd6be2bbea099c3f7cea58c02ca02ed438119e91f162a9de23f61295
+  languageName: node
+  linkType: hard
+
+"typescript@npm:^5.8.2":
+  version: 5.8.2
+  resolution: "typescript@npm:5.8.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/5c4f6fbf1c6389b6928fe7b8fcd5dc73bb2d58cd4e3883f1d774ed5bd83b151cbac6b7ecf11723de56d4676daeba8713894b1e9af56174f2f9780ae7848ec3c6
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^5.8.2#optional!builtin<compat/typescript>":
+  version: 5.8.2
+  resolution: "typescript@patch:typescript@npm%3A5.8.2#optional!builtin<compat/typescript>::version=5.8.2&hash=5786d5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/5448a08e595cc558ab321e49d4cac64fb43d1fa106584f6ff9a8d8e592111b373a995a1d5c7f3046211c8a37201eb6d0f1566f15cdb7a62a5e3be01d087848e2
   languageName: node
   linkType: hard
 

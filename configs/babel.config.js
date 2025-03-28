@@ -39,7 +39,8 @@ const createConfig = ({ modules }) => {
         }
       ],
       '@babel/preset-react',
-      '@babel/preset-flow'
+      '@babel/preset-flow',
+      '@babel/preset-typescript'
     ],
     plugins: plugins
   };
