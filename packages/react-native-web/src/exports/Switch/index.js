@@ -98,8 +98,8 @@ const Switch: React.AbstractComponent<
   })();
 
   const thumbCurrentColor = value
-    ? activeThumbColor ?? defaultActiveThumbColor
-    : thumbColor ?? defaultThumbColor;
+    ? (activeThumbColor ?? defaultActiveThumbColor)
+    : (thumbColor ?? defaultThumbColor);
 
   const thumbHeight = height;
   const thumbWidth = thumbHeight;

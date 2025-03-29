@@ -166,201 +166,207 @@ interface ImageStatics {
   ) => void;
   prefetch: (uri: string) => Promise<void>;
   resolveAssetSource: (source: ImageProps['source']) => {
-    height: number | null | undefined,
-    width: number | null | undefined,
-    scale: number,
-    uri: string
+    height: number | null | undefined;
+    width: number | null | undefined;
+    scale: number;
+    uri: string;
   };
   queryCache: (
     uris: Array<string>
   ) => Promise<{ [uri: string]: 'disk/memory' }>;
 }
 
-const Image = React.forwardRef((props: ImageProps, ref: React.Ref<React.ComponentRef<typeof View>>) => {
-  const {
-    'aria-label': _ariaLabel,
-    accessibilityLabel,
-    blurRadius,
-    defaultSource,
-    draggable,
-    onError,
-    onLayout,
-    onLoad,
-    onLoadEnd,
-    onLoadStart,
-    pointerEvents,
-    source,
-    style,
-    ...rest
-  } = props;
-  const ariaLabel = _ariaLabel || accessibilityLabel;
+const Image = React.forwardRef(
+  (props: ImageProps, ref: React.Ref<React.ComponentRef<typeof View>>) => {
+    const {
+      'aria-label': _ariaLabel,
+      accessibilityLabel,
+      blurRadius,
+      defaultSource,
+      draggable,
+      onError,
+      onLayout,
+      onLoad,
+      onLoadEnd,
+      onLoadStart,
+      pointerEvents,
+      source,
+      style,
+      ...rest
+    } = props;
+    const ariaLabel = _ariaLabel || accessibilityLabel;
 
-  if (process.env.NODE_ENV !== 'production') {
-    if (props.children) {
-      throw new Error(
-        'The <Image> component cannot contain children. If you want to render content on top of the image, consider using the <ImageBackground> component or absolute positioning.'
-      );
-    }
-  }
-
-  const [state, updateState] = React.useState(() => {
-    const uri = resolveAssetUri(source);
-    if (uri != null) {
-      const isLoaded = ImageLoader.has(uri);
-      if (isLoaded) {
-        return LOADED;
-      }
-    }
-    return IDLE;
-  });
-
-  const [layout, updateLayout] = React.useState<{ height?: number, width?: number }>({});
-  const hasTextAncestor = React.useContext(TextAncestorContext);
-  const hiddenImageRef = React.useRef(null);
-  const filterRef = React.useRef(_filterId++);
-  const requestRef = React.useRef<number | null>(null);
-  const shouldDisplaySource =
-    state === LOADED || (state === LOADING && defaultSource == null);
-  const [_resizeMode, filter, _tintColor] = extractNonStandardStyleProps(
-    style,
-    blurRadius,
-    filterRef.current,
-    props.tintColor
-  );
-  const resizeMode = props.resizeMode || _resizeMode || 'cover';
-  const tintColor = props.tintColor || _tintColor;
-  const selectedSource = shouldDisplaySource ? source : defaultSource;
-  const displayImageUri = resolveAssetUri(selectedSource);
-  const imageSizeStyle = resolveAssetDimensions(selectedSource);
-  const backgroundImage = displayImageUri ? `url("${displayImageUri}")` : null;
-  const cachedBackgroundSize = React.useRef<string | null>(null);
-  const backgroundSize = getBackgroundSize() || cachedBackgroundSize.current;
-
-  // Accessibility image allows users to trigger the browser's image context menu
-  const hiddenImage = displayImageUri
-    ? createElement('img', {
-        alt: ariaLabel || '',
-        style: styles.accessibilityImage$raw,
-        draggable: draggable || false,
-        ref: hiddenImageRef,
-        src: displayImageUri
-      })
-    : null;
-
-  function getBackgroundSize(): string | void {
-    if (
-      hiddenImageRef.current != null &&
-      (resizeMode === 'center' || resizeMode === 'repeat')
-    ) {
-      const { naturalHeight, naturalWidth } = hiddenImageRef.current;
-      const { height, width } = layout;
-      if (naturalHeight && naturalWidth && height && width) {
-        const scaleFactor = Math.min(
-          1,
-          width / naturalWidth,
-          height / naturalHeight
+    if (process.env.NODE_ENV !== 'production') {
+      if (props.children) {
+        throw new Error(
+          'The <Image> component cannot contain children. If you want to render content on top of the image, consider using the <ImageBackground> component or absolute positioning.'
         );
-        const x = Math.ceil(scaleFactor * naturalWidth);
-        const y = Math.ceil(scaleFactor * naturalHeight);
-        cachedBackgroundSize.current = `${x}px ${y}px`;
-        return cachedBackgroundSize.current;
       }
     }
-  }
 
-  function handleLayout(e) {
-    if (resizeMode === 'center' || resizeMode === 'repeat' || onLayout) {
-      const { layout } = e.nativeEvent;
-      onLayout && onLayout(e);
-      updateLayout(layout);
-    }
-  }
-
-  // Image loading
-  const uri = resolveAssetUri(source);
-  React.useEffect(() => {
-    abortPendingRequest();
-
-    if (uri != null) {
-      updateState(LOADING);
-      if (onLoadStart) {
-        onLoadStart({});
-      }
-
-      requestRef.current = ImageLoader.load(
-        uri,
-        function load(e) {
-          updateState(LOADED);
-          if (onLoad) {
-            onLoad(e);
-          }
-          if (onLoadEnd) {
-            onLoadEnd(e);
-          }
-        },
-        function error(e) {
-          updateState(ERRORED);
-          if (onError) {
-            onError({
-              nativeEvent: {
-                error: `Failed to load resource ${uri}`
-              }
-            });
-          }
-          if (onLoadEnd) {
-            onLoadEnd(e);
-          }
+    const [state, updateState] = React.useState(() => {
+      const uri = resolveAssetUri(source);
+      if (uri != null) {
+        const isLoaded = ImageLoader.has(uri);
+        if (isLoaded) {
+          return LOADED;
         }
-      );
-    }
+      }
+      return IDLE;
+    });
 
-    function abortPendingRequest() {
-      if (requestRef.current != null) {
-        ImageLoader.abort(requestRef.current);
-        requestRef.current = null;
+    const [layout, updateLayout] = React.useState<{
+      height?: number;
+      width?: number;
+    }>({});
+    const hasTextAncestor = React.useContext(TextAncestorContext);
+    const hiddenImageRef = React.useRef(null);
+    const filterRef = React.useRef(_filterId++);
+    const requestRef = React.useRef<number | null>(null);
+    const shouldDisplaySource =
+      state === LOADED || (state === LOADING && defaultSource == null);
+    const [_resizeMode, filter, _tintColor] = extractNonStandardStyleProps(
+      style,
+      blurRadius,
+      filterRef.current,
+      props.tintColor
+    );
+    const resizeMode = props.resizeMode || _resizeMode || 'cover';
+    const tintColor = props.tintColor || _tintColor;
+    const selectedSource = shouldDisplaySource ? source : defaultSource;
+    const displayImageUri = resolveAssetUri(selectedSource);
+    const imageSizeStyle = resolveAssetDimensions(selectedSource);
+    const backgroundImage = displayImageUri
+      ? `url("${displayImageUri}")`
+      : null;
+    const cachedBackgroundSize = React.useRef<string | null>(null);
+    const backgroundSize = getBackgroundSize() || cachedBackgroundSize.current;
+
+    // Accessibility image allows users to trigger the browser's image context menu
+    const hiddenImage = displayImageUri
+      ? createElement('img', {
+          alt: ariaLabel || '',
+          style: styles.accessibilityImage$raw,
+          draggable: draggable || false,
+          ref: hiddenImageRef,
+          src: displayImageUri
+        })
+      : null;
+
+    function getBackgroundSize(): string | void {
+      if (
+        hiddenImageRef.current != null &&
+        (resizeMode === 'center' || resizeMode === 'repeat')
+      ) {
+        const { naturalHeight, naturalWidth } = hiddenImageRef.current;
+        const { height, width } = layout;
+        if (naturalHeight && naturalWidth && height && width) {
+          const scaleFactor = Math.min(
+            1,
+            width / naturalWidth,
+            height / naturalHeight
+          );
+          const x = Math.ceil(scaleFactor * naturalWidth);
+          const y = Math.ceil(scaleFactor * naturalHeight);
+          cachedBackgroundSize.current = `${x}px ${y}px`;
+          return cachedBackgroundSize.current;
+        }
       }
     }
 
-    return abortPendingRequest;
-  }, [uri, requestRef, updateState, onError, onLoad, onLoadEnd, onLoadStart]);
+    function handleLayout(e) {
+      if (resizeMode === 'center' || resizeMode === 'repeat' || onLayout) {
+        const { layout } = e.nativeEvent;
+        onLayout && onLayout(e);
+        updateLayout(layout);
+      }
+    }
 
-  return (
-    <View
-      {...rest}
-      aria-label={ariaLabel}
-      onLayout={handleLayout}
-      pointerEvents={pointerEvents}
-      ref={ref}
-      style={[
-        styles.root,
-        hasTextAncestor && styles.inline,
-        imageSizeStyle,
-        style,
-        styles.undo,
-        // TEMP: avoid deprecated shadow props regression
-        // until Image refactored to use createElement.
-        { boxShadow: undefined }
-      ]}
-    >
+    // Image loading
+    const uri = resolveAssetUri(source);
+    React.useEffect(() => {
+      abortPendingRequest();
+
+      if (uri != null) {
+        updateState(LOADING);
+        if (onLoadStart) {
+          onLoadStart({});
+        }
+
+        requestRef.current = ImageLoader.load(
+          uri,
+          function load(e) {
+            updateState(LOADED);
+            if (onLoad) {
+              onLoad(e);
+            }
+            if (onLoadEnd) {
+              onLoadEnd(e);
+            }
+          },
+          function error(e) {
+            updateState(ERRORED);
+            if (onError) {
+              onError({
+                nativeEvent: {
+                  error: `Failed to load resource ${uri}`
+                }
+              });
+            }
+            if (onLoadEnd) {
+              onLoadEnd(e);
+            }
+          }
+        );
+      }
+
+      function abortPendingRequest() {
+        if (requestRef.current != null) {
+          ImageLoader.abort(requestRef.current);
+          requestRef.current = null;
+        }
+      }
+
+      return abortPendingRequest;
+    }, [uri, requestRef, updateState, onError, onLoad, onLoadEnd, onLoadStart]);
+
+    return (
       <View
+        {...rest}
+        aria-label={ariaLabel}
+        onLayout={handleLayout}
+        pointerEvents={pointerEvents}
+        ref={ref}
         style={[
-          styles.image,
-          resizeModeStyles[resizeMode],
-          { backgroundImage, filter },
-          backgroundSize != null && { backgroundSize }
+          styles.root,
+          hasTextAncestor && styles.inline,
+          imageSizeStyle,
+          style,
+          styles.undo,
+          // TEMP: avoid deprecated shadow props regression
+          // until Image refactored to use createElement.
+          { boxShadow: '' }
         ]}
-        suppressHydrationWarning={true}
-      />
-      {hiddenImage}
-      {createTintColorSVG(tintColor, filterRef.current)}
-    </View>
-  );
-});
+      >
+        <View
+          style={[
+            styles.image,
+            resizeModeStyles[resizeMode],
+            { backgroundImage, filter },
+            backgroundSize != null && { backgroundSize }
+          ]}
+          suppressHydrationWarning={true}
+        />
+        {hiddenImage}
+        {createTintColorSVG(tintColor, filterRef.current)}
+      </View>
+    );
+  }
+);
 
 Image.displayName = 'Image';
 
-const ImageWithStatics = Image as typeof Image &
-ImageStatics;
+const ImageWithStatics = Image as typeof Image & ImageStatics;
 
 ImageWithStatics.getSize = function (uri, success, failure) {
   ImageLoader.getSize(uri, success, failure);

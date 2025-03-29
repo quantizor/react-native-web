@@ -186,7 +186,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/cli@npm:^7.18.6, @babel/cli@npm:^7.27.0":
+"@babel/cli@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/cli@npm:7.27.0"
   dependencies:
@@ -231,7 +231,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.18.6, @babel/core@npm:^7.23.9, @babel/core@npm:^7.24.7, @babel/core@npm:^7.25.2, @babel/core@npm:^7.7.5":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.23.9, @babel/core@npm:^7.24.7, @babel/core@npm:^7.25.2, @babel/core@npm:^7.26.10, @babel/core@npm:^7.7.5":
   version: 7.26.10
   resolution: "@babel/core@npm:7.26.10"
   dependencies:
@@ -254,7 +254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.18.2":
+"@babel/eslint-parser@npm:^7.27.0":
   version: 7.27.0
   resolution: "@babel/eslint-parser@npm:7.27.0"
   dependencies:
@@ -268,7 +268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.25.0, @babel/generator@npm:^7.26.10, @babel/generator@npm:^7.26.5, @babel/generator@npm:^7.27.0, @babel/generator@npm:^7.7.2, @babel/generator@npm:^7.7.4":
+"@babel/generator@npm:^7.25.0, @babel/generator@npm:^7.26.10, @babel/generator@npm:^7.27.0, @babel/generator@npm:^7.7.2, @babel/generator@npm:^7.7.4":
   version: 7.27.0
   resolution: "@babel/generator@npm:7.27.0"
   dependencies:
@@ -475,7 +475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.24.7, @babel/parser@npm:^7.25.3, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.26.7, @babel/parser@npm:^7.27.0, @babel/parser@npm:^7.7.0, @babel/parser@npm:^7.7.5":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.24.7, @babel/parser@npm:^7.25.3, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.0, @babel/parser@npm:^7.7.0, @babel/parser@npm:^7.7.5":
   version: 7.27.0
   resolution: "@babel/parser@npm:7.27.0"
   dependencies:
@@ -580,7 +580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-object-rest-spread@npm:^7.18.6":
+"@babel/plugin-proposal-object-rest-spread@npm:^7.20.7":
   version: 7.20.7
   resolution: "@babel/plugin-proposal-object-rest-spread@npm:7.20.7"
   dependencies:
@@ -1425,7 +1425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^7.18.6, @babel/plugin-transform-runtime@npm:^7.24.7":
+"@babel/plugin-transform-runtime@npm:^7.24.7, @babel/plugin-transform-runtime@npm:^7.26.10":
   version: 7.26.10
   resolution: "@babel/plugin-transform-runtime@npm:7.26.10"
   dependencies:
@@ -1559,7 +1559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.18.6":
+"@babel/preset-env@npm:^7.26.9":
   version: 7.26.9
   resolution: "@babel/preset-env@npm:7.26.9"
   dependencies:
@@ -1638,7 +1638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-flow@npm:^7.18.6, @babel/preset-flow@npm:^7.24.7":
+"@babel/preset-flow@npm:^7.24.7, @babel/preset-flow@npm:^7.25.9":
   version: 7.25.9
   resolution: "@babel/preset-flow@npm:7.25.9"
   dependencies:
@@ -1664,7 +1664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.18.6":
+"@babel/preset-react@npm:^7.26.3":
   version: 7.26.3
   resolution: "@babel/preset-react@npm:7.26.3"
   dependencies:
@@ -1710,7 +1710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.27.0, @babel/runtime@npm:^7.8.4":
   version: 7.27.0
   resolution: "@babel/runtime@npm:7.27.0"
   dependencies:
@@ -1730,7 +1730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse--for-generate-function-map@npm:@babel/traverse@^7.25.3, @babel/traverse@npm:^7.25.3, @babel/traverse@npm:^7.25.9, @babel/traverse@npm:^7.26.10, @babel/traverse@npm:^7.26.5, @babel/traverse@npm:^7.26.7, @babel/traverse@npm:^7.26.8, @babel/traverse@npm:^7.27.0, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.4":
+"@babel/traverse--for-generate-function-map@npm:@babel/traverse@^7.25.3, @babel/traverse@npm:^7.25.3, @babel/traverse@npm:^7.25.9, @babel/traverse@npm:^7.26.10, @babel/traverse@npm:^7.26.5, @babel/traverse@npm:^7.26.8, @babel/traverse@npm:^7.27.0, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.4":
   version: 7.27.0
   resolution: "@babel/traverse@npm:7.27.0"
   dependencies:
@@ -1745,7 +1745,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.2, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.10, @babel/types@npm:^7.26.7, @babel/types@npm:^7.27.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.25.2, @babel/types@npm:^7.25.9, @babel/types@npm:^7.26.10, @babel/types@npm:^7.27.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.4":
   version: 7.27.0
   resolution: "@babel/types@npm:7.27.0"
   dependencies:
@@ -1778,7 +1778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint-community/eslint-utils@npm:^4.2.0":
+"@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.5.1
   resolution: "@eslint-community/eslint-utils@npm:4.5.1"
   dependencies:
@@ -2677,7 +2677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/normalize-colors@npm:^0.74.1":
+"@react-native/normalize-colors@npm:^0.74.1, @react-native/normalize-colors@npm:^0.74.89":
   version: 0.74.89
   resolution: "@react-native/normalize-colors@npm:0.74.89"
   checksum: 10c0/6d0e5c91793ca5a66b4a0e5995361f474caacac56bde4772ac02b8ab470bd323076c567bd8856b0b097816d2b890e73a4040a3df01fd284adee683f5ba89d5ba
@@ -2777,7 +2777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.3.0":
+"@testing-library/react@npm:^13.4.0":
   version: 13.4.0
   resolution: "@testing-library/react@npm:13.4.0"
   dependencies:
@@ -2795,32 +2795,6 @@ __metadata:
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
   checksum: 10c0/073bfa548026b1ebaf1659eb8961e526be22fa77139b10d60e712f46d2f0f05f4e6c8bec62a087d41088ee9e29faa7f54838568e475ab2f776171003c3920858
-  languageName: node
-  linkType: hard
-
-"@trivago/prettier-plugin-sort-imports@npm:^5.2.2":
-  version: 5.2.2
-  resolution: "@trivago/prettier-plugin-sort-imports@npm:5.2.2"
-  dependencies:
-    "@babel/generator": "npm:^7.26.5"
-    "@babel/parser": "npm:^7.26.7"
-    "@babel/traverse": "npm:^7.26.7"
-    "@babel/types": "npm:^7.26.7"
-    javascript-natural-sort: "npm:^0.7.1"
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    "@vue/compiler-sfc": 3.x
-    prettier: 2.x - 3.x
-    prettier-plugin-svelte: 3.x
-    svelte: 4.x || 5.x
-  peerDependenciesMeta:
-    "@vue/compiler-sfc":
-      optional: true
-    prettier-plugin-svelte:
-      optional: true
-    svelte:
-      optional: true
-  checksum: 10c0/2a4f0464f1f5a294bcd34558fb053f8263f0c62c4a7fcdd3ce40c9822a68ac8b4d951700ab6d01eb3919efe0ed44e4191997edd494d59679b22db1c0db00474e
   languageName: node
   linkType: hard
 
@@ -3713,7 +3687,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^8.2.5":
+"babel-loader@npm:^8.4.1":
   version: 8.4.1
   resolution: "babel-loader@npm:8.4.1"
   dependencies:
@@ -3796,10 +3770,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-native-web@npm:0.18.10":
-  version: 0.18.10
-  resolution: "babel-plugin-react-native-web@npm:0.18.10"
-  checksum: 10c0/c061ecbaa003e47721b6dbe960aab051d238364b6b3e67344aebe79d28cb020132ea7c6604da0f2071209b72763cca055a52dac30f145362b90742053a5bb791
+"babel-plugin-react-native-web@npm:0.18.12":
+  version: 0.18.12
+  resolution: "babel-plugin-react-native-web@npm:0.18.12"
+  checksum: 10c0/f04df9a822c207c00b7b66560e6a33a17c922b96471b7da07ca66003a70599f739b4ef6ad9018bc85205783282b85f7fc193b38d85306cc4158e66d328b6f3c4
   languageName: node
   linkType: hard
 
@@ -3933,8 +3907,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "benchmarks@workspace:packages/benchmarks"
   dependencies:
-    babel-loader: "npm:^8.2.5"
-    babel-plugin-react-native-web: "npm:0.18.10"
+    babel-loader: "npm:^8.4.1"
+    babel-plugin-react-native-web: "npm:0.18.12"
     classnames: "npm:^2.3.1"
     css-loader: "npm:^6.7.1"
     d3-scale-chromatic: "npm:^3.0.0"
@@ -5565,14 +5539,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.5.0":
-  version: 8.10.0
-  resolution: "eslint-config-prettier@npm:8.10.0"
+"eslint-config-prettier@npm:^10.1.1":
+  version: 10.1.1
+  resolution: "eslint-config-prettier@npm:10.1.1"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: 10c0/19f8c497d9bdc111a17a61b25ded97217be3755bbc4714477dfe535ed539dddcaf42ef5cf8bb97908b058260cf89a3d7c565cb0be31096cbcd39f4c2fa5fe43c
+  checksum: 10c0/3dbfdf6495dd62e2e1644ea9e8e978100dabcd8740fd264df1222d130001a1e8de05d6ed6c67d3a60727386a07507f067d1ca79af6d546910414beab19e7966e
   languageName: node
   linkType: hard
 
@@ -5590,25 +5564,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^6.0.0":
-  version: 6.6.0
-  resolution: "eslint-plugin-promise@npm:6.6.0"
+"eslint-plugin-promise@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "eslint-plugin-promise@npm:7.2.1"
+  dependencies:
+    "@eslint-community/eslint-utils": "npm:^4.4.0"
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
-  checksum: 10c0/93a667dbc9ff15c4d586b0d40a31c7828314cbbb31b2b9a75802aa4ef536e9457bb3e1a89b384b07aa336dd61b315ae8b0aadc0870210378023dd018819b59b3
+  checksum: 10c0/d494982faeeafbd2aa5fae9cbceca546169a8399000f72d5d940fa5c4ba554612903bcafbb8033647179e5d21ccf1d621b433d089695f7f47ce3d9fcf4cd0abf
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.6.0":
-  version: 4.6.2
-  resolution: "eslint-plugin-react-hooks@npm:4.6.2"
+"eslint-plugin-react-hooks@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "eslint-plugin-react-hooks@npm:5.2.0"
   peerDependencies:
-    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
-  checksum: 10c0/4844e58c929bc05157fb70ba1e462e34f1f4abcbc8dd5bbe5b04513d33e2699effb8bca668297976ceea8e7ebee4e8fc29b9af9d131bcef52886feaa2308b2cc
+    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
+  checksum: 10c0/1c8d50fa5984c6dea32470651807d2922cc3934cf3425e78f84a24c2dfd972e7f019bee84aefb27e0cf2c13fea0ac1d4473267727408feeb1c56333ca1489385
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.30.1":
+"eslint-plugin-react@npm:^7.37.4":
   version: 7.37.4
   resolution: "eslint-plugin-react@npm:7.37.4"
   dependencies:
@@ -5677,7 +5653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.19.0":
+"eslint@npm:^8.57.1":
   version: 8.57.1
   resolution: "eslint@npm:8.57.1"
   dependencies:
@@ -6867,7 +6843,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inline-style-prefixer@npm:^6.0.0, inline-style-prefixer@npm:^6.0.1":
+"inline-style-prefixer@npm:^6.0.1, inline-style-prefixer@npm:^6.0.4":
   version: 6.0.4
   resolution: "inline-style-prefixer@npm:6.0.4"
   dependencies:
@@ -7435,13 +7411,6 @@ __metadata:
   dependencies:
     "@isaacs/cliui": "npm:^8.0.2"
   checksum: 10c0/08a6a24a366c90b83aef3ad6ec41dcaaa65428ffab8d80bc7172add0fbb8b134a34f415ad288b2a6fbd406526e9a62abdb40ed4f399fbe00cb45c44056d4dce0
-  languageName: node
-  linkType: hard
-
-"javascript-natural-sort@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "javascript-natural-sort@npm:0.7.1"
-  checksum: 10c0/340f8ffc5d30fb516e06dc540e8fa9e0b93c865cf49d791fed3eac3bdc5fc71f0066fc81d44ec1433edc87caecaf9f13eec4a1fce8c5beafc709a71eaedae6fe
   languageName: node
   linkType: hard
 
@@ -10096,12 +10065,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.0.1, prettier@npm:^2.7.1":
+"prettier@npm:^2.0.1":
   version: 2.8.8
   resolution: "prettier@npm:2.8.8"
   bin:
     prettier: bin-prettier.js
   checksum: 10c0/463ea8f9a0946cd5b828d8cf27bd8b567345cf02f56562d5ecde198b91f47a76b7ac9eae0facd247ace70e927143af6135e8cf411986b8cb8478784a4d6d724a
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.5.3":
+  version: 3.5.3
+  resolution: "prettier@npm:3.5.3"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10c0/3880cb90b9dc0635819ab52ff571518c35bd7f15a6e80a2054c05dbc8a3aa6e74f135519e91197de63705bcb38388ded7e7230e2178432a1468005406238b877
   languageName: node
   linkType: hard
 
@@ -10335,13 +10313,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-native-web-examples@workspace:packages/react-native-web-examples"
   dependencies:
-    "@babel/core": "npm:^7.18.6"
-    "@babel/preset-flow": "npm:^7.18.6"
+    "@babel/core": "npm:^7.26.10"
+    "@babel/preset-flow": "npm:^7.25.9"
     babel-plugin-react-native-web: "npm:0.19.13"
     next: "npm:^15.0.0"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
-    react-native-web: "file:../react-native-web"
+    react-native-web: "npm:react-native-web-fork@latest"
   languageName: unknown
   linkType: soft
 
@@ -10350,8 +10328,8 @@ __metadata:
   resolution: "react-native-web-fork@workspace:packages/react-native-web"
   dependencies:
     "@babel/cli": "npm:^7.27.0"
-    "@babel/runtime": "npm:^7.18.6"
-    "@react-native/normalize-colors": "npm:^0.74.1"
+    "@babel/runtime": "npm:^7.27.0"
+    "@react-native/normalize-colors": "npm:^0.74.89"
     "@types/react": "npm:^19.0.12"
     "@types/react-dom": "npm:^19.0.4"
     "@types/react-native": "npm:^0.73.0"
@@ -10370,23 +10348,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-native-web@file:../react-native-web::locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples":
-  version: 0.20.2
-  resolution: "react-native-web@file:../react-native-web#../react-native-web::hash=9de6ea&locator=react-native-web-examples%40workspace%3Apackages%2Freact-native-web-examples"
-  dependencies:
-    "@react-native/normalize-colors": "npm:^0.74.1"
-    inline-style-prefixer: "npm:^7.0.1"
-    memoize-one: "npm:^6.0.0"
-    nullthrows: "npm:^1.1.1"
-    postcss-value-parser: "npm:^4.2.0"
-    styleq: "npm:^0.1.3"
-  peerDependencies:
-    react: ^18.0.0 || ^19.0.0
-    react-dom: ^18.0.0 || ^19.0.0
-  checksum: 10c0/e728892efdddc4f627e05fcab35cfc8eb177185086e01870db2e22b168c58f8047827706f0ceaa14f371dc8e1332ef92458d9ac8ccb80d7156372f7ab0a4449f
-  languageName: node
-  linkType: hard
-
 "react-native-web@npm:0.18.10":
   version: 0.18.10
   resolution: "react-native-web@npm:0.18.10"
@@ -10402,6 +10363,24 @@ __metadata:
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
   checksum: 10c0/ef143948e267b134570e6d484911943cc52014a30c045b37d0da0a3bf81d310f3e4e8e7db431fdf31c0808f06bb48f73d82ad2c5271574985f1847d8a6d26eff
+  languageName: node
+  linkType: hard
+
+"react-native-web@npm:react-native-web-fork@latest":
+  version: 0.20.2
+  resolution: "react-native-web-fork@npm:0.20.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.18.6"
+    "@react-native/normalize-colors": "npm:^0.74.1"
+    inline-style-prefixer: "npm:^7.0.1"
+    memoize-one: "npm:^6.0.0"
+    nullthrows: "npm:^1.1.1"
+    postcss-value-parser: "npm:^4.2.0"
+    styleq: "npm:^0.1.3"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 10c0/1410bcb5b98002d7ccba166b7b8aff561a4f5eb028de71b360b131a6b7ea964e9a704343d3c65327d0026b9201f8316551b9326df253b37820529acd4bc45311
   languageName: node
   linkType: hard
 
@@ -10468,41 +10447,40 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-ui-monorepo@workspace:."
   dependencies:
-    "@babel/cli": "npm:^7.18.6"
-    "@babel/core": "npm:^7.18.6"
-    "@babel/eslint-parser": "npm:^7.18.2"
+    "@babel/cli": "npm:^7.27.0"
+    "@babel/core": "npm:^7.26.10"
+    "@babel/eslint-parser": "npm:^7.27.0"
     "@babel/plugin-proposal-class-properties": "npm:^7.18.6"
     "@babel/plugin-proposal-nullish-coalescing-operator": "npm:^7.18.6"
-    "@babel/plugin-proposal-object-rest-spread": "npm:^7.18.6"
-    "@babel/plugin-transform-runtime": "npm:^7.18.6"
-    "@babel/preset-env": "npm:^7.18.6"
-    "@babel/preset-flow": "npm:^7.18.6"
-    "@babel/preset-react": "npm:^7.18.6"
-    "@testing-library/react": "npm:^13.3.0"
-    "@trivago/prettier-plugin-sort-imports": "npm:^5.2.2"
+    "@babel/plugin-proposal-object-rest-spread": "npm:^7.20.7"
+    "@babel/plugin-transform-runtime": "npm:^7.26.10"
+    "@babel/preset-env": "npm:^7.26.9"
+    "@babel/preset-flow": "npm:^7.25.9"
+    "@babel/preset-react": "npm:^7.26.3"
+    "@testing-library/react": "npm:^13.4.0"
     babel-eslint: "npm:^10.1.0"
     babel-jest: "npm:^29.7.0"
     babel-plugin-add-module-exports: "npm:^1.0.4"
     babel-plugin-transform-react-remove-prop-types: "npm:^0.4.24"
     caniuse-api: "npm:^3.0.0"
     cross-env: "npm:^7.0.3"
-    eslint: "npm:^8.19.0"
-    eslint-config-prettier: "npm:^8.5.0"
+    eslint: "npm:^8.57.1"
+    eslint-config-prettier: "npm:^10.1.1"
     eslint-plugin-flowtype: "npm:^8.0.3"
-    eslint-plugin-promise: "npm:^6.0.0"
-    eslint-plugin-react: "npm:^7.30.1"
-    eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-promise: "npm:^7.2.1"
+    eslint-plugin-react: "npm:^7.37.4"
+    eslint-plugin-react-hooks: "npm:^5.2.0"
     flow-bin: "npm:0.148.0"
     gen-flow-files: "npm:^0.4.11"
     glob: "npm:^8.0.3"
     husky: "npm:^8.0.0"
-    inline-style-prefixer: "npm:^6.0.0"
+    inline-style-prefixer: "npm:^6.0.4"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     lint-staged: "npm:^13.0.3"
     minimist: "npm:^1.2.6"
     npm-run-all: "npm:^4.1.3"
-    prettier: "npm:^2.7.1"
+    prettier: "npm:^3.5.3"
     rimraf: "npm:^6.0.1"
     typescript: "npm:^5.8.2"
   languageName: unknown

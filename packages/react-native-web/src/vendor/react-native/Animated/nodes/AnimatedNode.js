@@ -15,16 +15,16 @@ import NativeAnimatedHelper from '../NativeAnimatedHelper';
 const NativeAnimatedAPI = NativeAnimatedHelper.API;
 import invariant from '../../../../modules/invariant';
 
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
-type ValueListenerCallback = (state: {value: number, ...}) => mixed;
+type ValueListenerCallback = (state: { value: number, ... }) => mixed;
 
 let _uniqueId = 1;
 
 // Note(vjeux): this would be better as an interface but flow doesn't
 // support them yet
 class AnimatedNode {
-  _listeners: {[key: string]: ValueListenerCallback, ...};
+  _listeners: { [key: string]: ValueListenerCallback, ... };
   _platformConfig: ?PlatformConfig;
   __nativeAnimatedValueListener: ?any;
   __attach(): void {}
@@ -126,12 +126,12 @@ class AnimatedNode {
     this.__nativeAnimatedValueListener =
       NativeAnimatedHelper.nativeEventEmitter.addListener(
         'onAnimatedValueUpdate',
-        data => {
+        (data) => {
           if (data.tag !== this.__getNativeTag()) {
             return;
           }
           this.__onAnimatedValueUpdateReceived(data.value);
-        },
+        }
       );
   }
 
@@ -141,7 +141,7 @@ class AnimatedNode {
 
   __callListeners(value: number): void {
     for (const key in this._listeners) {
-      this._listeners[key]({value});
+      this._listeners[key]({ value });
     }
   }
 
@@ -159,7 +159,7 @@ class AnimatedNode {
     NativeAnimatedHelper.assertNativeAnimatedModule();
     invariant(
       this.__isNative,
-      'Attempt to get native tag from node not marked as "native"',
+      'Attempt to get native tag from node not marked as "native"'
     );
 
     const nativeTag =
@@ -179,7 +179,7 @@ class AnimatedNode {
   }
   __getNativeConfig(): Object {
     throw new Error(
-      'This JS animated node type cannot be used as native animated node',
+      'This JS animated node type cannot be used as native animated node'
     );
   }
   toJSON(): any {

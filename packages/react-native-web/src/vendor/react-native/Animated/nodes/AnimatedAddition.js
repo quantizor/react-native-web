@@ -16,8 +16,8 @@ import AnimatedInterpolation from './AnimatedInterpolation';
 import AnimatedValue from './AnimatedValue';
 import AnimatedWithChildren from './AnimatedWithChildren';
 
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
-import type {InterpolationConfigType} from './AnimatedInterpolation';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
+import type { InterpolationConfigType } from './AnimatedInterpolation';
 
 class AnimatedAddition extends AnimatedWithChildren {
   _a: AnimatedNode;
@@ -40,7 +40,7 @@ class AnimatedAddition extends AnimatedWithChildren {
   }
 
   interpolate<OutputT: number | string>(
-    config: InterpolationConfigType<OutputT>,
+    config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);
   }
@@ -59,7 +59,7 @@ class AnimatedAddition extends AnimatedWithChildren {
   __getNativeConfig(): any {
     return {
       type: 'addition',
-      input: [this._a.__getNativeTag(), this._b.__getNativeTag()],
+      input: [this._a.__getNativeTag(), this._b.__getNativeTag()]
     };
   }
 }

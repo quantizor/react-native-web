@@ -19,10 +19,10 @@ import SpringConfig from '../SpringConfig';
 
 import invariant from '../../../../modules/invariant';
 
-import {shouldUseNativeDriver} from '../NativeAnimatedHelper';
+import { shouldUseNativeDriver } from '../NativeAnimatedHelper';
 
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
-import type {AnimationConfig, EndCallback} from './Animation';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
+import type { AnimationConfig, EndCallback } from './Animation';
 
 import AnimatedColor from '../nodes/AnimatedColor';
 
@@ -63,7 +63,7 @@ export type SpringAnimationConfig = {
   stiffness?: number,
   damping?: number,
   mass?: number,
-  delay?: number,
+  delay?: number
 };
 
 export type SpringAnimationConfigSingle = {
@@ -80,7 +80,7 @@ export type SpringAnimationConfigSingle = {
   stiffness?: number,
   damping?: number,
   mass?: number,
-  delay?: number,
+  delay?: number
 };
 
 class SpringAnimation extends Animation {
@@ -131,7 +131,7 @@ class SpringAnimation extends Animation {
           config.speed === undefined &&
           config.tension === undefined &&
           config.friction === undefined,
-        'You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one',
+        'You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one'
       );
       this._stiffness = config.stiffness ?? 100;
       this._damping = config.damping ?? 10;
@@ -145,11 +145,11 @@ class SpringAnimation extends Animation {
           config.stiffness === undefined &&
           config.damping === undefined &&
           config.mass === undefined,
-        'You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one',
+        'You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one'
       );
       const springConfig = SpringConfig.fromBouncinessAndSpeed(
         config.bounciness ?? 8,
-        config.speed ?? 12,
+        config.speed ?? 12
       );
       this._stiffness = springConfig.stiffness;
       this._damping = springConfig.damping;
@@ -159,7 +159,7 @@ class SpringAnimation extends Animation {
       // We assume mass is 1.
       const springConfig = SpringConfig.fromOrigamiTensionAndFriction(
         config.tension ?? 40,
-        config.friction ?? 7,
+        config.friction ?? 7
       );
       this._stiffness = springConfig.stiffness;
       this._damping = springConfig.damping;
@@ -182,7 +182,7 @@ class SpringAnimation extends Animation {
     restSpeedThreshold: number,
     stiffness: number,
     toValue: any,
-    type: $TEMPORARY$string<'spring'>,
+    type: $TEMPORARY$string<'spring'>
   |} {
     return {
       type: 'spring',
@@ -195,7 +195,7 @@ class SpringAnimation extends Animation {
       initialVelocity: this._initialVelocity ?? this._lastVelocity,
       toValue: this._toValue,
       iterations: this.__iterations,
-      platformConfig: this._platformConfig,
+      platformConfig: this._platformConfig
     };
   }
 
@@ -204,7 +204,7 @@ class SpringAnimation extends Animation {
     onUpdate: (value: number) => void,
     onEnd: ?EndCallback,
     previousAnimation: ?Animation,
-    animatedValue: AnimatedValue,
+    animatedValue: AnimatedValue
   ): void {
     this.__active = true;
     this._startPosition = fromValue;
@@ -244,7 +244,7 @@ class SpringAnimation extends Animation {
     return {
       lastPosition: this._lastPosition,
       lastVelocity: this._lastVelocity,
-      lastTime: this._lastTime,
+      lastTime: this._lastTime
     };
   }
 
@@ -357,7 +357,7 @@ class SpringAnimation extends Animation {
         this._onUpdate(this._toValue);
       }
 
-      this.__debouncedOnEnd({finished: true});
+      this.__debouncedOnEnd({ finished: true });
       return;
     }
     // $FlowFixMe[method-unbinding] added when improving typing for this parameters
@@ -369,7 +369,7 @@ class SpringAnimation extends Animation {
     this.__active = false;
     clearTimeout(this._timeout);
     global.cancelAnimationFrame(this._animationFrame);
-    this.__debouncedOnEnd({finished: false});
+    this.__debouncedOnEnd({ finished: false });
   }
 }
 

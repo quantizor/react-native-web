@@ -13,10 +13,10 @@
 /*
  * @returns {bool} true if different, false if equal
  */
-const deepDiffer = function(
+const deepDiffer = function (
   one: any,
   two: any,
-  maxDepth: number = -1,
+  maxDepth: number = -1
 ): boolean {
   if (maxDepth === 0) {
     return true;

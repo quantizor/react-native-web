@@ -13,7 +13,7 @@ import * as React from 'react';
 import SectionList from '../../../../exports/SectionList';
 import createAnimatedComponent from '../createAnimatedComponent';
 
-import type {AnimatedComponentType} from '../createAnimatedComponent';
+import type { AnimatedComponentType } from '../createAnimatedComponent';
 
 /**
  * @see https://github.com/facebook/react-native/commit/b8c8562
@@ -23,8 +23,8 @@ const SectionListWithEventThrottle = React.forwardRef((props, ref) => (
 ));
 
 export default (createAnimatedComponent(
-  SectionListWithEventThrottle,
+  SectionListWithEventThrottle
 ): AnimatedComponentType<
   React.ElementConfig<typeof SectionList>,
-  React.ElementRef<typeof SectionList>,
+  React.ElementRef<typeof SectionList>
 >);

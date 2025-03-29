@@ -10,15 +10,13 @@
 
 import ScrollView from '../../../exports/ScrollView';
 import type { LayoutEvent } from '../../../types';
-import type {
-  FocusEvent,
-} from '../Types/CoreEventTypes';
+import type { FocusEvent } from '../Types/CoreEventTypes';
 import { type ViewProps } from '../../../exports/View';
 type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
 import type {
   ViewabilityConfig,
   ViewabilityConfigCallbackPair,
-  ViewToken,
+  ViewToken
 } from '../ViewabilityHelper';
 
 import * as React from 'react';
@@ -46,11 +44,11 @@ export type CellRendererProps<ItemT> = $ReadOnly<{
   item: ItemT,
   onFocusCapture?: (event: FocusEvent) => void,
   onLayout?: (event: LayoutEvent) => void,
-  style: ViewStyleProp,
+  style: ViewStyleProp
 }>;
 
 export type RenderItemType<ItemT> = (
-  info: RenderItemProps<ItemT>,
+  info: RenderItemProps<ItemT>
 ) => React.Node;
 
 type RequiredProps = {|
@@ -66,7 +64,7 @@ type RequiredProps = {|
   /**
    * Determines how many items are in the data blob.
    */
-  getItemCount: (data: any) => number,
+  getItemCount: (data: any) => number
 |};
 type OptionalProps = {|
   renderItem?: ?RenderItemType<Item>,
@@ -90,7 +88,7 @@ type OptionalProps = {|
   // e.g. height, y
   getItemLayout?: (
     data: any,
-    index: number,
+    index: number
   ) => {
     length: number,
     offset: number,
@@ -190,7 +188,7 @@ type OptionalProps = {|
    * Called once when the scroll position gets within within `onEndReachedThreshold`
    * from the logical end of the list.
    */
-  onEndReached?: ?(info: {distanceFromEnd: number, ...}) => void,
+  onEndReached?: ?(info: { distanceFromEnd: number, ... }) => void,
   /**
    * How far from the end (in units of visible length of the list) the trailing edge of the
    * list must be from the end of the content to trigger the `onEndReached` callback.
@@ -218,7 +216,7 @@ type OptionalProps = {|
    * Called once when the scroll position gets within within `onStartReachedThreshold`
    * from the logical start of the list.
    */
-  onStartReached?: ?(info: {distanceFromStart: number, ...}) => void,
+  onStartReached?: ?(info: { distanceFromStart: number, ... }) => void,
   /**
    * How far from the start (in units of visible length of the list) the leading edge of the
    * list must be from the start of the content to trigger the `onStartReached` callback.
@@ -285,13 +283,13 @@ type OptionalProps = {|
   /**
    * The legacy implementation is no longer supported.
    */
-  legacyImplementation?: empty,
+  legacyImplementation?: empty
 |};
 
 export type Props = {|
   ...React.ElementConfig<typeof ScrollView>,
   ...RequiredProps,
-  ...OptionalProps,
+  ...OptionalProps
 |};
 
 /**

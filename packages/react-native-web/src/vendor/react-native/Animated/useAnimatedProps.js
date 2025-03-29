@@ -11,16 +11,10 @@
 'use strict';
 
 import AnimatedProps from './nodes/AnimatedProps';
-import {AnimatedEvent} from './AnimatedEvent';
+import { AnimatedEvent } from './AnimatedEvent';
 import useRefEffect from '../Utilities/useRefEffect';
 import NativeAnimatedHelper from './NativeAnimatedHelper';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 
 import useLayoutEffect from '../../../modules/useLayoutEffect';
 
@@ -29,12 +23,12 @@ type ReducedProps<TProps> = {
   collapsable: boolean,
   ...
 };
-type CallbackRef<T> = T => mixed;
+type CallbackRef<T> = (T) => mixed;
 
-export default function useAnimatedProps<TProps: {...}, TInstance>(
-  props: TProps,
+export default function useAnimatedProps<TProps: { ... }, TInstance>(
+  props: TProps
 ): [ReducedProps<TProps>, CallbackRef<TInstance | null>] {
-  const [, scheduleUpdate] = useReducer(count => count + 1, 0);
+  const [, scheduleUpdate] = useReducer((count) => count + 1, 0);
   const onUpdateRef = useRef<?() => void>(null);
 
   // TODO: Only invalidate `node` if animated props or `style` change. In the
@@ -43,7 +37,7 @@ export default function useAnimatedProps<TProps: {...}, TInstance>(
   // The ordering of other props *should* not matter.
   const node = useMemo(
     () => new AnimatedProps(props, () => onUpdateRef.current?.()),
-    [props],
+    [props]
   );
   useAnimatedPropsLifecycle(node);
 
@@ -61,7 +55,7 @@ export default function useAnimatedProps<TProps: {...}, TInstance>(
   // But there is no way to transparently compose three separate callback refs,
   // so we just combine them all into one for now.
   const refEffect = useCallback(
-    instance => {
+    (instance) => {
       // NOTE: This may be called more often than necessary (e.g. when `props`
       // changes), but `setNativeView` already optimizes for that.
       node.setNativeView(instance);
@@ -93,7 +87,7 @@ export default function useAnimatedProps<TProps: {...}, TInstance>(
         }
       };
     },
-    [props, node],
+    [props, node]
   );
   const callbackRef = useRefEffect<TInstance>(refEffect);
 
@@ -101,13 +95,13 @@ export default function useAnimatedProps<TProps: {...}, TInstance>(
 }
 
 function reduceAnimatedProps<TProps>(
-  node: AnimatedProps,
+  node: AnimatedProps
 ): ReducedProps<TProps> {
   // Force `collapsable` to be false so that the native view is not flattened.
   // Flattened views cannot be accurately referenced by the native driver.
   return {
     ...node.__getValue(),
-    collapsable: false,
+    collapsable: false
   };
 }
 

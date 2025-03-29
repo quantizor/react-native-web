@@ -1,3 +1,4 @@
+
 type CompiledStyle = {
   [key: string]: string,
 } & { $$css: boolean };
@@ -16,21 +17,22 @@ declare module 'styleq' {
   type StyleqOptions = {
     disableCache?: boolean,
     disableMix?: boolean,
-    transform?: (EitherStyle) => EitherStyle,
+    transform?: (style: EitherStyle) => EitherStyle,
   };
 
   type StyleqResult = [string, InlineStyle | null];
   type Styleq = (styles: Styles) => StyleqResult;
 
-  type IStyleq = {
-    (...styles: ReadonlyArray<Styles>): StyleqResult,
+  type StyleqObject = {
     factory: (options?: StyleqOptions) => Styleq,
+    (styles: ReadonlyArray<Styles>): StyleqResult,
   };
 
-  export const styleq: IStyleq;
+  export const styleq: StyleqObject;
+  export { EitherStyle };
 }
 
 declare module "styleq/transform-localize-style" {
-  type LocalizeStyle = (style: EitherStyle, isRTL: boolean) => EitherStyle;
-  export const localizeStyle: LocalizeStyle;
+  type LocalizeStyleFn = (style: EitherStyle, isRTL: boolean) => EitherStyle;
+  export const localizeStyle: LocalizeStyleFn;
 }

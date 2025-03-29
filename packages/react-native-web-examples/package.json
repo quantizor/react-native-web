@@ -12,11 +12,11 @@
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-native-web": "file:../react-native-web"
+    "react-native-web": "npm:react-native-web-fork@latest"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@babel/preset-flow": "^7.18.6"
+    "@babel/core": "^7.26.10",
+    "@babel/preset-flow": "^7.25.9"
   },
   "license": "MIT"
 }

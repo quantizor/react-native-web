@@ -15,8 +15,8 @@ import AnimatedNode from './AnimatedNode';
 import AnimatedValue from './AnimatedValue';
 import AnimatedWithChildren from './AnimatedWithChildren';
 
-import type {InterpolationConfigType} from './AnimatedInterpolation';
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
+import type { InterpolationConfigType } from './AnimatedInterpolation';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
 class AnimatedDivision extends AnimatedWithChildren {
   _a: AnimatedNode;
@@ -55,7 +55,7 @@ class AnimatedDivision extends AnimatedWithChildren {
   }
 
   interpolate<OutputT: number | string>(
-    config: InterpolationConfigType<OutputT>,
+    config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);
   }
@@ -74,7 +74,7 @@ class AnimatedDivision extends AnimatedWithChildren {
   __getNativeConfig(): any {
     return {
       type: 'division',
-      input: [this._a.__getNativeTag(), this._b.__getNativeTag()],
+      input: [this._a.__getNativeTag(), this._b.__getNativeTag()]
     };
   }
 }

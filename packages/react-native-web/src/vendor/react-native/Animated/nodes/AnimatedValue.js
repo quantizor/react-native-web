@@ -16,12 +16,12 @@ import InteractionManager from '../../../../exports/InteractionManager';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
 import type AnimatedNode from './AnimatedNode';
-import type Animation, {EndCallback} from '../animations/Animation';
-import type {InterpolationConfigType} from './AnimatedInterpolation';
+import type Animation, { EndCallback } from '../animations/Animation';
+import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type AnimatedTracking from './AnimatedTracking';
 
 export type AnimatedValueConfig = $ReadOnly<{
-  useNativeDriver: boolean,
+  useNativeDriver: boolean
 }>;
 
 const NativeAnimatedAPI = NativeAnimatedHelper.API;
@@ -62,7 +62,7 @@ function _flush(rootNode: AnimatedValue): void {
   }
   findAnimatedStyles(rootNode);
   // $FlowFixMe[prop-missing]
-  animatedStyles.forEach(animatedStyle => animatedStyle.update());
+  animatedStyles.forEach((animatedStyle) => animatedStyle.update());
 }
 
 /**
@@ -106,7 +106,7 @@ class AnimatedValue extends AnimatedWithChildren {
 
   __detach() {
     if (this.__isNative) {
-      NativeAnimatedAPI.getValue(this.__getNativeTag(), value => {
+      NativeAnimatedAPI.getValue(this.__getNativeTag(), (value) => {
         this._value = value - this._offset;
       });
     }
@@ -131,11 +131,11 @@ class AnimatedValue extends AnimatedWithChildren {
     }
     this._updateValue(
       value,
-      !this.__isNative /* don't perform a flush for natively driven values */,
+      !this.__isNative /* don't perform a flush for natively driven values */
     );
     if (this.__isNative) {
       _executeAsAnimatedBatch(this.__getNativeTag().toString(), () =>
-        NativeAnimatedAPI.setAnimatedNodeValue(this.__getNativeTag(), value),
+        NativeAnimatedAPI.setAnimatedNodeValue(this.__getNativeTag(), value)
       );
     }
   }
@@ -213,7 +213,7 @@ class AnimatedValue extends AnimatedWithChildren {
     if (this.__isNative) {
       NativeAnimatedAPI.setAnimatedNodeValue(
         this.__getNativeTag(),
-        this._startingValue,
+        this._startingValue
       );
     }
   }
@@ -227,7 +227,7 @@ class AnimatedValue extends AnimatedWithChildren {
    * 0-10.
    */
   interpolate<OutputT: number | string>(
-    config: InterpolationConfigType<OutputT>,
+    config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);
   }
@@ -248,11 +248,11 @@ class AnimatedValue extends AnimatedWithChildren {
     this._animation = animation;
     animation.start(
       this._value,
-      value => {
+      (value) => {
         // Natively driven animations will never call into that callback
         this._updateValue(value, true /* flush */);
       },
-      result => {
+      (result) => {
         this._animation = null;
         if (handle !== null) {
           InteractionManager.clearInteractionHandle(handle);
@@ -260,7 +260,7 @@ class AnimatedValue extends AnimatedWithChildren {
         callback && callback(result);
       },
       previousAnimation,
-      this,
+      this
     );
   }
 
@@ -298,7 +298,7 @@ class AnimatedValue extends AnimatedWithChildren {
     return {
       type: 'value',
       value: this._value,
-      offset: this._offset,
+      offset: this._offset
     };
   }
 }

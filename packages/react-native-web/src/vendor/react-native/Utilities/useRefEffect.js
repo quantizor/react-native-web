@@ -8,9 +8,9 @@
  * @format
  */
 
-import {useCallback, useRef} from 'react';
+import { useCallback, useRef } from 'react';
 
-type CallbackRef<T> = T => mixed;
+type CallbackRef<T> = (T) => mixed;
 
 /**
  * Constructs a callback ref that provides similar semantics as `useEffect`. The
@@ -27,11 +27,11 @@ type CallbackRef<T> = T => mixed;
  * WARNING: The `effect` callback should be stable (e.g. using `useCallback`).
  */
 export default function useRefEffect<TInstance>(
-  effect: TInstance => (() => void) | void,
+  effect: (TInstance) => (() => void) | void
 ): CallbackRef<TInstance | null> {
   const cleanupRef = useRef<(() => void) | void>(undefined);
   return useCallback(
-    instance => {
+    (instance) => {
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = undefined;
@@ -40,6 +40,6 @@ export default function useRefEffect<TInstance>(
         cleanupRef.current = effect(instance);
       }
     },
-    [effect],
+    [effect]
   );
 }

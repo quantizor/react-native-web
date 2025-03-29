@@ -176,7 +176,8 @@ export type ViewStyle = React.CSSProperties & {
   [K in Exclude<keyof ViewStyleWithoutAnimated, keyof React.CSSProperties>]?: ViewStyleWithoutAnimated[K];
 };
 
-export type ViewProps = AccessibilityProps & EventProps & Pick<RNViewProps, 'children' | 'tabIndex' | 'testID' | 'focusable' | 'pointerEvents' | 'nativeID'> & Omit<React.HTMLAttributes<HTMLElement>, 'style'> & {
+export type ViewProps = AccessibilityProps & EventProps & Pick<RNViewProps, 'children' | 'tabIndex' | 'testID' | 'focusable' | 'pointerEvents' | 'nativeID'> & Omit<React.HTMLAttributes<HTMLElement>, 'style' | 'dir'> & {
+  dir?: 'ltr' | 'rtl' | undefined,
   ref?: React.Ref<HTMLElement & PlatformMethods>,
   style?: StyleProp<ViewStyle>,
   // unstable

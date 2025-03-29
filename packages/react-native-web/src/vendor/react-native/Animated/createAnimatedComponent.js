@@ -15,31 +15,29 @@ import View from '../../../exports/View';
 import * as React from 'react';
 
 export type AnimatedComponentType<
-  -Props: {+[string]: mixed, ...},
-  +Instance = mixed,
+  -Props: { +[string]: mixed, ... },
+  +Instance = mixed
 > = React.AbstractComponent<
   $ObjMap<
     Props &
       $ReadOnly<{
-        passthroughAnimatedPropExplicitValues?: React.ElementConfig<
-          typeof View,
-        >,
+        passthroughAnimatedPropExplicitValues?: React.ElementConfig<typeof View>
       }>,
-    () => any,
+    () => any
   >,
-  Instance,
+  Instance
 >;
 
 /**
  * Experimental implementation of `createAnimatedComponent` that is intended to
  * be compatible with concurrent rendering.
  */
-export default function createAnimatedComponent<TProps: {...}, TInstance>(
-  Component: React.AbstractComponent<TProps, TInstance>,
+export default function createAnimatedComponent<TProps: { ... }, TInstance>(
+  Component: React.AbstractComponent<TProps, TInstance>
 ): React.AbstractComponent<TProps, TInstance> {
   return React.forwardRef((props, forwardedRef) => {
     const [reducedProps, callbackRef] = useAnimatedProps<TProps, TInstance>(
-      props,
+      props
     );
     const ref = useMergeRefs<TInstance | null>(callbackRef, forwardedRef);
 
@@ -48,8 +46,8 @@ export default function createAnimatedComponent<TProps: {...}, TInstance>(
     // transformed and Pressable, onPress will not work after transform
     // without these passthrough values.
     // $FlowFixMe[prop-missing]
-    const {passthroughAnimatedPropExplicitValues, style} = reducedProps;
-    const {style: passthroughStyle, ...passthroughProps} =
+    const { passthroughAnimatedPropExplicitValues, style } = reducedProps;
+    const { style: passthroughStyle, ...passthroughProps } =
       passthroughAnimatedPropExplicitValues ?? {};
     const mergedStyle = [style, passthroughStyle];
 

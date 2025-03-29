@@ -21,16 +21,14 @@ const flattenStyle = StyleSheet.flatten;
 
 function createAnimatedStyle(inputStyle: any): Object {
   const style = flattenStyle(inputStyle);
-  const animatedStyles = {}
+  const animatedStyles = {};
   for (const key in style) {
     const value = style[key];
     if (key === 'transform' && Array.isArray(value)) {
       animatedStyles[key] = new AnimatedTransform(value);
-    }
-    else if (value instanceof AnimatedNode) {
+    } else if (value instanceof AnimatedNode) {
       animatedStyles[key] = value;
-    }
-    else if (value && !Array.isArray(value) && typeof value === 'object') {
+    } else if (value && !Array.isArray(value) && typeof value === 'object') {
       animatedStyles[key] = createAnimatedStyle(value);
     }
   }
@@ -69,10 +67,7 @@ class AnimatedStyle extends AnimatedWithChildren {
   }
 
   __getValue(): Array<Object> {
-    return [
-      this._inputStyle,
-      this._walkStyleAndGetValues(this._style)
-    ];
+    return [this._inputStyle, this._walkStyleAndGetValues(this._style)];
   }
 
   // Recursively get animated values for nested styles (like iOS's shadowOffset)
@@ -135,7 +130,7 @@ class AnimatedStyle extends AnimatedWithChildren {
     NativeAnimatedHelper.validateStyles(styleConfig);
     return {
       type: 'style',
-      style: styleConfig,
+      style: styleConfig
     };
   }
 }

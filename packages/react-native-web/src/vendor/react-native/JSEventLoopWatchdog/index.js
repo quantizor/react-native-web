@@ -14,7 +14,7 @@ import infoLog from '../infoLog';
 
 type Handler = {
   onIterate?: () => void,
-  onStall: (params: {lastInterval: number, busyTime: number}) => ?string,
+  onStall: (params: { lastInterval: number, busyTime: number }) => ?string
 };
 
 /**
@@ -30,20 +30,20 @@ type Handler = {
  * queried with `getStats`.
  */
 const JSEventLoopWatchdog = {
-  getStats: function(): Object {
-    return {stallCount, totalStallTime, longestStall, acceptableBusyTime};
+  getStats: function (): Object {
+    return { stallCount, totalStallTime, longestStall, acceptableBusyTime };
   },
-  reset: function() {
+  reset: function () {
     infoLog('JSEventLoopWatchdog: reset');
     totalStallTime = 0;
     stallCount = 0;
     longestStall = 0;
     lastInterval = window.performance.now();
   },
-  addHandler: function(handler: Handler) {
+  addHandler: function (handler: Handler) {
     handlers.push(handler);
   },
-  install: function({thresholdMS}: {thresholdMS: number}) {
+  install: function ({ thresholdMS }: { thresholdMS: number }) {
     acceptableBusyTime = thresholdMS;
     if (installed) {
       return;
@@ -61,19 +61,19 @@ const JSEventLoopWatchdog = {
         let msg =
           `JSEventLoopWatchdog: JS thread busy for ${busyTime}ms. ` +
           `${totalStallTime}ms in ${stallCount} stalls so far. `;
-        handlers.forEach(handler => {
-          msg += handler.onStall({lastInterval, busyTime}) || '';
+        handlers.forEach((handler) => {
+          msg += handler.onStall({ lastInterval, busyTime }) || '';
         });
         infoLog(msg);
       }
-      handlers.forEach(handler => {
+      handlers.forEach((handler) => {
         handler.onIterate && handler.onIterate();
       });
       lastInterval = now;
       setTimeout(iteration, thresholdMS / 5);
     }
     iteration();
-  },
+  }
 };
 
 let acceptableBusyTime = 0;

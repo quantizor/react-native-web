@@ -17,7 +17,7 @@ export default class ChildListCollection<TList> {
   add(list: TList, cellKey: string): void {
     invariant(
       !this._childrenToCellKey.has(list),
-      'Trying to add already present child list',
+      'Trying to add already present child list'
     );
 
     const cellLists = this._cellKeyToChildren.get(cellKey) ?? new Set();
@@ -41,7 +41,7 @@ export default class ChildListCollection<TList> {
     }
   }
 
-  forEach(fn: TList => void): void {
+  forEach(fn: (TList) => void): void {
     for (const listSet of this._cellKeyToChildren.values()) {
       for (const list of listSet) {
         fn(list);
@@ -49,14 +49,14 @@ export default class ChildListCollection<TList> {
     }
   }
 
-  forEachInCell(cellKey: string, fn: TList => void): void {
+  forEachInCell(cellKey: string, fn: (TList) => void): void {
     const listSet = this._cellKeyToChildren.get(cellKey) ?? [];
     for (const list of listSet) {
       fn(list);
     }
   }
 
-  anyInCell(cellKey: string, fn: TList => boolean): boolean {
+  anyInCell(cellKey: string, fn: (TList) => boolean): boolean {
     const listSet = this._cellKeyToChildren.get(cellKey) ?? [];
     for (const list of listSet) {
       if (fn(list)) {
