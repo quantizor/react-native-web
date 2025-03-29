@@ -26,17 +26,17 @@ function dampingFromOrigamiValue(oValue) {
 
 function fromOrigamiTensionAndFriction(
   tension: number,
-  friction: number,
+  friction: number
 ): SpringConfigType {
   return {
     stiffness: stiffnessFromOrigamiValue(tension),
-    damping: dampingFromOrigamiValue(friction),
+    damping: dampingFromOrigamiValue(friction)
   };
 }
 
 function fromBouncinessAndSpeed(
   bounciness: number,
-  speed: number,
+  speed: number
 ): SpringConfigType {
   function normalize(value, startValue, endValue) {
     return (value - startValue) / (endValue - startValue);
@@ -88,16 +88,16 @@ function fromBouncinessAndSpeed(
   const bouncyFriction = quadraticOutInterpolation(
     b,
     b3Nobounce(bouncyTension),
-    0.01,
+    0.01
   );
 
   return {
     stiffness: stiffnessFromOrigamiValue(bouncyTension),
-    damping: dampingFromOrigamiValue(bouncyFriction),
+    damping: dampingFromOrigamiValue(bouncyFriction)
   };
 }
 
 export default {
   fromOrigamiTensionAndFriction,
-  fromBouncinessAndSpeed,
+  fromBouncinessAndSpeed
 };

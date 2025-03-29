@@ -22,7 +22,7 @@ import * as React from 'react';
  */
 export default class StateSafePureComponent<
   Props,
-  State: interface {},
+  State: interface {}
 > extends React.PureComponent<Props, State> {
   _inAsyncStateUpdate = false;
 
@@ -33,7 +33,7 @@ export default class StateSafePureComponent<
 
   setState(
     partialState: ?($Shape<State> | ((State, Props) => ?$Shape<State>)),
-    callback?: () => mixed,
+    callback?: () => mixed
   ): void {
     if (typeof partialState === 'function') {
       super.setState((state, props) => {
@@ -55,31 +55,31 @@ export default class StateSafePureComponent<
 
   _installSetStateHooks() {
     const that = this;
-    let {props, state} = this;
+    let { props, state } = this;
 
     Object.defineProperty(this, 'props', {
       get() {
         invariant(
           !that._inAsyncStateUpdate,
-          '"this.props" should not be accessed during state updates',
+          '"this.props" should not be accessed during state updates'
         );
         return props;
       },
       set(newProps: Props) {
         props = newProps;
-      },
+      }
     });
     Object.defineProperty(this, 'state', {
       get() {
         invariant(
           !that._inAsyncStateUpdate,
-          '"this.state" should not be acceessed during state updates',
+          '"this.state" should not be acceessed during state updates'
         );
         return state;
       },
       set(newState: State) {
         state = newState;
-      },
+      }
     });
   }
 }

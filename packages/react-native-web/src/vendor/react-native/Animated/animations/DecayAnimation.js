@@ -12,10 +12,10 @@
 
 import Animation from './Animation';
 
-import {shouldUseNativeDriver} from '../NativeAnimatedHelper';
+import { shouldUseNativeDriver } from '../NativeAnimatedHelper';
 
 import type AnimatedValue from '../nodes/AnimatedValue';
-import type {AnimationConfig, EndCallback} from './Animation';
+import type { AnimationConfig, EndCallback } from './Animation';
 
 export type DecayAnimationConfig = {
   ...AnimationConfig,
@@ -26,13 +26,13 @@ export type DecayAnimationConfig = {
         y: number,
         ...
       },
-  deceleration?: number,
+  deceleration?: number
 };
 
 export type DecayAnimationConfigSingle = {
   ...AnimationConfig,
   velocity: number,
-  deceleration?: number,
+  deceleration?: number
 };
 
 class DecayAnimation extends Animation {
@@ -58,13 +58,13 @@ class DecayAnimation extends Animation {
     deceleration: number,
     iterations: number,
     type: $TEMPORARY$string<'decay'>,
-    velocity: number,
+    velocity: number
   |} {
     return {
       type: 'decay',
       deceleration: this._deceleration,
       velocity: this._velocity,
-      iterations: this.__iterations,
+      iterations: this.__iterations
     };
   }
 
@@ -73,7 +73,7 @@ class DecayAnimation extends Animation {
     onUpdate: (value: number) => void,
     onEnd: ?EndCallback,
     previousAnimation: ?Animation,
-    animatedValue: AnimatedValue,
+    animatedValue: AnimatedValue
   ): void {
     this.__active = true;
     this._lastValue = fromValue;
@@ -99,7 +99,7 @@ class DecayAnimation extends Animation {
     this._onUpdate(value);
 
     if (Math.abs(this._lastValue - value) < 0.1) {
-      this.__debouncedOnEnd({finished: true});
+      this.__debouncedOnEnd({ finished: true });
       return;
     }
 
@@ -113,7 +113,7 @@ class DecayAnimation extends Animation {
     super.stop();
     this.__active = false;
     global.cancelAnimationFrame(this._animationFrame);
-    this.__debouncedOnEnd({finished: false});
+    this.__debouncedOnEnd({ finished: false });
   }
 }
 

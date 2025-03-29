@@ -37,5 +37,5 @@ export default {
   SectionList,
   Text,
   View,
-  ...Animated,
+  ...Animated
 };

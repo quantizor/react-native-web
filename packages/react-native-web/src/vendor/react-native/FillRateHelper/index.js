@@ -10,7 +10,7 @@
 
 'use strict';
 
-import type {FrameMetricProps} from '../VirtualizedList/VirtualizedListProps';
+import type { FrameMetricProps } from '../VirtualizedList/VirtualizedListProps';
 
 export type FillRateInfo = Info;
 
@@ -56,7 +56,7 @@ class FillRateHelper {
   _mostlyBlankStartTime: ?number = null;
   _samplesStartTime: ?number = null;
 
-  static addListener(callback: FillRateInfo => void): {
+  static addListener(callback: (FillRateInfo) => void): {
     remove: () => void,
     ...
   } {
@@ -66,8 +66,8 @@ class FillRateHelper {
     _listeners.push(callback);
     return {
       remove: () => {
-        _listeners = _listeners.filter(listener => callback !== listener);
-      },
+        _listeners = _listeners.filter((listener) => callback !== listener);
+      }
     };
   }
 
@@ -80,7 +80,7 @@ class FillRateHelper {
   }
 
   constructor(
-    getFrameMetrics: (index: number, props: FrameMetricProps) => ?FrameMetrics,
+    getFrameMetrics: (index: number, props: FrameMetricProps) => ?FrameMetrics
   ) {
     this._getFrameMetrics = getFrameMetrics;
     this._enabled = (_sampleRate || 0) > Math.random();
@@ -112,7 +112,7 @@ class FillRateHelper {
     const total_time_spent = global.performance.now() - start;
     const info: any = {
       ...this._info,
-      total_time_spent,
+      total_time_spent
     };
     if (DEBUG) {
       const derived = {
@@ -125,15 +125,15 @@ class FillRateHelper {
         any_blank_time_frac: this._info.any_blank_ms / total_time_spent,
         mostly_blank_per_min:
           this._info.mostly_blank_count / (total_time_spent / 1000 / 60),
-        mostly_blank_time_frac: this._info.mostly_blank_ms / total_time_spent,
+        mostly_blank_time_frac: this._info.mostly_blank_ms / total_time_spent
       };
       for (const key in derived) {
         // $FlowFixMe[prop-missing]
         derived[key] = Math.round(1000 * derived[key]) / 1000;
       }
-      console.debug('FillRateHelper deactivateAndFlush: ', {derived, info});
+      console.debug('FillRateHelper deactivateAndFlush: ', { derived, info });
     }
-    _listeners.forEach(listener => listener(info));
+    _listeners.forEach((listener) => listener(info));
     this._resetData();
   }
 
@@ -154,7 +154,7 @@ class FillRateHelper {
       velocity: number,
       visibleLength: number,
       ...
-    },
+    }
   ): number {
     if (
       !this._enabled ||
@@ -164,7 +164,7 @@ class FillRateHelper {
     ) {
       return 0;
     }
-    const {dOffset, offset, velocity, visibleLength} = scrollMetrics;
+    const { dOffset, offset, velocity, visibleLength } = scrollMetrics;
 
     // Denominator metrics that we track for all events - most of the time there is no blankness and
     // we want to capture that.
@@ -199,7 +199,7 @@ class FillRateHelper {
     if (firstFrame && first > 0) {
       blankTop = Math.min(
         visibleLength,
-        Math.max(0, firstFrame.offset - offset),
+        Math.max(0, firstFrame.offset - offset)
       );
     }
     let blankBottom = 0;
@@ -218,7 +218,7 @@ class FillRateHelper {
       const bottomEdge = lastFrame.offset + lastFrame.length;
       blankBottom = Math.min(
         visibleLength,
-        Math.max(0, offset + visibleLength - bottomEdge),
+        Math.max(0, offset + visibleLength - bottomEdge)
       );
     }
     const pixels_blank = Math.round(blankTop + blankBottom);

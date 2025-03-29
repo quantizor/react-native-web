@@ -13,7 +13,7 @@
 import InteractionManager from '../../../exports/InteractionManager';
 import TouchHistoryMath from '../TouchHistoryMath';
 
-import type {PressEvent} from '../Types/CoreEventTypes';
+import type { PressEvent } from '../Types/CoreEventTypes';
 
 const currentCentroidXOfTouchesChangedAfter =
   TouchHistoryMath.currentCentroidXOfTouchesChangedAfter;
@@ -180,15 +180,19 @@ export type GestureState = {|
    *
    * @private
    */
-  _accountsForMovesUpTo: number,
+  _accountsForMovesUpTo: number
 |};
 
 type ActiveCallback = (
   event: PressEvent,
-  gestureState: GestureState,
+  gestureState: GestureState
 ) => boolean;
 
-type InteractionState = {handle: ?number, shouldCancelClick: boolean, timeout: ?TimeoutID};
+type InteractionState = {
+  handle: ?number,
+  shouldCancelClick: boolean,
+  timeout: ?TimeoutID
+};
 
 type PassiveCallback = (event: PressEvent, gestureState: GestureState) => mixed;
 
@@ -210,7 +214,7 @@ type PanResponderConfig = $ReadOnly<{|
   onPanResponderMove?: ?PassiveCallback,
   onPanResponderTerminate?: ?PassiveCallback,
   onPanResponderTerminationRequest?: ?ActiveCallback,
-  onShouldBlockNativeResponder?: ?ActiveCallback,
+  onShouldBlockNativeResponder?: ?ActiveCallback
 |}>;
 
 const PanResponder = {
@@ -317,26 +321,26 @@ const PanResponder = {
    */
   _updateGestureStateOnMove(
     gestureState: GestureState,
-    touchHistory: $PropertyType<PressEvent, 'touchHistory'>,
+    touchHistory: $PropertyType<PressEvent, 'touchHistory'>
   ) {
     gestureState.numberActiveTouches = touchHistory.numberActiveTouches;
     gestureState.moveX = currentCentroidXOfTouchesChangedAfter(
       touchHistory,
-      gestureState._accountsForMovesUpTo,
+      gestureState._accountsForMovesUpTo
     );
     gestureState.moveY = currentCentroidYOfTouchesChangedAfter(
       touchHistory,
-      gestureState._accountsForMovesUpTo,
+      gestureState._accountsForMovesUpTo
     );
     const movedAfter = gestureState._accountsForMovesUpTo;
     const prevX = previousCentroidXOfTouchesChangedAfter(
       touchHistory,
-      movedAfter,
+      movedAfter
     );
     const x = currentCentroidXOfTouchesChangedAfter(touchHistory, movedAfter);
     const prevY = previousCentroidYOfTouchesChangedAfter(
       touchHistory,
-      movedAfter,
+      movedAfter
     );
     const y = currentCentroidYOfTouchesChangedAfter(touchHistory, movedAfter);
     const nextDX = gestureState.dx + (x - prevX);
@@ -386,27 +390,27 @@ const PanResponder = {
    *  are the responder.
    */
   create(config: PanResponderConfig): {|
-  getInteractionHandle: () => ?number,
-  panHandlers: {|
-    onClickCapture: (event: any) => void,
-    onMoveShouldSetResponder: (event: PressEvent) => boolean,
-    onMoveShouldSetResponderCapture: (event: PressEvent) => boolean,
-    onResponderEnd: (event: PressEvent) => void,
-    onResponderGrant: (event: PressEvent) => boolean,
-    onResponderMove: (event: PressEvent) => void,
-    onResponderReject: (event: PressEvent) => void,
-    onResponderRelease: (event: PressEvent) => void,
-    onResponderStart: (event: PressEvent) => void,
-    onResponderTerminate: (event: PressEvent) => void,
-    onResponderTerminationRequest: (event: PressEvent) => boolean,
-    onStartShouldSetResponder: (event: PressEvent) => boolean,
-    onStartShouldSetResponderCapture: (event: PressEvent) => boolean,
-  |},
-|} {
+    getInteractionHandle: () => ?number,
+    panHandlers: {|
+      onClickCapture: (event: any) => void,
+      onMoveShouldSetResponder: (event: PressEvent) => boolean,
+      onMoveShouldSetResponderCapture: (event: PressEvent) => boolean,
+      onResponderEnd: (event: PressEvent) => void,
+      onResponderGrant: (event: PressEvent) => boolean,
+      onResponderMove: (event: PressEvent) => void,
+      onResponderReject: (event: PressEvent) => void,
+      onResponderRelease: (event: PressEvent) => void,
+      onResponderStart: (event: PressEvent) => void,
+      onResponderTerminate: (event: PressEvent) => void,
+      onResponderTerminationRequest: (event: PressEvent) => boolean,
+      onStartShouldSetResponder: (event: PressEvent) => boolean,
+      onStartShouldSetResponderCapture: (event: PressEvent) => boolean
+    |}
+  |} {
     const interactionState: InteractionState = {
       handle: null,
       shouldCancelClick: false,
-      timeout: null,
+      timeout: null
     };
 
     const gestureState: GestureState = {
@@ -421,7 +425,7 @@ const PanResponder = {
       vx: 0,
       vy: 0,
       numberActiveTouches: 0,
-      _accountsForMovesUpTo: 0,
+      _accountsForMovesUpTo: 0
     };
     const panHandlers = {
       onStartShouldSetResponder(event: PressEvent): boolean {
@@ -466,7 +470,8 @@ const PanResponder = {
 
       onResponderGrant(event: PressEvent): boolean {
         if (!interactionState.handle) {
-          interactionState.handle = InteractionManager.createInteractionHandle();
+          interactionState.handle =
+            InteractionManager.createInteractionHandle();
         }
         if (interactionState.timeout) {
           clearInteractionTimeout(interactionState);
@@ -490,7 +495,7 @@ const PanResponder = {
           interactionState,
           config.onPanResponderReject,
           event,
-          gestureState,
+          gestureState
         );
       },
 
@@ -499,7 +504,7 @@ const PanResponder = {
           interactionState,
           config.onPanResponderRelease,
           event,
-          gestureState,
+          gestureState
         );
         setInteractionTimeout(interactionState);
         PanResponder._initializeGestureState(gestureState);
@@ -538,7 +543,7 @@ const PanResponder = {
           interactionState,
           config.onPanResponderEnd,
           event,
-          gestureState,
+          gestureState
         );
       },
 
@@ -547,7 +552,7 @@ const PanResponder = {
           interactionState,
           config.onPanResponderTerminate,
           event,
-          gestureState,
+          gestureState
         );
         setInteractionTimeout(interactionState);
         PanResponder._initializeGestureState(gestureState);
@@ -568,23 +573,23 @@ const PanResponder = {
           event.stopPropagation();
           event.preventDefault();
         }
-      },
+      }
     };
 
     return {
       panHandlers,
       getInteractionHandle(): ?number {
         return interactionState.handle;
-      },
+      }
     };
-  },
+  }
 };
 
 function clearInteractionHandle(
   interactionState: InteractionState,
   callback: ?(ActiveCallback | PassiveCallback),
   event: PressEvent,
-  gestureState: GestureState,
+  gestureState: GestureState
 ) {
   if (interactionState.handle) {
     InteractionManager.clearInteractionHandle(interactionState.handle);
@@ -607,7 +612,7 @@ function setInteractionTimeout(interactionState: InteractionState) {
 
 export type PanResponderInstance = $Call<
   $PropertyType<typeof PanResponder, 'create'>,
-  PanResponderConfig,
+  PanResponderConfig
 >;
 
 export default PanResponder;

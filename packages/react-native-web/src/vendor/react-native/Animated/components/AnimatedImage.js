@@ -13,11 +13,11 @@ import * as React from 'react';
 import Image from '../../../../exports/Image';
 import createAnimatedComponent from '../createAnimatedComponent';
 
-import type {AnimatedComponentType} from '../createAnimatedComponent';
+import type { AnimatedComponentType } from '../createAnimatedComponent';
 
 export default (createAnimatedComponent(
-  (Image: $FlowFixMe),
+  (Image: $FlowFixMe)
 ): AnimatedComponentType<
   React.ElementConfig<typeof Image>,
-  React.ElementRef<typeof Image>,
+  React.ElementRef<typeof Image>
 >);

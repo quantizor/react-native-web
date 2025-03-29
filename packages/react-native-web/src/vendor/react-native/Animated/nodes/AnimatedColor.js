@@ -15,14 +15,14 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 import normalizeColor from '@react-native/normalize-colors';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
 type ColorValue = any;
 type NativeColorValue = any;
 type ProcessedColorValue = any;
 
 export type AnimatedColorConfig = $ReadOnly<{
-  useNativeDriver: boolean,
+  useNativeDriver: boolean
 }>;
 
 type ColorListenerCallback = (value: ColorValue) => mixed;
@@ -45,18 +45,16 @@ type RgbaAnimatedValue = {
 
 const NativeAnimatedAPI = NativeAnimatedHelper.API;
 
-const defaultColor: RgbaValue = {r: 0, g: 0, b: 0, a: 1.0};
+const defaultColor: RgbaValue = { r: 0, g: 0, b: 0, a: 1.0 };
 let _uniqueId = 1;
 
-const processColorObject = (
-  color: NativeColorValue,
-): ?NativeColorValue => {
+const processColorObject = (color: NativeColorValue): ?NativeColorValue => {
   return color;
 };
 
 /* eslint no-bitwise: 0 */
 function processColor(
-  color?: ?(ColorValue | RgbaValue),
+  color?: ?(ColorValue | RgbaValue)
 ): ?(RgbaValue | NativeColorValue) {
   if (color === undefined || color === null) {
     return null;
@@ -69,7 +67,7 @@ function processColor(
 
   let normalizedColor: ?ProcessedColorValue = normalizeColor(
     // $FlowIgnore[incompatible-cast] - Type is verified above
-    (color: ColorValue),
+    (color: ColorValue)
   );
   if (normalizedColor === undefined || normalizedColor === null) {
     return null;
@@ -87,7 +85,7 @@ function processColor(
     const b: number = (normalizedColor & 0x0000ff00) >>> 8;
     const a: number = (normalizedColor & 0x000000ff) / 255;
 
-    return {r, g, b, a};
+    return { r, g, b, a };
   }
 
   return null;
@@ -132,7 +130,7 @@ export default class AnimatedColor extends AnimatedWithChildren {
 
   constructor(
     valueIn?: ?(RgbaValue | RgbaAnimatedValue | ColorValue),
-    config?: ?AnimatedColorConfig,
+    config?: ?AnimatedColorConfig
   ) {
     super();
     let value: RgbaValue | RgbaAnimatedValue | ColorValue =
@@ -205,7 +203,7 @@ export default class AnimatedColor extends AnimatedWithChildren {
       if (shouldUpdateNodeConfig) {
         NativeAnimatedAPI.updateAnimatedNodeConfig(
           nativeTag,
-          this.__getNativeConfig(),
+          this.__getNativeConfig()
         );
       }
       NativeAnimatedAPI.unsetWaitingForIdentifier(nativeTag.toString());
@@ -255,14 +253,14 @@ export default class AnimatedColor extends AnimatedWithChildren {
    */
   addListener(callback: ColorListenerCallback): string {
     const id = String(_uniqueId++);
-    const jointCallback = ({value: number}: any) => {
+    const jointCallback = ({ value: number }: any) => {
       callback(this.__getValue());
     };
     this._listeners[id] = {
       r: this.r.addListener(jointCallback),
       g: this.g.addListener(jointCallback),
       b: this.b.addListener(jointCallback),
-      a: this.a.addListener(jointCallback),
+      a: this.a.addListener(jointCallback)
     };
     return id;
   }
@@ -346,14 +344,14 @@ export default class AnimatedColor extends AnimatedWithChildren {
     super.__makeNative(platformConfig);
   }
 
-  __getNativeConfig(): {...} {
+  __getNativeConfig(): { ... } {
     return {
       type: 'color',
       r: this.r.__getNativeTag(),
       g: this.g.__getNativeTag(),
       b: this.b.__getNativeTag(),
       a: this.a.__getNativeTag(),
-      nativeColor: this.nativeColor,
+      nativeColor: this.nativeColor
     };
   }
 }

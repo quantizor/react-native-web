@@ -13,11 +13,11 @@ import * as React from 'react';
 import Text from '../../../../exports/Text';
 import createAnimatedComponent from '../createAnimatedComponent';
 
-import type {AnimatedComponentType} from '../createAnimatedComponent';
+import type { AnimatedComponentType } from '../createAnimatedComponent';
 
 export default (createAnimatedComponent(
-  (Text: $FlowFixMe),
+  (Text: $FlowFixMe)
 ): AnimatedComponentType<
   React.ElementConfig<typeof Text>,
-  React.ElementRef<typeof Text>,
+  React.ElementRef<typeof Text>
 >);

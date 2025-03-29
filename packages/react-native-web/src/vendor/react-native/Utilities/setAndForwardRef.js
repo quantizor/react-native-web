@@ -10,11 +10,11 @@
 
 'use strict';
 
-import type {ElementRef, Ref} from 'react';
+import type { ElementRef, Ref } from 'react';
 
 type Args = $ReadOnly<{|
   getForwardedRef: () => ?Ref<any>,
-  setLocalRef: (ref: ElementRef<any>) => mixed,
+  setLocalRef: (ref: ElementRef<any>) => mixed
 |}>;
 
 /**
@@ -50,7 +50,7 @@ type Args = $ReadOnly<{|
 
 function setAndForwardRef({
   getForwardedRef,
-  setLocalRef,
+  setLocalRef
 }: Args): (ref: ElementRef<any>) => void {
   return function forwardRef(ref: ElementRef<any>) {
     const forwardedRef = getForwardedRef();

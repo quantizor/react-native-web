@@ -11,8 +11,8 @@
 'use strict';
 
 import type AnimatedNode from './AnimatedNode';
-import type {InterpolationConfigType} from './AnimatedInterpolation';
-import type {PlatformConfig} from '../AnimatedPlatformConfig';
+import type { InterpolationConfigType } from './AnimatedInterpolation';
+import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
 import AnimatedInterpolation from './AnimatedInterpolation';
 import AnimatedValue from './AnimatedValue';
@@ -39,7 +39,7 @@ class AnimatedSubtraction extends AnimatedWithChildren {
   }
 
   interpolate<OutputT: number | string>(
-    config: InterpolationConfigType<OutputT>,
+    config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);
   }
@@ -58,7 +58,7 @@ class AnimatedSubtraction extends AnimatedWithChildren {
   __getNativeConfig(): any {
     return {
       type: 'subtraction',
-      input: [this._a.__getNativeTag(), this._b.__getNativeTag()],
+      input: [this._a.__getNativeTag(), this._b.__getNativeTag()]
     };
   }
 }

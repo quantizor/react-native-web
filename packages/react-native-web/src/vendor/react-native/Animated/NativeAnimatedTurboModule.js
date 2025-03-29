@@ -8,16 +8,16 @@
  * @format
  */
 
-import type {TurboModule} from '../TurboModule/RCTExport';
+import type { TurboModule } from '../TurboModule/RCTExport';
 import * as TurboModuleRegistry from '../TurboModule/TurboModuleRegistry';
 
-type EndResult = {finished: boolean, ...};
+type EndResult = { finished: boolean, ... };
 type EndCallback = (result: EndResult) => void;
 type SaveValueCallback = (value: number) => void;
 
 export type EventMapping = {|
   nativeEventPath: Array<string>,
-  animatedValueTag: ?number,
+  animatedValueTag: ?number
 |};
 
 // The config has different keys depending on the type of the Node
@@ -38,7 +38,7 @@ export interface Spec extends TurboModule {
     animationId: number,
     nodeTag: number,
     config: AnimatingNodeConfig,
-    endCallback: EndCallback,
+    endCallback: EndCallback
   ) => void;
   +stopAnimation: (animationId: number) => void;
   +setAnimatedNodeValue: (nodeTag: number, value: number) => void;
@@ -52,12 +52,12 @@ export interface Spec extends TurboModule {
   +addAnimatedEventToView: (
     viewTag: number,
     eventName: string,
-    eventMapping: EventMapping,
+    eventMapping: EventMapping
   ) => void;
   +removeAnimatedEventFromView: (
     viewTag: number,
     eventName: string,
-    animatedNodeTag: number,
+    animatedNodeTag: number
   ) => void;
 
   // Events
@@ -66,5 +66,5 @@ export interface Spec extends TurboModule {
 }
 
 export default (TurboModuleRegistry.get<Spec>(
-  'NativeAnimatedTurboModule',
+  'NativeAnimatedTurboModule'
 ): ?Spec);

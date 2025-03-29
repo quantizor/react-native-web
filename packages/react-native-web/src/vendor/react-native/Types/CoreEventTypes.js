@@ -16,7 +16,7 @@ export type SyntheticEvent<+T> = $ReadOnly<{|
   currentTarget: HTMLElement,
   defaultPrevented: ?boolean,
   dispatchConfig: $ReadOnly<{|
-    registrationName: string,
+    registrationName: string
   |}>,
   eventPhase: ?number,
   preventDefault: () => void,
@@ -28,7 +28,7 @@ export type SyntheticEvent<+T> = $ReadOnly<{|
   persist: () => void,
   target: ?HTMLElement,
   timeStamp: number,
-  type: ?string,
+  type: ?string
 |}>;
 
 export type ResponderSyntheticEvent<T> = $ReadOnly<{|
@@ -48,17 +48,17 @@ export type ResponderSyntheticEvent<T> = $ReadOnly<{|
         currentTimeStamp: number,
         previousPageX: number,
         previousPageY: number,
-        previousTimeStamp: number,
-      |}>,
-    >,
-  |}>,
+        previousTimeStamp: number
+      |}>
+    >
+  |}>
 |}>;
 
 export type Layout = $ReadOnly<{|
   x: number,
   y: number,
   width: number,
-  height: number,
+  height: number
 |}>;
 
 export type TextLayout = $ReadOnly<{|
@@ -67,19 +67,19 @@ export type TextLayout = $ReadOnly<{|
   capHeight: number,
   descender: number,
   text: string,
-  xHeight: number,
+  xHeight: number
 |}>;
 
 export type LayoutEvent = SyntheticEvent<
   $ReadOnly<{|
-    layout: Layout,
-  |}>,
+    layout: Layout
+  |}>
 >;
 
 export type TextLayoutEvent = SyntheticEvent<
   $ReadOnly<{|
-    lines: Array<TextLayout>,
-  |}>,
+    lines: Array<TextLayout>
+  |}>
 >;
 
 /**
@@ -231,8 +231,8 @@ export type PressEvent = ResponderSyntheticEvent<
     pageY: number,
     target: ?HTMLElement,
     timestamp: number,
-    touches: $ReadOnlyArray<$PropertyType<PressEvent, 'nativeEvent'>>,
-  |}>,
+    touches: $ReadOnlyArray<$PropertyType<PressEvent, 'nativeEvent'>>
+  |}>
 >;
 
 export type ScrollEvent = SyntheticEvent<
@@ -241,43 +241,43 @@ export type ScrollEvent = SyntheticEvent<
       bottom: number,
       left: number,
       right: number,
-      top: number,
+      top: number
     |}>,
     contentOffset: $ReadOnly<{|
       y: number,
-      x: number,
+      x: number
     |}>,
     contentSize: $ReadOnly<{|
       height: number,
-      width: number,
+      width: number
     |}>,
     layoutMeasurement: $ReadOnly<{|
       height: number,
-      width: number,
+      width: number
     |}>,
     targetContentOffset?: $ReadOnly<{|
       y: number,
-      x: number,
+      x: number
     |}>,
     velocity?: $ReadOnly<{|
       y: number,
-      x: number,
+      x: number
     |}>,
     zoomScale?: number,
-    responderIgnoreScroll?: boolean,
-  |}>,
+    responderIgnoreScroll?: boolean
+  |}>
 >;
 
 export type BlurEvent = SyntheticEvent<
   $ReadOnly<{|
-    target: number,
-  |}>,
+    target: number
+  |}>
 >;
 
 export type FocusEvent = SyntheticEvent<
   $ReadOnly<{|
-    target: number,
-  |}>,
+    target: number
+  |}>
 >;
 
 export type MouseEvent = SyntheticEvent<
@@ -286,6 +286,6 @@ export type MouseEvent = SyntheticEvent<
     clientY: number,
     pageX: number,
     pageY: number,
-    timestamp: number,
-  |}>,
+    timestamp: number
+  |}>
 >;

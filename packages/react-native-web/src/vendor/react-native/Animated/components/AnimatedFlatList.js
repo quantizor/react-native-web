@@ -13,7 +13,7 @@ import * as React from 'react';
 import FlatList from '../../../../exports/FlatList';
 import createAnimatedComponent from '../createAnimatedComponent';
 
-import type {AnimatedComponentType} from '../createAnimatedComponent';
+import type { AnimatedComponentType } from '../createAnimatedComponent';
 
 /**
  * @see https://github.com/facebook/react-native/commit/b8c8562
@@ -23,8 +23,8 @@ const FlatListWithEventThrottle = React.forwardRef((props, ref) => (
 ));
 
 export default (createAnimatedComponent(
-  FlatListWithEventThrottle,
+  FlatListWithEventThrottle
 ): AnimatedComponentType<
   React.ElementConfig<typeof FlatList>,
-  React.ElementRef<typeof FlatList>,
+  React.ElementRef<typeof FlatList>
 >);

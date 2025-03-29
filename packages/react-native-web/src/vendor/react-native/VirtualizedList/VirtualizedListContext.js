@@ -11,7 +11,7 @@
 import typeof VirtualizedList from '../VirtualizedList';
 
 import * as React from 'react';
-import {useContext, useMemo} from 'react';
+import { useContext, useMemo } from 'react';
 
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
@@ -25,17 +25,15 @@ type Context = $ReadOnly<{
     timestamp: number,
     velocity: number,
     visibleLength: number,
-    zoomScale: number,
+    zoomScale: number
   },
   horizontal: ?boolean,
   getOutermostParentListRef: () => React.ElementRef<VirtualizedList>,
   registerAsNestedChild: ({
     cellKey: string,
-    ref: React.ElementRef<VirtualizedList>,
+    ref: React.ElementRef<VirtualizedList>
   }) => void,
-  unregisterAsNestedChild: ({
-    ref: React.ElementRef<VirtualizedList>,
-  }) => void,
+  unregisterAsNestedChild: ({ ref: React.ElementRef<VirtualizedList> }) => void
 }>;
 
 export const VirtualizedListContext: React.Context<?Context> =
@@ -48,9 +46,9 @@ if (__DEV__) {
  * Resets the context. Intended for use by portal-like components (e.g. Modal).
  */
 export function VirtualizedListContextResetter({
-  children,
+  children
 }: {
-  children: React.Node,
+  children: React.Node
 }): React.Node {
   return (
     <VirtualizedListContext.Provider value={null}>
@@ -64,10 +62,10 @@ export function VirtualizedListContextResetter({
  */
 export function VirtualizedListContextProvider({
   children,
-  value,
+  value
 }: {
   children: React.Node,
-  value: Context,
+  value: Context
 }): React.Node {
   // Avoid setting a newly created context object if the values are identical.
   const context = useMemo(
@@ -77,15 +75,15 @@ export function VirtualizedListContextProvider({
       horizontal: value.horizontal,
       getOutermostParentListRef: value.getOutermostParentListRef,
       registerAsNestedChild: value.registerAsNestedChild,
-      unregisterAsNestedChild: value.unregisterAsNestedChild,
+      unregisterAsNestedChild: value.unregisterAsNestedChild
     }),
     [
       value.getScrollMetrics,
       value.horizontal,
       value.getOutermostParentListRef,
       value.registerAsNestedChild,
-      value.unregisterAsNestedChild,
-    ],
+      value.unregisterAsNestedChild
+    ]
   );
   return (
     <VirtualizedListContext.Provider value={context}>
@@ -99,16 +97,16 @@ export function VirtualizedListContextProvider({
  */
 export function VirtualizedListCellContextProvider({
   cellKey,
-  children,
+  children
 }: {
   cellKey: string,
-  children: React.Node,
+  children: React.Node
 }): React.Node {
   // Avoid setting a newly created context object if the values are identical.
   const currContext = useContext(VirtualizedListContext);
   const context = useMemo(
-    () => (currContext == null ? null : {...currContext, cellKey}),
-    [currContext, cellKey],
+    () => (currContext == null ? null : { ...currContext, cellKey }),
+    [currContext, cellKey]
   );
   return (
     <VirtualizedListContext.Provider value={context}>

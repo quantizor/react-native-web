@@ -18,7 +18,7 @@ type ScrollResponderType = any;
 import type {
   SectionBase as _SectionBase,
   Props as VirtualizedSectionListProps,
-  ScrollToLocationParamsType,
+  ScrollToLocationParamsType
 } from '../VirtualizedSectionList';
 
 type Item = any;
@@ -37,7 +37,7 @@ type RequiredProps<SectionT: SectionBase<any>> = {|
    *       ItemSeparatorComponent?: ?ReactClass<{highlighted: boolean, ...}>,
    *     }>
    */
-  sections: $ReadOnlyArray<SectionT>,
+  sections: $ReadOnlyArray<SectionT>
 |};
 
 type OptionalProps<SectionT: SectionBase<any>> = {|
@@ -83,13 +83,13 @@ type OptionalProps<SectionT: SectionBase<any>> = {|
    * Called once when the scroll position gets within `onEndReachedThreshold` of the rendered
    * content.
    */
-  onEndReached?: ?(info: {distanceFromEnd: number, ...}) => void,
+  onEndReached?: ?(info: { distanceFromEnd: number, ... }) => void,
   /**
    * Note: may have bugs (missing content) in some circumstances - use at your own risk.
    *
    * This may improve scroll performance for large lists.
    */
-  removeClippedSubviews?: boolean,
+  removeClippedSubviews?: boolean
 |};
 
 export type Props<SectionT> = {|
@@ -99,21 +99,21 @@ export type Props<SectionT> = {|
       getItem: $PropertyType<VirtualizedSectionListProps<SectionT>, 'getItem'>,
       getItemCount: $PropertyType<
         VirtualizedSectionListProps<SectionT>,
-        'getItemCount',
+        'getItemCount'
       >,
       renderItem: $PropertyType<
         VirtualizedSectionListProps<SectionT>,
-        'renderItem',
+        'renderItem'
       >,
       keyExtractor: $PropertyType<
         VirtualizedSectionListProps<SectionT>,
-        'keyExtractor',
+        'keyExtractor'
       >,
       ...
-    },
+    }
   >,
   ...RequiredProps<SectionT>,
-  ...OptionalProps<SectionT>,
+  ...OptionalProps<SectionT>
 |};
 
 /**
@@ -172,7 +172,7 @@ export type Props<SectionT> = {|
  *
  */
 export default class SectionList<
-  SectionT: SectionBase<any>,
+  SectionT: SectionBase<any>
 > extends React.PureComponent<Props<SectionT>, void> {
   props: Props<SectionT>;
 
@@ -241,14 +241,14 @@ export default class SectionList<
         {...restProps}
         stickySectionHeadersEnabled={stickySectionHeadersEnabled}
         ref={this._captureRef}
-        getItemCount={items => items.length}
+        getItemCount={(items) => items.length}
         getItem={(items, index) => items[index]}
       />
     );
   }
 
   _wrapperListRef: ?React.ElementRef<typeof VirtualizedSectionList>;
-  _captureRef = ref => {
+  _captureRef = (ref) => {
     this._wrapperListRef = ref;
   };
 }

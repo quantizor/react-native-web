@@ -14,10 +14,10 @@ import AnimatedValue from './AnimatedValue';
 import AnimatedNode from './AnimatedNode';
 import {
   generateNewAnimationId,
-  shouldUseNativeDriver,
+  shouldUseNativeDriver
 } from '../NativeAnimatedHelper';
 
-import type {EndCallback} from '../animations/Animation';
+import type { EndCallback } from '../animations/Animation';
 
 class AnimatedTracking extends AnimatedNode {
   _value: AnimatedValue;
@@ -32,7 +32,7 @@ class AnimatedTracking extends AnimatedNode {
     parent: AnimatedNode,
     animationClass: any,
     animationConfig: Object,
-    callback?: ?EndCallback,
+    callback?: ?EndCallback
   ) {
     super();
     this._value = value;
@@ -76,9 +76,9 @@ class AnimatedTracking extends AnimatedNode {
     this._value.animate(
       new this._animationClass({
         ...this._animationConfig,
-        toValue: (this._animationConfig.toValue: any).__getValue(),
+        toValue: (this._animationConfig.toValue: any).__getValue()
       }),
-      this._callback,
+      this._callback
     );
   }
 
@@ -86,7 +86,7 @@ class AnimatedTracking extends AnimatedNode {
     const animation = new this._animationClass({
       ...this._animationConfig,
       // remove toValue from the config as it's a ref to Animated.Value
-      toValue: undefined,
+      toValue: undefined
     });
     const animationConfig = animation.__getNativeAnimationConfig();
     return {
@@ -94,7 +94,7 @@ class AnimatedTracking extends AnimatedNode {
       animationId: generateNewAnimationId(),
       animationConfig,
       toValue: this._parent.__getNativeTag(),
-      value: this._value.__getNativeTag(),
+      value: this._value.__getNativeTag()
     };
   }
 }

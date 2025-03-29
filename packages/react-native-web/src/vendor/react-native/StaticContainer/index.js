@@ -36,7 +36,7 @@ type Props = $ReadOnly<{|
   /**
    * Content short-circuited by React reconciliation process.
    */
-  children: React.Node,
+  children: React.Node
 |}>;
 class StaticContainer extends React.Component<Props> {
   shouldComponentUpdate(nextProps: Props): boolean {

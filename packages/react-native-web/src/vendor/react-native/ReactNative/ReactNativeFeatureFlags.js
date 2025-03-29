@@ -37,7 +37,7 @@ export type FeatureFlags = {|
    * many calls to native with a single call into native, to reduce JSI/JNI
    * traffic.
    */
-  animatedShouldUseSingleOp: () => boolean,
+  animatedShouldUseSingleOp: () => boolean
 |};
 
 const ReactNativeFeatureFlags: FeatureFlags = {
@@ -45,7 +45,7 @@ const ReactNativeFeatureFlags: FeatureFlags = {
   shouldEmitW3CPointerEvents: () => false,
   shouldPressibilityUseW3CPointerEventsForHover: () => false,
   animatedShouldDebounceQueueFlush: () => false,
-  animatedShouldUseSingleOp: () => false,
+  animatedShouldUseSingleOp: () => false
 };
 
 export default ReactNativeFeatureFlags;
