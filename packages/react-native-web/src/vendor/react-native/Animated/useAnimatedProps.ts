@@ -3,33 +3,28 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict-local
- * @format
  */
 
 'use strict';
 
-import AnimatedProps from './nodes/AnimatedProps';
-import { AnimatedEvent } from './AnimatedEvent';
-import useRefEffect from '../Utilities/useRefEffect';
-import NativeAnimatedHelper from './NativeAnimatedHelper';
 import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
+import useRefEffect from '../Utilities/useRefEffect';
+import { AnimatedEvent } from './AnimatedEvent';
+import NativeAnimatedHelper from './NativeAnimatedHelper';
+import AnimatedProps from './nodes/AnimatedProps';
 
 import useLayoutEffect from '../../../modules/useLayoutEffect';
 
-type ReducedProps<TProps> = {
-  ...TProps,
+type ReducedProps<TProps> = TProps & {
   collapsable: boolean,
-  ...
 };
-type CallbackRef<T> = (T) => mixed;
+type CallbackRef<T> = (T) => unknown;
 
-export default function useAnimatedProps<TProps: { ... }, TInstance>(
+export default function useAnimatedProps<TProps extends Record<string, unknown>, TInstance>(
   props: TProps
 ): [ReducedProps<TProps>, CallbackRef<TInstance | null>] {
   const [, scheduleUpdate] = useReducer((count) => count + 1, 0);
-  const onUpdateRef = useRef<?() => void>(null);
+  const onUpdateRef = useRef<(() => void) | null>(null);
 
   // TODO: Only invalidate `node` if animated props or `style` change. In the
   // previous implementation, we permitted `style` to override props with the
@@ -69,7 +64,7 @@ export default function useAnimatedProps<TProps: { ... }, TInstance>(
       };
 
       const target = getEventTarget(instance);
-      const events = [];
+      const events: [string, AnimatedEvent][] = [];
 
       for (const propName in props) {
         const propValue = props[propName];
@@ -100,7 +95,7 @@ function reduceAnimatedProps<TProps>(
   // Force `collapsable` to be false so that the native view is not flattened.
   // Flattened views cannot be accurately referenced by the native driver.
   return {
-    ...node.__getValue(),
+    ...node.__getValue<TProps>(),
     collapsable: false
   };
 }
@@ -113,7 +108,7 @@ function reduceAnimatedProps<TProps>(
  * unless we are unmounting.
  */
 function useAnimatedPropsLifecycle(node: AnimatedProps): void {
-  const prevNodeRef = useRef<?AnimatedProps>(null);
+  const prevNodeRef = useRef<AnimatedProps | null>(null);
   const isUnmountingRef = useRef<boolean>(false);
 
   useEffect(() => {
@@ -150,33 +145,10 @@ function useAnimatedPropsLifecycle(node: AnimatedProps): void {
   }, [node]);
 }
 
-function getEventTarget<TInstance>(instance: TInstance): TInstance {
+function getEventTarget<TInstance extends {getScrollableNode: () => HTMLElement} | HTMLElement>(instance: TInstance): HTMLElement {
   return typeof instance === 'object' &&
-    typeof instance?.getScrollableNode === 'function'
-    ? // $FlowFixMe[incompatible-use] - Legacy instance assumptions.
+  'getScrollableNode' in instance
+    ?
       instance.getScrollableNode()
     : instance;
-}
-
-// $FlowFixMe[unclear-type] - Legacy instance assumptions.
-function isFabricInstance(instance: any): boolean {
-  return (
-    hasFabricHandle(instance) ||
-    // Some components have a setNativeProps function but aren't a host component
-    // such as lists like FlatList and SectionList. These should also use
-    // forceUpdate in Fabric since setNativeProps doesn't exist on the underlying
-    // host component. This crazy hack is essentially special casing those lists and
-    // ScrollView itself to use forceUpdate in Fabric.
-    // If these components end up using forwardRef then these hacks can go away
-    // as instance would actually be the underlying host component and the above check
-    // would be sufficient.
-    hasFabricHandle(instance?.getNativeScrollRef?.()) ||
-    hasFabricHandle(instance?.getScrollResponder?.()?.getNativeScrollRef?.())
-  );
-}
-
-// $FlowFixMe[unclear-type] - Legacy instance assumptions.
-function hasFabricHandle(instance: any): boolean {
-  // eslint-disable-next-line dot-notation
-  return instance?.['_internalInstanceHandle']?.stateNode?.canonical != null;
 }

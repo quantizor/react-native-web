@@ -16,17 +16,19 @@ const NativeAnimatedAPI = NativeAnimatedHelper.API;
 import invariant from '../../../../modules/invariant';
 
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
+import { EventSubscription } from '../../EventEmitter/NativeEventEmitter';
+import { AnimatedNodeConfig } from '../NativeAnimatedModule';
 
-type ValueListenerCallback = (state: { value: number, ... }) => mixed;
+type ValueListenerCallback<ListenerValue> = ((state: { value: ListenerValue }) => unknown);
 
 let _uniqueId = 1;
 
 // Note(vjeux): this would be better as an interface but flow doesn't
 // support them yet
-class AnimatedNode {
-  _listeners: { [key: string]: ValueListenerCallback, ... };
-  _platformConfig: ?PlatformConfig;
-  __nativeAnimatedValueListener: ?any;
+class AnimatedNode<ListenerValue = number> {
+  _listeners: { [key: string]: ListenerValue | ValueListenerCallback<ListenerValue> };
+  _platformConfig?: PlatformConfig;
+  __nativeAnimatedValueListener?: EventSubscription | null;
   __attach(): void {}
   __detach(): void {
     if (this.__isNative && this.__nativeTag != null) {
@@ -38,22 +40,22 @@ class AnimatedNode {
   __getAnimatedValue(): any {
     return this.__getValue();
   }
-  __addChild(child: AnimatedNode) {}
-  __removeChild(child: AnimatedNode) {}
-  __getChildren(): Array<AnimatedNode> {
+  __addChild(child: AnimatedNode<ListenerValue>) {}
+  __removeChild(child: AnimatedNode<ListenerValue>) {}
+  __getChildren(): Array<AnimatedNode<ListenerValue>> {
     return [];
   }
 
   /* Methods and props used by native Animated impl */
   __isNative: boolean;
-  __nativeTag: ?number;
+  __nativeTag?: number;
   __shouldUpdateListenersForNewNativeTag: boolean;
 
   constructor() {
     this._listeners = {};
   }
 
-  __makeNative(platformConfig: ?PlatformConfig): void {
+  __makeNative(platformConfig?: PlatformConfig): void {
     if (!this.__isNative) {
       throw new Error('This node cannot be made a "native" animated node');
     }
@@ -71,7 +73,7 @@ class AnimatedNode {
    *
    * See https://reactnative.dev/docs/animatedvalue#addlistener
    */
-  addListener(callback: (value: any) => mixed): string {
+  addListener(callback: (value: any) => unknown): string {
     const id = String(_uniqueId++);
     this._listeners[id] = callback;
     if (this.__isNative) {
@@ -135,13 +137,16 @@ class AnimatedNode {
       );
   }
 
-  __onAnimatedValueUpdateReceived(value: number) {
+  __onAnimatedValueUpdateReceived(value: ListenerValue) {
     this.__callListeners(value);
   }
 
-  __callListeners(value: number): void {
+  __callListeners(value: ListenerValue): void {
     for (const key in this._listeners) {
-      this._listeners[key]({ value });
+      if (typeof this._listeners[key] === 'function') {
+        // @ts-ignore fake news
+        this._listeners[key]({ value });
+      }
     }
   }
 
@@ -167,7 +172,7 @@ class AnimatedNode {
 
     if (this.__nativeTag == null) {
       this.__nativeTag = nativeTag;
-      const config = this.__getNativeConfig();
+      const config = this.__getNativeConfig() as unknown as AnimatedNodeConfig;
       if (this._platformConfig) {
         config.platformConfig = this._platformConfig;
       }
@@ -177,7 +182,7 @@ class AnimatedNode {
 
     return nativeTag;
   }
-  __getNativeConfig(): Object {
+  __getNativeConfig(): void {
     throw new Error(
       'This JS animated node type cannot be used as native animated node'
     );
@@ -186,10 +191,10 @@ class AnimatedNode {
     return this.__getValue();
   }
 
-  __getPlatformConfig(): ?PlatformConfig {
+  __getPlatformConfig(): PlatformConfig | undefined{
     return this._platformConfig;
   }
-  __setPlatformConfig(platformConfig: ?PlatformConfig) {
+  __setPlatformConfig(platformConfig?: PlatformConfig) {
     this._platformConfig = platformConfig;
   }
 }

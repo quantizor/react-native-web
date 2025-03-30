@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict-local
- * @format
  */
 
 'use strict';
@@ -15,15 +12,15 @@ import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import AnimatedNode from './AnimatedNode';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
-class AnimatedWithChildren extends AnimatedNode {
-  _children: Array<AnimatedNode>;
+class AnimatedWithChildren<ListenerValue = number> extends AnimatedNode<ListenerValue> {
+  _children: Array<AnimatedWithChildren<ListenerValue>>;
 
   constructor() {
     super();
     this._children = [];
   }
 
-  __makeNative(platformConfig: ?PlatformConfig) {
+  __makeNative(platformConfig?: PlatformConfig) {
     if (!this.__isNative) {
       this.__isNative = true;
       for (const child of this._children) {
@@ -37,7 +34,7 @@ class AnimatedWithChildren extends AnimatedNode {
     super.__makeNative(platformConfig);
   }
 
-  __addChild(child: AnimatedNode): void {
+  __addChild(child: AnimatedWithChildren<ListenerValue>): void {
     if (this._children.length === 0) {
       this.__attach();
     }
@@ -52,7 +49,7 @@ class AnimatedWithChildren extends AnimatedNode {
     }
   }
 
-  __removeChild(child: AnimatedNode): void {
+  __removeChild(child: AnimatedWithChildren<ListenerValue>): void {
     const index = this._children.indexOf(child);
     if (index === -1) {
       console.warn("Trying to remove a child that doesn't exist");
@@ -70,11 +67,11 @@ class AnimatedWithChildren extends AnimatedNode {
     }
   }
 
-  __getChildren(): Array<AnimatedNode> {
+  __getChildren(): Array<AnimatedWithChildren<ListenerValue>> {
     return this._children;
   }
 
-  __callListeners(value: number): void {
+  __callListeners(value: ListenerValue): void {
     super.__callListeners(value);
     if (!this.__isNative) {
       for (const child of this._children) {

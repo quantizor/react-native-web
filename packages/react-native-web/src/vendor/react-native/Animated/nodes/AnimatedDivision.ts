@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -32,7 +29,7 @@ class AnimatedDivision extends AnimatedWithChildren {
     this._b = typeof b === 'number' ? new AnimatedValue(b) : b;
   }
 
-  __makeNative(platformConfig: ?PlatformConfig) {
+  __makeNative(platformConfig?: PlatformConfig) {
     this._a.__makeNative(platformConfig);
     this._b.__makeNative(platformConfig);
     super.__makeNative(platformConfig);
@@ -54,7 +51,7 @@ class AnimatedDivision extends AnimatedWithChildren {
     return a / b;
   }
 
-  interpolate<OutputT: number | string>(
+  interpolate<OutputT extends number | string>(
     config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);

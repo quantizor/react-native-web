@@ -412,7 +412,6 @@ class ScrollView extends React.Component<ScrollViewProps> {
     UIManager.measureLayout(
       nodeHandle,
       this.getInnerViewNode(),
-      this.scrollResponderTextInputFocusError,
       this.scrollResponderInputMeasureAndScrollToKeyboard
     );
   };
@@ -452,10 +451,6 @@ class ScrollView extends React.Component<ScrollViewProps> {
     this.additionalOffset = 0;
     this.preventNegativeScrollOffset = false;
   };
-
-  scrollResponderTextInputFocusError(e: Event) {
-    console.error('Error measuring text field: ', e);
-  }
 
   /**
    * Warning, this may be called several times for a single keyboard opening.

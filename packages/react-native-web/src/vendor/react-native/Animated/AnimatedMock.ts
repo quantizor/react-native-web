@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -152,16 +149,7 @@ const stagger = function (
   return mockCompositeAnimation(animations);
 };
 
-type LoopAnimationConfig = {
-  iterations: number,
-  resetBeforeIteration?: boolean,
-  ...
-};
-
 const loop = function (
-  animation: CompositeAnimation,
-  // $FlowFixMe[prop-missing]
-  { iterations = -1 }: LoopAnimationConfig = {}
 ): CompositeAnimation {
   return emptyAnimation;
 };

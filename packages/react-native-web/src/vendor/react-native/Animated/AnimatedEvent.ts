@@ -3,23 +3,21 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
+
  */
 
 'use strict';
 
-import AnimatedValue from './nodes/AnimatedValue';
 import NativeAnimatedHelper from './NativeAnimatedHelper';
+import AnimatedValue from './nodes/AnimatedValue';
 
 import invariant from '../../../modules/invariant';
 
 import { shouldUseNativeDriver } from './NativeAnimatedHelper';
 
-export type Mapping = { [key: string]: Mapping, ... } | AnimatedValue;
+export type Mapping = React.SyntheticEvent;
 export type EventConfig = {
-  listener?: ?Function,
+  listener?: Function,
   useNativeDriver: boolean
 };
 
@@ -28,11 +26,11 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 export function attachNativeEvent(
   viewRef: any,
   eventName: string,
-  argMapping: $ReadOnlyArray<?Mapping>
+  argMapping: ReadonlyArray<Mapping>
 ): { detach: () => void } {
   // Find animated values in `argMapping` and create an array representing their
   // key path inside the `nativeEvent` object. Ex.: ['contentOffset', 'x'].
-  const eventMappings = [];
+  const eventMappings: { nativeEventPath: string[], animatedValueTag: number }[] = [];
 
   const traverse = (value, path) => {
     if (value instanceof AnimatedValue) {
@@ -129,13 +127,12 @@ function validateMapping(argMapping, args) {
 }
 
 export class AnimatedEvent {
-  _argMapping: $ReadOnlyArray<?Mapping>;
+  _argMapping: ReadonlyArray<Mapping>;
   _listeners: Array<Function> = [];
-  _callListeners: Function;
-  _attachedEvent: ?{ detach: () => void, ... };
+  _attachedEvent: { detach: () => void } | null;
   __isNative: boolean;
 
-  constructor(argMapping: $ReadOnlyArray<?Mapping>, config: EventConfig) {
+  constructor(argMapping: ReadonlyArray<Mapping>, config: EventConfig) {
     this._argMapping = argMapping;
 
     if (config == null) {

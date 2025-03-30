@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -22,7 +19,7 @@ class AnimatedProps extends AnimatedNode {
   _animatedView: any;
   _callback: () => void;
 
-  constructor(props: Object, callback: () => void) {
+  constructor(props: {style?: any}, callback: () => void) {
     super();
     if (props.style) {
       props = {
@@ -35,8 +32,8 @@ class AnimatedProps extends AnimatedNode {
     this.__attach();
   }
 
-  __getValue(): Object {
-    const props = {};
+  __getValue<T>(): T {
+    const props = {} as T;
     for (const key in this._props) {
       const value = this._props[key];
       if (value instanceof AnimatedNode) {
@@ -118,7 +115,7 @@ class AnimatedProps extends AnimatedNode {
 
   __connectAnimatedView(): void {
     invariant(this.__isNative, 'Expected node to be marked as "native"');
-    const nativeViewTag: ?number = this._animatedView;
+    const nativeViewTag: number | null | undefined = this._animatedView;
     invariant(
       nativeViewTag != null,
       'Unable to locate attached view in the native tree'
@@ -131,7 +128,7 @@ class AnimatedProps extends AnimatedNode {
 
   __disconnectAnimatedView(): void {
     invariant(this.__isNative, 'Expected node to be marked as "native"');
-    const nativeViewTag: ?number = this._animatedView;
+    const nativeViewTag: number | null | undefined = this._animatedView;
     invariant(
       nativeViewTag != null,
       'Unable to locate attached view in the native tree'

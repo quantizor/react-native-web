@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -16,11 +13,11 @@ import InteractionManager from '../../../../exports/InteractionManager';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
 import type AnimatedNode from './AnimatedNode';
-import type Animation, { EndCallback } from '../animations/Animation';
+import Animation, { type EndCallback } from '../animations/Animation';
 import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type AnimatedTracking from './AnimatedTracking';
 
-export type AnimatedValueConfig = $ReadOnly<{
+export type AnimatedValueConfig = Readonly<{
   useNativeDriver: boolean
 }>;
 
@@ -54,14 +51,14 @@ function _flush(rootNode: AnimatedValue): void {
     /* $FlowFixMe[prop-missing] (>=0.68.0 site=react_native_fb) This comment
      * suppresses an error found when Flow v0.68 was deployed. To see the error
      * delete this comment and run Flow. */
-    if (typeof node.update === 'function') {
+    if ('update' in node && typeof node.update === 'function') {
       animatedStyles.add(node);
     } else {
       node.__getChildren().forEach(findAnimatedStyles);
     }
   }
   findAnimatedStyles(rootNode);
-  // $FlowFixMe[prop-missing]
+
   animatedStyles.forEach((animatedStyle) => animatedStyle.update());
 }
 
@@ -88,10 +85,10 @@ class AnimatedValue extends AnimatedWithChildren {
   _value: number;
   _startingValue: number;
   _offset: number;
-  _animation: ?Animation;
-  _tracking: ?AnimatedTracking;
+  _animation: Animation | null;
+  _tracking: AnimatedTracking | null;
 
-  constructor(value: number, config?: ?AnimatedValueConfig) {
+  constructor(value: number, config?: AnimatedValueConfig) {
     super();
     if (typeof value !== 'number') {
       throw new Error('AnimatedValue: Attempting to set value to undefined');
@@ -189,7 +186,7 @@ class AnimatedValue extends AnimatedWithChildren {
    *
    * See https://reactnative.dev/docs/animatedvalue#stopanimation
    */
-  stopAnimation(callback?: ?(value: number) => void): void {
+  stopAnimation(callback?: (value: number) => void): void {
     this.stopTracking();
     this._animation && this._animation.stop();
     this._animation = null;
@@ -207,7 +204,7 @@ class AnimatedValue extends AnimatedWithChildren {
    *
    * See https://reactnative.dev/docs/animatedvalue#resetanimation
    */
-  resetAnimation(callback?: ?(value: number) => void): void {
+  resetAnimation(callback?: (value: number) => void): void {
     this.stopAnimation(callback);
     this._value = this._startingValue;
     if (this.__isNative) {
@@ -226,7 +223,7 @@ class AnimatedValue extends AnimatedWithChildren {
    * Interpolates the value before updating the property, e.g. mapping 0-1 to
    * 0-10.
    */
-  interpolate<OutputT: number | string>(
+  interpolate<OutputT extends number | string>(
     config: InterpolationConfigType<OutputT>
   ): AnimatedInterpolation<OutputT> {
     return new AnimatedInterpolation(this, config);
@@ -238,8 +235,8 @@ class AnimatedValue extends AnimatedWithChildren {
    *
    * See https://reactnative.dev/docs/animatedvalue#animate
    */
-  animate(animation: Animation, callback: ?EndCallback): void {
-    let handle = null;
+  animate(animation: Animation, callback: EndCallback | null): void {
+    let handle: number | null = null;
     if (animation.__isInteraction) {
       handle = InteractionManager.createInteractionHandle();
     }

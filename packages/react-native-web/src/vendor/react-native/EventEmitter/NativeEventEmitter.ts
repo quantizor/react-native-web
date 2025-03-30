@@ -32,12 +32,12 @@ export type { EventSubscription };
  * This means event names must be globally unique, and it means that call sites
  * can theoretically listen to `RCTDeviceEventEmitter` (although discouraged).
  */
-export default class NativeEventEmitter<TEventToArgsMap extends Record<string, any[]>, TKey extends Extract<keyof TEventToArgsMap, string> = Extract<keyof TEventToArgsMap, string>>
+export default class NativeEventEmitter<TEventToArgsMap extends Record<string, any[]> = Record<string, any[]>, TKey extends Extract<keyof TEventToArgsMap, string> = Extract<keyof TEventToArgsMap, string>>
   implements IEventEmitter<TEventToArgsMap, TKey>
 {
   _nativeModule?: NativeModule;
 
-  constructor(nativeModule?: NativeModule) {
+  constructor(nativeModule?: NativeModule | null) {
     if (Platform.OS === 'ios') {
       invariant(
         nativeModule != null,

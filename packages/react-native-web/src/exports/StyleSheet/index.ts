@@ -137,7 +137,6 @@ function flatten(...styles: any): { [key: string]: any } {
   for (let i = 0; i < flatArray.length; i++) {
     const style = flatArray[i];
     if (style != null && typeof style === 'object') {
-      // $FlowFixMe
       Object.assign(result, style);
     }
   }
@@ -147,7 +146,7 @@ function flatten(...styles: any): { [key: string]: any } {
 /**
  * getSheet
  */
-function getSheet(): { id: string, textContent: string } {
+function getSheet(): { id: string; textContent: string } {
   return {
     id: sheet.id,
     textContent: sheet.getTextContent()
@@ -159,9 +158,9 @@ function getSheet(): { id: string, textContent: string } {
  */
 type StyleProps = [string, { [key: string]: string } | null];
 type Options = {
-  shadow?: boolean,
-  textShadow?: boolean,
-  writingDirection?: 'ltr' | 'rtl'
+  shadow?: boolean;
+  textShadow?: boolean;
+  writingDirection?: 'ltr' | 'rtl';
 };
 
 function StyleSheet(styles: any, options: Options = {} as Options): StyleProps {
@@ -188,14 +187,14 @@ if (canUseDOM && window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
 }
 
 export type IStyleSheet = {
-  (styles: ReadonlyArray<any>, options?: Options): StyleProps,
-  absoluteFill: Object,
-  absoluteFillObject: Object,
-  create: typeof create,
-  compose: typeof compose,
-  flatten: typeof flatten,
-  getSheet: typeof getSheet,
-  hairlineWidth: number
+  (styles: ReadonlyArray<any>, options?: Options): StyleProps;
+  absoluteFill: Object;
+  absoluteFillObject: Object;
+  create: typeof create;
+  compose: typeof compose;
+  flatten: typeof flatten;
+  getSheet: typeof getSheet;
+  hairlineWidth: number;
 };
 
 const stylesheet: IStyleSheet = StyleSheet;

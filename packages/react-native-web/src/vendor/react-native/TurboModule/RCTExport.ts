@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict
- * @format
  */
 
 'use strict';
@@ -27,8 +24,8 @@
  */
 
 // eslint-disable-next-line no-unused-vars
-export interface RCTExport<T: void = void> {
-  +getConstants?: () => {};
+export interface RCTExport<T extends void = void> {
+  getConstants?: () => {};
 }
 
 // eslint-disable-next-line lint/react-native-modules

@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -14,14 +11,14 @@ import NativeAnimatedHelper from '../NativeAnimatedHelper';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import type AnimatedValue from '../nodes/AnimatedValue';
 
-export type EndResult = { finished: boolean, ... };
-export type EndCallback = (result: EndResult) => void;
+export type EndResult = { finished: boolean };
+export type EndCallback = (result: EndResult[]) => void;
 
 export type AnimationConfig = {
   isInteraction?: boolean,
   useNativeDriver: boolean,
   platformConfig?: PlatformConfig,
-  onComplete?: ?EndCallback,
+  onComplete?: EndCallback | null,
   iterations?: number
 };
 
@@ -34,13 +31,13 @@ class Animation {
   __active: boolean;
   __isInteraction: boolean;
   __nativeId: number;
-  __onEnd: ?EndCallback;
+  __onEnd: EndCallback | null;
   __iterations: number;
   start(
     fromValue: number,
     onUpdate: (value: number) => void,
-    onEnd: ?EndCallback,
-    previousAnimation: ?Animation,
+    onEnd: EndCallback | null,
+    previousAnimation: Animation | null,
     animatedValue: AnimatedValue
   ): void {}
   stop(): void {
@@ -54,7 +51,7 @@ class Animation {
     throw new Error('This animation type cannot be offloaded to native');
   }
   // Helper function for subclasses to make sure onEnd is only called once.
-  __debouncedOnEnd(result: EndResult): void {
+  __debouncedOnEnd(result: EndResult[]): void {
     const onEnd = this.__onEnd;
     this.__onEnd = null;
     onEnd && onEnd(result);

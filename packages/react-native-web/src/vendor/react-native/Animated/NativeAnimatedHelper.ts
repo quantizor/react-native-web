@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow strict-local
- * @format
  */
 
 import NativeAnimatedNonTurboModule from './NativeAnimatedModule';
@@ -44,16 +41,17 @@ let singleOpQueue: Array<any> = [];
 
 const useSingleOpBatching = false;
 Platform.OS === 'android' &&
-  !!NativeAnimatedModule?.queueAndExecuteBatchedOperations &&
+NativeAnimatedModule &&
+  'queueAndExecuteBatchedOperations' in NativeAnimatedModule &&
   ReactNativeFeatureFlags.animatedShouldUseSingleOp();
-let flushQueueTimeout = null;
+let flushQueueTimeout: number | null = null;
 
 const eventListenerGetValueCallbacks = {};
 const eventListenerAnimationFinishedCallbacks = {};
-let globalEventEmitterGetValueListener: ?EventSubscription = null;
-let globalEventEmitterAnimationFinishedListener: ?EventSubscription = null;
+let globalEventEmitterGetValueListener: EventSubscription | null = null;
+let globalEventEmitterAnimationFinishedListener: EventSubscription | null = null;
 
-const nativeOps: ?typeof NativeAnimatedModule = useSingleOpBatching
+const nativeOps = useSingleOpBatching
   ? ((function () {
       const apis = [
         'createAnimatedNode', // 1
@@ -77,14 +75,14 @@ const nativeOps: ?typeof NativeAnimatedModule = useSingleOpBatching
         'removeAnimatedEventFromView', // 19
         'addListener', // 20
         'removeListener' // 21
-      ];
+      ] as const;
+
       return apis.reduce((acc, functionName, i) => {
         // These indices need to be kept in sync with the indices in native (see NativeAnimatedModule in Java, or the equivalent for any other native platform).
-        // $FlowFixMe[prop-missing]
         acc[functionName] = i + 1;
         return acc;
-      }, {});
-    })(): $FlowFixMe)
+      }, {} as Record<typeof apis[number], number>);
+    })())
   : NativeAnimatedModule;
 
 /**
@@ -101,7 +99,6 @@ const API = {
       if (saveValueCallback) {
         eventListenerGetValueCallbacks[tag] = saveValueCallback;
       }
-      // $FlowFixMe
       API.queueOperation(nativeOps.getValue, tag);
     } else {
       API.queueOperation(nativeOps.getValue, tag, saveValueCallback);
@@ -128,10 +125,10 @@ const API = {
   disableQueue: function (): void {
     invariant(nativeOps, 'Native animated module is not available');
 
-    if (ReactNativeFeatureFlags.animatedShouldDebounceQueueFlush()) {
+    if (ReactNativeFeatureFlags.animatedShouldDebounceQueueFlush() && flushQueueTimeout) {
       const prevTimeout = flushQueueTimeout;
       clearImmediate(prevTimeout);
-      flushQueueTimeout = setImmediate(API.flushQueue);
+      flushQueueTimeout = setImmediate(API.flushQueue) as unknown as number;
     } else {
       API.flushQueue();
     }
@@ -174,7 +171,7 @@ const API = {
     }
     */
   },
-  queueOperation: <Args: $ReadOnlyArray<mixed>, Fn: (...Args) => void>(
+  queueOperation: <Args extends readonly unknown[], Fn extends (...args) => void>(
     fn: Fn,
     ...args: Args
   ): void => {
@@ -454,14 +451,12 @@ function validateTransform(
     | {
         type: 'animated',
         property: string,
-        nodeTag: ?number,
-        ...
+        nodeTag?: number,
       }
     | {
         type: 'static',
         property: string,
         value: number | string,
-        ...
       }
   >
 ): void {
@@ -474,7 +469,7 @@ function validateTransform(
   });
 }
 
-function validateStyles(styles: { [key: string]: ?number, ... }): void {
+function validateStyles(styles: Record<string, unknown>): void {
   for (const key in styles) {
     if (!isSupportedStyleProp(key)) {
       throw new Error(
@@ -484,7 +479,7 @@ function validateStyles(styles: { [key: string]: ?number, ... }): void {
   }
 }
 
-function validateInterpolation<OutputT: number | string>(
+function validateInterpolation<OutputT extends number | string>(
   config: InterpolationConfigType<OutputT>
 ): void {
   for (const key in config) {
@@ -511,7 +506,7 @@ function assertNativeAnimatedModule(): void {
 let _warnedMissingNativeAnimated = false;
 
 function shouldUseNativeDriver(
-  config: $ReadOnly<{ ...AnimationConfig, ... }> | EventConfig
+  config: Readonly<AnimationConfig> | EventConfig
 ): boolean {
   if (config.useNativeDriver == null) {
     console.warn(
@@ -588,8 +583,6 @@ export default {
   assertNativeAnimatedModule,
   shouldUseNativeDriver,
   transformDataType,
-  // $FlowExpectedError[unsafe-getters-setters] - unsafe getter lint suppresion
-  // $FlowExpectedError[missing-type-arg] - unsafe getter lint suppresion
   get nativeEventEmitter(): NativeEventEmitter {
     if (!nativeEventEmitter) {
       nativeEventEmitter = new NativeEventEmitter(
