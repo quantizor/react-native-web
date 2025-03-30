@@ -10,7 +10,11 @@ var validateFormat =
       }
     : function (format) {};
 
-function invariant(condition, format, ...args) {
+function invariant(
+  condition: any,
+  format: string,
+  ...args: any[]
+): asserts condition {
   for (
     var _len = arguments.length,
       args = new Array(_len > 2 ? _len - 2 : 0),

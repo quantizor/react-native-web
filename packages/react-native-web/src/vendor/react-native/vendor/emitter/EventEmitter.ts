@@ -9,26 +9,31 @@ export interface EventSubscription {
   remove(): void;
 }
 
-export interface IEventEmitter<TEventToArgsMap extends Record<string, any>> {
-  addListener<TEvent extends keyof TEventToArgsMap>(
+export interface IEventEmitter<TEventToArgsMap extends Record<string, any[]>, TKey extends Extract<keyof TEventToArgsMap, string>> {
+  addListener<TEvent extends TKey>(
     eventType: TEvent,
-    listener: (...args: TEventToArgsMap[TEvent] extends Array<any> ? TEventToArgsMap[TEvent] : [TEventToArgsMap[TEvent]]) => unknown,
+    listener: (...args: TEventToArgsMap[TEvent]) => unknown,
     context?: unknown,
   ): EventSubscription;
 
-  emit<TEvent extends keyof TEventToArgsMap>(
+  emit<TEvent extends TKey>(
     eventType: TEvent,
-    ...args: TEventToArgsMap[TEvent] extends Array<any> ? TEventToArgsMap[TEvent] : [TEventToArgsMap[TEvent]]
+    ...args: TEventToArgsMap[TEvent]
   ): void;
 
-  removeAllListeners<TEvent extends keyof TEventToArgsMap>(eventType?: TEvent | null | undefined): void;
+  removeListener<TEvent extends TKey>(
+    eventType: TEvent,
+    listener: (...args: TEventToArgsMap[TEvent]) => unknown,
+  ): void;
 
-  listenerCount<TEvent extends keyof TEventToArgsMap>(eventType: TEvent): number;
+  removeAllListeners<TEvent extends TKey>(eventType: TEvent): void;
+
+  listenerCount<TEvent extends TKey>(eventType: TEvent): number;
 }
 
-interface Registration<TArgs> {
+interface Registration<TArgs extends any[]> {
   readonly context: unknown;
-  readonly listener: (...args: TArgs extends Array<any> ? TArgs : [TArgs]) => unknown;
+  readonly listener: (...args: TArgs) => unknown;
   readonly remove: () => void;
 }
 
@@ -56,8 +61,8 @@ type Registry<TEventToArgsMap extends Record<string, any>> = {
  *   emitter.emit('error', new Error('Resource not found'));
  *
  */
-export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
-  implements IEventEmitter<TEventToArgsMap>
+export default class EventEmitter<TEventToArgsMap extends Record<string, any[]>, TKey extends Extract<keyof TEventToArgsMap, string> = Extract<keyof TEventToArgsMap, string>>
+  implements IEventEmitter<TEventToArgsMap, TKey>
 {
   _registry: Registry<TEventToArgsMap> = {};
 
@@ -65,9 +70,9 @@ export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
    * Registers a listener that is called when the supplied event is emitted.
    * Returns a subscription that has a `remove` method to undo registration.
    */
-  addListener<TEvent extends keyof TEventToArgsMap>(
+  addListener<TEvent extends TKey>(
     eventType: TEvent,
-    listener: (...args: TEventToArgsMap[TEvent] extends Array<any> ? TEventToArgsMap[TEvent] : [TEventToArgsMap[TEvent]]) => unknown,
+    listener: (...args: TEventToArgsMap[TEvent]) => unknown,
     context?: unknown,
   ): EventSubscription {
     const registrations = allocate(this._registry, eventType);
@@ -89,9 +94,9 @@ export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
    * If a listener modifies the listeners registered for the same event, those
    * changes will not be reflected in the current invocation of `emit`.
    */
-  emit<TEvent extends keyof TEventToArgsMap>(
+  emit<TEvent extends TKey>(
     eventType: TEvent,
-    ...args: TEventToArgsMap[TEvent] extends Array<any> ? TEventToArgsMap[TEvent] : [TEventToArgsMap[TEvent]]
+    ...args: TEventToArgsMap[TEvent]
   ): void {
     const registrations: Set<Registration<TEventToArgsMap[TEvent]>> | undefined = this._registry[eventType];
     if (registrations != null) {
@@ -102,10 +107,27 @@ export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
   }
 
   /**
+   * Removes a listener from the supplied event.
+   */
+  removeListener<TEvent extends TKey>(
+    eventType: TEvent,
+    listener: (...args: TEventToArgsMap[TEvent]) => unknown,
+  ): void {
+    const registrations: Set<Registration<TEventToArgsMap[TEvent]>> | undefined = this._registry[eventType];
+    if (registrations != null) {
+      const registration = Array.from(registrations).find(r => r.listener === listener);
+
+      if (registration) {
+        registrations.delete(registration);
+      }
+    }
+  }
+
+  /**
    * Removes all registered listeners.
    */
-  removeAllListeners<TEvent extends keyof TEventToArgsMap>(
-    eventType?: TEvent | null | undefined,
+  removeAllListeners<TEvent extends TKey>(
+    eventType: TEvent,
   ): void {
     if (eventType == null) {
       this._registry = {};
@@ -117,7 +139,7 @@ export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
   /**
    * Returns the number of registered listeners for the supplied event.
    */
-  listenerCount<TEvent extends keyof TEventToArgsMap>(eventType: TEvent): number {
+  listenerCount<TEvent extends TKey>(eventType: TEvent): number {
     const registrations: Set<Registration<TEventToArgsMap[TEvent]>> | undefined = this._registry[eventType];
     return registrations == null ? 0 : registrations.size;
   }
@@ -125,7 +147,7 @@ export default class EventEmitter<TEventToArgsMap extends Record<string, any>>
 
 function allocate<
   TEventToArgsMap extends Record<string, any>,
-  TEvent extends keyof TEventToArgsMap,
+  TEvent extends Extract<keyof TEventToArgsMap, string>,
 >(
   registry: Registry<TEventToArgsMap>,
   eventType: TEvent,

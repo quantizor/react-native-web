@@ -8,7 +8,15 @@
 
 'use client';
 
-import type { GestureResponderEvent, KeyboardEvent, NativeScrollEvent, NativeSyntheticEvent, ScrollViewProps as RNScrollViewProps, StyleProp, LayoutChangeEvent } from 'react-native';
+import type {
+  GestureResponderEvent,
+  KeyboardEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollViewProps as RNScrollViewProps,
+  StyleProp,
+  LayoutChangeEvent
+} from 'react-native';
 
 import React from 'react';
 import dismissKeyboard from '../../modules/dismissKeyboard';
@@ -20,11 +28,15 @@ import Dimensions from '../Dimensions';
 import Platform from '../Platform';
 import StyleSheet from '../StyleSheet';
 import UIManager from '../UIManager';
-import View, {type ViewStyle} from '../View';
-import ScrollViewBase from './ScrollViewBase';
+import View, { type ViewStyle, type ViewRef } from '../View';
+import ScrollViewBase, { ScrollViewBaseProps } from './ScrollViewBase';
 import type { RefreshControlProps } from '../RefreshControl';
 
-interface ScrollViewProps extends Omit<RNScrollViewProps, 'contentContainerStyle' | 'refreshControl'>  {
+interface ScrollViewProps
+  extends Omit<
+    RNScrollViewProps,
+    'contentContainerStyle' | 'refreshControl' | 'style'
+  > {
   contentContainerStyle?: StyleProp<ViewStyle>;
   forwardedRef: React.Ref<any>;
   refreshControl?: React.ReactElement<RefreshControlProps>;
@@ -33,16 +45,50 @@ interface ScrollViewProps extends Omit<RNScrollViewProps, 'contentContainerStyle
   onKeyboardDidShow?: (e: KeyboardEvent) => void;
   onKeyboardDidHide?: (e: KeyboardEvent) => void;
   onScrollResponderKeyboardDismissed?: (e: GestureResponderEvent) => void;
-};
+  style?: StyleProp<ViewStyle>;
+}
 
 type Event = NativeSyntheticEvent<NativeScrollEvent>;
 
 const emptyObject = {};
 const IS_ANIMATING_TOUCH_START_THRESHOLD_MS = 16;
 
+export interface ScrollMethods {
+  getScrollResponder: () => ScrollView;
+  getInnerViewNode: () => ViewRef | null;
+  getInnerViewRef: () => ViewRef | null;
+  getNativeScrollRef: () => ScrollViewRef | null;
+  getScrollableNode: () => ScrollViewRef | null;
+  scrollTo: (
+    y?: number | { x?: number; y?: number; animated?: boolean },
+    x?: number,
+    animated?: boolean
+  ) => void;
+  scrollToEnd: (options?: { animated?: boolean }) => void;
+  flashScrollIndicators: () => void;
+  scrollResponderZoomTo: (
+    rect: {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      animated?: boolean;
+    },
+    animated?: boolean // deprecated, put this inside the rect argument instead
+  ) => void;
+  scrollResponderScrollNativeHandleToKeyboard: (
+    nodeHandle: any,
+    additionalOffset?: number,
+    preventNegativeScrollOffset?: boolean
+  ) => void;
+}
+
+export type ScrollViewRef = React.ComponentRef<typeof ScrollViewBase> &
+  ScrollMethods;
+
 class ScrollView extends React.Component<ScrollViewProps> {
-  _scrollNodeRef: any = null;
-  _innerViewRef: any = null;
+  _scrollNodeRef: ScrollViewRef | null = null;
+  _innerViewRef: ViewRef | null = null;
 
   /**
    * ------------------------------------------------------
@@ -295,7 +341,7 @@ class ScrollView extends React.Component<ScrollViewProps> {
    * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
    */
   scrollResponderScrollTo = (
-    x?: number | { x?: number, y?: number, animated?: boolean },
+    x?: number | { x?: number; y?: number; animated?: boolean },
     y?: number,
     animated?: boolean
   ) => {
@@ -304,7 +350,8 @@ class ScrollView extends React.Component<ScrollViewProps> {
         '`scrollResponderScrollTo(x, y, animated)` is deprecated. Use `scrollResponderScrollTo({x: 5, y: 5, animated: true})` instead.'
       );
     } else {
-      ({ x, y, animated } = x || emptyObject as Exclude<typeof x, number | undefined>);
+      ({ x, y, animated } =
+        x || (emptyObject as Exclude<typeof x, number | undefined>));
     }
     const node = this.getScrollableNode();
     const left = x || 0;
@@ -327,11 +374,11 @@ class ScrollView extends React.Component<ScrollViewProps> {
    */
   scrollResponderZoomTo = (
     rect: {
-      x: number,
-      y: number,
-      width: number,
-      height: number,
-      animated?: boolean
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      animated?: boolean;
     },
     animated?: boolean // deprecated, put this inside the rect argument instead
   ) => {
@@ -509,7 +556,7 @@ class ScrollView extends React.Component<ScrollViewProps> {
    * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
    */
   scrollTo = (
-    y?: number | { x?: number, y?: number, animated?: boolean },
+    y?: number | { x?: number; y?: number; animated?: boolean },
     x?: number,
     animated?: boolean
   ) => {
@@ -518,7 +565,8 @@ class ScrollView extends React.Component<ScrollViewProps> {
         '`scrollTo(y, x, animated)` is deprecated. Use `scrollTo({x: 5, y: 5, animated: true})` instead.'
       );
     } else {
-      ({ x, y, animated } = y || emptyObject as Exclude<typeof y, number | undefined>);
+      ({ x, y, animated } =
+        y || (emptyObject as Exclude<typeof y, number | undefined>));
     }
 
     this.scrollResponderScrollTo({
@@ -541,8 +589,8 @@ class ScrollView extends React.Component<ScrollViewProps> {
     const animated = (options && options.animated) !== false;
     const { horizontal } = this.props;
     const scrollResponderNode = this.getScrollableNode();
-    const x = horizontal ? scrollResponderNode.scrollWidth : 0;
-    const y = horizontal ? 0 : scrollResponderNode.scrollHeight;
+    const x = horizontal ? scrollResponderNode?.scrollWidth || 0 : 0;
+    const y = horizontal ? 0 : scrollResponderNode?.scrollHeight || 0;
     this.scrollResponderScrollTo({ x, y, animated });
   };
 
@@ -624,7 +672,8 @@ class ScrollView extends React.Component<ScrollViewProps> {
       ? styles.pagingEnabledHorizontal
       : styles.pagingEnabledVertical;
 
-    const props = {
+    // @ts-ignore typing stuff to deal with later
+    const props: ScrollViewBaseProps = {
       ...other,
       horizontal,
       style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
@@ -699,12 +748,13 @@ class ScrollView extends React.Component<ScrollViewProps> {
     this.scrollResponderHandleScroll(e);
   };
 
-  _setInnerViewRef = (node) => {
+  _setInnerViewRef = (node: ViewRef) => {
     this._innerViewRef = node;
   };
 
-  _setScrollNodeRef = (node) => {
+  _setScrollNodeRef = (node: ScrollViewRef) => {
     this._scrollNodeRef = node;
+
     // ScrollView needs to add more methods to the hostNode in addition to those
     // added by `usePlatformMethods`. This is temporarily until an API like
     // `ScrollView.scrollTo(hostNode, { x, y })` is added to React Native.
@@ -721,7 +771,9 @@ class ScrollView extends React.Component<ScrollViewProps> {
       node.scrollResponderScrollNativeHandleToKeyboard =
         this.scrollResponderScrollNativeHandleToKeyboard;
     }
+
     const ref = mergeRefs(this.props.forwardedRef);
+
     ref(node);
   };
 }
@@ -773,9 +825,14 @@ const styles = StyleSheet.create({
   }
 } as const);
 
-const ForwardedScrollView = React.forwardRef((props: Omit<ScrollViewProps, 'forwardedRef'>, forwardedRef: React.Ref<typeof ScrollView>) => {
-  return <ScrollView {...props} forwardedRef={forwardedRef} />;
-});
+const ForwardedScrollView = React.forwardRef(
+  (
+    props: Omit<ScrollViewProps, 'forwardedRef'>,
+    forwardedRef: React.Ref<typeof ScrollView>
+  ) => {
+    return <ScrollView {...props} forwardedRef={forwardedRef} />;
+  }
+);
 
 ForwardedScrollView.displayName = 'ScrollView';
 

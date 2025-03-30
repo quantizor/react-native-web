@@ -1,3 +1,5 @@
+// @flow
+
 import { StyleSheet, TouchableHighlight, Text } from 'react-native';
 import React, { Component } from 'react';
 

@@ -87,7 +87,7 @@ const UIManager = {
     }
   },
 
-  measureLayout(node, relativeToNativeNode, onFail, onSuccess) {
+  measureLayout(node, relativeToNativeNode, onSuccess) {
     measureLayout(node, relativeToNativeNode, onSuccess);
   },
 

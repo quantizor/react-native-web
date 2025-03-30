@@ -5,37 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { ScrollViewBase } from 'react-native';
+import { ViewRef } from '../exports/View';
+
 export type ColorValue = string;
 
 export type DimensionValue = null | number | string;
 
 export type EdgeInsetsValue = {
-  top: number,
-  left: number,
-  right: number,
-  bottom: number
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
 };
 
 export type LayoutValue = {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  left: number,
-  top: number
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  left: number;
+  top: number;
 };
 
 export type LayoutEvent = {
   nativeEvent: {
-    layout: LayoutValue,
-    target: any
-  },
-  timeStamp: number
+    layout: LayoutValue;
+    target: any;
+  };
+  timeStamp: number;
 };
 
 export type PointValue = {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 };
 
 type LayoutCallback = (
@@ -60,9 +63,5 @@ export interface PlatformMethods {
   focus: () => void;
   measure: (callback: LayoutCallback) => void;
   measureInWindow: (callback: MeasureInWindowCallback) => void;
-  measureLayout: (
-    relativeToNativeNode: {},
-    onSuccess: LayoutCallback,
-    onFail: () => void
-  ) => void;
+  measureLayout: (relativeToNativeNode: {}, onSuccess: LayoutCallback) => void;
 }

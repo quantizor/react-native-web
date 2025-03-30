@@ -1638,7 +1638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-flow@npm:^7.24.7, @babel/preset-flow@npm:^7.25.9":
+"@babel/preset-flow@npm:^7.24.7":
   version: 7.25.9
   resolution: "@babel/preset-flow@npm:7.25.9"
   dependencies:
@@ -5550,20 +5550,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-flowtype@npm:^8.0.3":
-  version: 8.0.3
-  resolution: "eslint-plugin-flowtype@npm:8.0.3"
-  dependencies:
-    lodash: "npm:^4.17.21"
-    string-natural-compare: "npm:^3.0.1"
-  peerDependencies:
-    "@babel/plugin-syntax-flow": ^7.14.5
-    "@babel/plugin-transform-react-jsx": ^7.14.9
-    eslint: ^8.1.0
-  checksum: 10c0/a4596ba1cb80c19a06f1ddef6c36e6a671769da8d056d4a8f3482a2c46f475c547e78f82c3233099dba3759dc9a29e36d0ca07019cf6deb666db17f49d8f566d
-  languageName: node
-  linkType: hard
-
 "eslint-plugin-promise@npm:^7.2.1":
   version: 7.2.1
   resolution: "eslint-plugin-promise@npm:7.2.1"
@@ -6103,15 +6089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flow-bin@npm:0.148.0":
-  version: 0.148.0
-  resolution: "flow-bin@npm:0.148.0"
-  bin:
-    flow: cli.js
-  checksum: 10c0/ef1310636ac01e642d3203d07728ad2fefbdec68453602adaa9bd1217bc1e814869f10e97f2f8be0833d99f5b3f27b7eca28292f5f152696ca26e80fc2f03264
-  languageName: node
-  linkType: hard
-
 "flow-enums-runtime@npm:^0.0.6":
   version: 0.0.6
   resolution: "flow-enums-runtime@npm:0.0.6"
@@ -6238,26 +6215,6 @@ __metadata:
   version: 1.2.3
   resolution: "functions-have-names@npm:1.2.3"
   checksum: 10c0/33e77fd29bddc2d9bb78ab3eb854c165909201f88c75faa8272e35899e2d35a8a642a15e7420ef945e1f64a9670d6aa3ec744106b2aa42be68ca5114025954ca
-  languageName: node
-  linkType: hard
-
-"gen-flow-files@npm:^0.4.11":
-  version: 0.4.11
-  resolution: "gen-flow-files@npm:0.4.11"
-  dependencies:
-    "@babel/core": "npm:^7.7.5"
-    "@babel/generator": "npm:^7.7.4"
-    "@babel/parser": "npm:^7.7.5"
-    "@babel/plugin-proposal-throw-expressions": "npm:^7.7.4"
-    "@babel/plugin-syntax-flow": "npm:^7.7.4"
-    "@babel/traverse": "npm:^7.7.4"
-    "@babel/types": "npm:^7.7.4"
-    glob: "npm:^7.1.6"
-    mkdirp: "npm:^0.5.1"
-    yargs: "npm:^15.0.2"
-  bin:
-    gen-flow-files: ./bin/gen-flow-files.js
-  checksum: 10c0/e815220aefde7dd9858d68ddc0691fae2dbd28c7955b42ddc8d059ad406ebc6dd7509e306ee61405b16f46809e15b901ba38c36261eb0a5ae1f05e6bfd433e82
   languageName: node
   linkType: hard
 
@@ -8336,13 +8293,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
-  languageName: node
-  linkType: hard
-
 "log-update@npm:^5.0.1":
   version: 5.0.1
   resolution: "log-update@npm:5.0.1"
@@ -10314,7 +10264,6 @@ __metadata:
   resolution: "react-native-web-examples@workspace:packages/react-native-web-examples"
   dependencies:
     "@babel/core": "npm:^7.26.10"
-    "@babel/preset-flow": "npm:^7.25.9"
     babel-plugin-react-native-web: "npm:0.19.13"
     next: "npm:^15.0.0"
     react: "npm:^19.0.0"
@@ -10455,7 +10404,6 @@ __metadata:
     "@babel/plugin-proposal-object-rest-spread": "npm:^7.20.7"
     "@babel/plugin-transform-runtime": "npm:^7.26.10"
     "@babel/preset-env": "npm:^7.26.9"
-    "@babel/preset-flow": "npm:^7.25.9"
     "@babel/preset-react": "npm:^7.26.3"
     "@testing-library/react": "npm:^13.4.0"
     babel-eslint: "npm:^10.1.0"
@@ -10466,12 +10414,9 @@ __metadata:
     cross-env: "npm:^7.0.3"
     eslint: "npm:^8.57.1"
     eslint-config-prettier: "npm:^10.1.1"
-    eslint-plugin-flowtype: "npm:^8.0.3"
     eslint-plugin-promise: "npm:^7.2.1"
     eslint-plugin-react: "npm:^7.37.4"
     eslint-plugin-react-hooks: "npm:^5.2.0"
-    flow-bin: "npm:0.148.0"
-    gen-flow-files: "npm:^0.4.11"
     glob: "npm:^8.0.3"
     husky: "npm:^8.0.0"
     inline-style-prefixer: "npm:^6.0.4"
@@ -11568,13 +11513,6 @@ __metadata:
     char-regex: "npm:^1.0.2"
     strip-ansi: "npm:^6.0.0"
   checksum: 10c0/1cd77409c3d7db7bc59406f6bcc9ef0783671dcbabb23597a1177c166906ef2ee7c8290f78cae73a8aec858768f189d2cb417797df5e15ec4eb5e16b3346340c
-  languageName: node
-  linkType: hard
-
-"string-natural-compare@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "string-natural-compare@npm:3.0.1"
-  checksum: 10c0/85a6a9195736be500af5d817c7ea36b7e1ac278af079a807f70f79a56602359ee6743ca409af6291b94557de550ff60d1ec31b3c4fc8e7a08d0e12cdab57c149
   languageName: node
   linkType: hard
 

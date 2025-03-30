@@ -14,8 +14,8 @@ import EventEmitter from '../../vendor/react-native/vendor/emitter/EventEmitter'
 import requestIdleCallback from '../../modules/requestIdleCallback';
 
 const _emitter = new EventEmitter<{
-  interactionComplete: [],
-  interactionStart: []
+  interactionComplete: [];
+  interactionStart: [];
 }>();
 
 const InteractionManager = {
@@ -28,9 +28,9 @@ const InteractionManager = {
    * Schedule a function to run after all interactions have completed.
    */
   runAfterInteractions(task: Task | null): {
-    then: Function,
-    done: Function,
-    cancel: Function
+    then: (value: void | PromiseLike<void>) => Promise<void>;
+    done: (value: void | PromiseLike<void>) => Promise<void>;
+    cancel: () => void;
   } {
     const tasks: Array<Task> = [];
     const promise = new Promise<void>((resolve) => {
@@ -73,7 +73,7 @@ const InteractionManager = {
     _deleteInteractionSet.add(handle);
   },
 
-  addListener: (_emitter.addListener.bind(_emitter) as EventSubscription),
+  addListener: _emitter.addListener.bind(_emitter) as EventSubscription,
 
   /**
    *

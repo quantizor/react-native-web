@@ -8,23 +8,23 @@
 
 'use client';
 
-import type { PlatformMethods } from '../../types';
 import type { ViewProps, ViewStyle } from './types';
-
+import type { PlatformMethods } from '../../types';
 import * as React from 'react';
-import createElement from '../createElement';
+import { ComponentType } from 'react';
 import * as forwardedProps from '../../modules/forwardedProps';
 import pick from '../../modules/pick';
 import useElementLayout from '../../modules/useElementLayout';
+import { getLocaleDirection, useLocaleContext } from '../../modules/useLocale';
 import useMergeRefs from '../../modules/useMergeRefs';
 import usePlatformMethods from '../../modules/usePlatformMethods';
 import useResponderEvents from '../../modules/useResponderEvents';
+import createElement from '../createElement';
 import StyleSheet from '../StyleSheet';
 import TextAncestorContext from '../Text/TextAncestorContext';
-import { useLocaleContext, getLocaleDirection } from '../../modules/useLocale';
-import { ComponentType } from 'react';
+import UIManager from '../UIManager';
 
-type ViewRef = HTMLElement & PlatformMethods
+type ViewRef = HTMLElement & PlatformMethods;
 
 const customForwardedProps = {
   href: true,
@@ -48,8 +48,8 @@ const forwardPropsList = {
 
 const pickProps = (props: ViewProps) => pick(props, forwardPropsList);
 
-const View =
-  React.forwardRef((props: ViewProps, forwardedRef: React.Ref<ViewRef>) => {
+const View = React.forwardRef(
+  (props: ViewProps, forwardedRef: React.Ref<ViewRef>) => {
     const {
       hrefAttrs,
       onLayout,
@@ -106,7 +106,8 @@ const View =
       onStartShouldSetResponderCapture
     });
 
-    let component: ComponentType<any> | keyof React.JSX.IntrinsicElements = 'div';
+    let component: ComponentType<any> | keyof React.JSX.IntrinsicElements =
+      'div';
 
     const langDirection =
       props.lang != null ? getLocaleDirection(props.lang) : null;
@@ -140,13 +141,18 @@ const View =
       }
     }
 
-    const platformMethodsRef = usePlatformMethods();
+    // this adds measureLayout, measureInWindow, and measure methods to eventual ref
+    const platformMethodsRef = usePlatformMethods<ViewRef>();
+
     const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
 
     supportedProps.ref = setRef;
 
     return createElement(component, supportedProps, { writingDirection });
-  });
+  }
+);
+
+Object.assign(View, UIManager);
 
 View.displayName = 'View';
 

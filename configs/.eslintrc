@@ -2,8 +2,7 @@
   "settings": {
     "react": {
       "pragma": "React",
-      "version": "19.0",
-      "flowVersion": "0.148.0" // Flow version
+      "version": "19.0"
     }
   },
   // babel parser to support ES6/7 features
@@ -17,11 +16,8 @@
     "requireConfigFile": false,
     "sourceType": "module"
   },
-  "extends": [
-    "plugin:flowtype/recommended"
-    // "prettier"
-  ],
-  "plugins": ["flowtype", "promise", "react", "react-hooks"],
+  "extends": ["prettier"],
+  "plugins": ["promise", "react", "react-hooks"],
   "env": {
     "browser": true,
     "es6": true,
@@ -31,7 +27,6 @@
   "ignorePatterns": [
     "coverage",
     "dist",
-    "flow-typed",
     "node_modules",
     "packages/**/vendor/*",
     "packages/**/.next"
@@ -128,10 +123,6 @@
     "use-isnan": 2,
     "valid-typeof": 2,
     "yoda": [2, "never"],
-
-    // flow
-    "flowtype/generic-spacing": 0,
-    "flowtype/space-after-type-colon": 0,
 
     // promise
     "promise/param-names": 2,

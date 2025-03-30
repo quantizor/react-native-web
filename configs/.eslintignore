@@ -4,3 +4,4 @@ flow-typed
 node_modules
 packages/**/vendor/*
 packages/**/.next
+packages/**/__tests__

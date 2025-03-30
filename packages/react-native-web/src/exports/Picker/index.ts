@@ -19,61 +19,70 @@ import PickerItem from './PickerItem';
 import StyleSheet from '../StyleSheet';
 
 interface PickerProps extends ViewProps {
-  children?: React.ReactNode | React.ReactNode[],
-  enabled?: boolean,
-  onValueChange?: (value: number | string, selectedIndex: number) => void,
-  selectedValue?: number | string,
+  children?: React.ReactNode | React.ReactNode[];
+  enabled?: boolean;
+  onValueChange?: (value: number | string, selectedIndex: number) => void;
+  selectedValue?: number | string;
   /* compat */
-  itemStyle?: any,
-  mode?: string,
-  prompt?: string
+  itemStyle?: any;
+  mode?: string;
+  prompt?: string;
+}
+
+let Picker: React.ForwardRefExoticComponent<
+  PickerProps & React.RefAttributes<HTMLSelectElement & PlatformMethods>
+> & {
+  Item?: typeof PickerItem;
 };
 
-let Picker: React.ForwardRefExoticComponent<PickerProps & React.RefAttributes<HTMLSelectElement & PlatformMethods>> & {
-  Item?: typeof PickerItem
-};
+Picker = React.forwardRef(
+  (
+    props: PickerProps,
+    forwardedRef: React.Ref<HTMLSelectElement & PlatformMethods>
+  ) => {
+    const {
+      children,
+      enabled,
+      onValueChange,
+      selectedValue,
+      style,
+      testID,
+      itemStyle,
+      mode,
+      prompt,
+      ...other
+    } = props;
 
-Picker = React.forwardRef((props: PickerProps, forwardedRef: React.Ref<HTMLSelectElement & PlatformMethods>) => {
-  const {
-    children,
-    enabled,
-    onValueChange,
-    selectedValue,
-    style,
-    testID,
-    itemStyle,
-    mode,
-    prompt,
-    ...other
-  } = props;
+    const hostRef = React.useRef<HTMLSelectElement | null>(null);
 
-  const hostRef = React.useRef<HTMLSelectElement | null>(null);
-
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const { selectedIndex, value } = e.target;
-    if (onValueChange) {
-      onValueChange(value, selectedIndex);
+    function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+      const { selectedIndex, value } = e.target;
+      if (onValueChange) {
+        onValueChange(value, selectedIndex);
+      }
     }
+
+    const supportedProps = {
+      children,
+      disabled: enabled === false ? true : undefined,
+      onChange: handleChange,
+      style: [styles.initial, style],
+      testID,
+      value: selectedValue,
+      ...other
+    };
+
+    const platformMethodsRef = usePlatformMethods<HTMLSelectElement>();
+
+    const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
+
+    supportedProps.ref = setRef as (
+      node: (HTMLSelectElement & PlatformMethods) | null
+    ) => void;
+
+    return createElement('select', supportedProps);
   }
-
-  const supportedProps = {
-    children,
-    disabled: enabled === false ? true : undefined,
-    onChange: handleChange,
-    style: [styles.initial, style],
-    testID,
-    value: selectedValue,
-    ...other
-  };
-
-  const platformMethodsRef = usePlatformMethods();
-
-  const setRef = useMergeRefs(hostRef, platformMethodsRef, forwardedRef);
-
-  supportedProps.ref = setRef as (node: HTMLSelectElement & PlatformMethods | null) => void;
-
-  return createElement('select', supportedProps);
-});
+);
 
 Picker.Item = PickerItem;
 

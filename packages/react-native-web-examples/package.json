@@ -15,8 +15,7 @@
     "react-native-web": "npm:react-native-web-fork@latest"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/preset-flow": "^7.25.9"
+    "@babel/core": "^7.26.10"
   },
   "license": "MIT"
 }
