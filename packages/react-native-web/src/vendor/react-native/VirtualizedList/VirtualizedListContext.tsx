@@ -10,7 +10,7 @@ import { useContext, useMemo } from 'react';
 
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
-type Context = Readonly<{
+type Context<Data extends readonly any[] = readonly any[]> = Readonly<{
   cellKey: string | null,
   getScrollMetrics: () => {
     contentLength: number,
@@ -23,15 +23,17 @@ type Context = Readonly<{
     zoomScale: number
   },
   horizontal: boolean | undefined,
-  getOutermostParentListRef: () => InstanceType<typeof VirtualizedList>,
-  registerAsNestedChild: (params: { cellKey: string, ref: InstanceType<typeof VirtualizedList> }) => void,
-  unregisterAsNestedChild: (params: { ref: InstanceType<typeof VirtualizedList> }) => void
+  getOutermostParentListRef: () => InstanceType<typeof VirtualizedList<Data>>,
+  registerAsNestedChild: (params: { cellKey: string, ref: InstanceType<typeof VirtualizedList<Data>> }) => void,
+  unregisterAsNestedChild: (params: { ref: InstanceType<typeof VirtualizedList<Data>> }) => void
 }>;
 
-export type VirtualizedListContextType = Context | null;
+export type VirtualizedListContextType<Data extends readonly any[] = readonly any[]> = Context<Data> | null;
 
 export const VirtualizedListContext =
-  React.createContext<VirtualizedListContextType>(null);
+  React.createContext<VirtualizedListContextType>(null) as unknown as React.Context<VirtualizedListContextType> & {
+    Provider: <Data extends readonly any[]>(props: { children: React.ReactNode, value: VirtualizedListContextType<Data> }) => React.ReactNode
+  };
 
 if (__DEV__) {
   VirtualizedListContext.displayName = 'VirtualizedListContext';
@@ -55,12 +57,12 @@ export function VirtualizedListContextResetter({
 /**
  * Sets the context with memoization. Intended to be used by `VirtualizedList`.
  */
-export function VirtualizedListContextProvider({
+export function VirtualizedListContextProvider<Data extends readonly any[] = readonly any[]>({
   children,
   value
 }: {
   children: React.ReactNode,
-  value: Context
+  value: Context<Data>
 }): React.ReactNode {
   // Avoid setting a newly created context object if the values are identical.
   const context = useMemo(
@@ -81,7 +83,7 @@ export function VirtualizedListContextProvider({
     ]
   );
   return (
-    <VirtualizedListContext.Provider value={context}>
+    <VirtualizedListContext.Provider<Data> value={context}>
       {children}
     </VirtualizedListContext.Provider>
   );

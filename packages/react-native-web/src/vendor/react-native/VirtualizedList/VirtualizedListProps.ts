@@ -46,16 +46,16 @@ export type RenderItemType<ItemT> = (
   info: RenderItemProps<ItemT>
 ) => React.ReactNode;
 
-type RequiredProps = {
+type RequiredProps<Data extends readonly any[] = readonly any[]> = {
   /**
    * The default accessor functions assume this is an Array<{key: string} | {id: string}> but you can override
    * getItem, getItemCount, and keyExtractor to handle any type of index-based data.
    */
-  data: any,
+  data: Data,
   /**
    * A generic accessor for extracting an item from any sort of data blob.
    */
-  getItem: (data: any, index: number) => Item | undefined,
+  getItem: (data: Data, index: number) => any,
   /**
    * Determines how many items are in the data blob.
    */
@@ -279,15 +279,15 @@ type OptionalProps = {
   legacyImplementation?: never
 };
 
-export type Props = React.ComponentProps<typeof ScrollView> & RequiredProps & OptionalProps;
+export type Props<Data extends readonly any[] = readonly any[]> = React.ComponentProps<typeof ScrollView> & RequiredProps<Data> & OptionalProps;
 
 /**
  * Subset of properties needed to calculate frame metrics
  */
-export type FrameMetricProps = {
-  data: RequiredProps['data'],
-  getItemCount: RequiredProps['getItemCount'],
-  getItem: RequiredProps['getItem'],
+export type FrameMetricProps<Data extends readonly any[]> = {
+  data: RequiredProps<Data>['data'],
+  getItemCount: RequiredProps<Data>['getItemCount'],
+  getItem: RequiredProps<Data>['getItem'],
   getItemLayout?: OptionalProps['getItemLayout'],
   keyExtractor?: OptionalProps['keyExtractor'],
 };

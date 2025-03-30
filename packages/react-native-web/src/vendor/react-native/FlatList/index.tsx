@@ -649,6 +649,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
         getItem={this._getItem}
         getItemCount={this._getItemCount}
         keyExtractor={this._keyExtractor}
+        // @ts-ignore fake news
         ref={this._captureRef}
         viewabilityConfigCallbackPairs={this._virtualizedListPairs}
         removeClippedSubviews={removeClippedSubviewsOrDefault(

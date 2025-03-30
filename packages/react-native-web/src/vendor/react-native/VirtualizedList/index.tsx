@@ -159,7 +159,7 @@ function findLastWhere<T>(
  * - As an effort to remove defaultProps, use helper functions when referencing certain props
  *
  */
-class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedListContextType> {
+class VirtualizedList<Data extends readonly any[] = readonly any[]> extends StateSafePureComponent<Props<Data>, State, VirtualizedListContextType<Data>> {
   static contextType: typeof VirtualizedListContext = VirtualizedListContext;
 
   // scrollToEnd may be janky without getItemLayout prop
@@ -384,7 +384,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
 
   _registerAsNestedChild = (childList: {
     cellKey: string,
-    ref: InstanceType<typeof VirtualizedList>
+    ref: InstanceType<typeof VirtualizedList<Data>>
   }): void => {
     this._nestedChildLists.add(childList.ref, childList.cellKey);
     if (this._hasInteracted) {
@@ -393,14 +393,14 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
   };
 
   _unregisterAsNestedChild = (childList: {
-    ref: InstanceType<typeof VirtualizedList>
+    ref: InstanceType<typeof VirtualizedList<Data>>
   }): void => {
     this._nestedChildLists.remove(childList.ref);
   };
 
   state: State;
 
-  constructor(props: Props) {
+  constructor(props: Props<Data>) {
     super(props);
     this._checkProps(props);
 
@@ -427,16 +427,16 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
       }
     }
 
-    const initialRenderRegion = VirtualizedList._initialRenderRegion(props);
+    const initialRenderRegion = VirtualizedList._initialRenderRegion<Data>(props);
 
     this.state = {
       cellsAroundViewport: initialRenderRegion,
-      renderMask: VirtualizedList._createRenderMask(props, initialRenderRegion)
+      renderMask: VirtualizedList._createRenderMask<Data>(props, initialRenderRegion)
     };
   }
 
 
-  _checkProps(props: Props) {
+  _checkProps(props: Props<Data>) {
     const { onScroll, windowSize, getItemCount, data, initialScrollIndex } =
       props;
 
@@ -484,8 +484,8 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     }
   }
 
-  static _createRenderMask(
-    props: Props,
+  static _createRenderMask<Data extends readonly any[]>(
+    props: Props<Data>,
     cellsAroundViewport: { first: number, last: number },
     additionalRegions?: ReadonlyArray<{ first: number, last: number }> | undefined
   ): CellRenderMask {
@@ -528,7 +528,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     return renderMask;
   }
 
-  static _initialRenderRegion(props: Props): { first: number, last: number } {
+  static _initialRenderRegion<Data extends readonly any[]>(props: Props<Data>): { first: number, last: number } {
     const itemCount = props.getItemCount(props.data);
 
     const firstCellIndex = Math.max(
@@ -548,8 +548,8 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     };
   }
 
-  static _ensureClosestStickyHeader(
-    props: Props,
+  static _ensureClosestStickyHeader<Data extends readonly any[]>(
+    props: Props<Data>,
     stickyIndicesSet: Set<number>,
     renderMask: CellRenderMask,
     cellIdx: number
@@ -623,7 +623,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     };
 
   _adjustCellsAroundViewport(
-    props: Props,
+    props: Props<Data>,
     cellsAroundViewport: { first: number, last: number }
   ): { first: number, last: number } {
     const { data, getItemCount } = props;
@@ -771,7 +771,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     }
   }
 
-  static getDerivedStateFromProps(newProps: Props, prevState: State): State {
+  static getDerivedStateFromProps<Data extends readonly any[]>(newProps: Props<Data>, prevState: State): State {
     // first and last could be stale (e.g. if a new, shorter items props is passed in), so we make
     // sure we're rendering a reasonable range here.
     const itemCount = newProps.getItemCount(newProps.data);
@@ -856,9 +856,9 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     }
   }
 
-  static _constrainToItemCount(
+  static _constrainToItemCount<Data extends readonly any[]>(
     cells: { first: number, last: number },
-    props: Props
+    props: Props<Data>
   ): { first: number, last: number } {
     const itemCount = props.getItemCount(props.data);
     const last = Math.min(itemCount - 1, cells.last);
@@ -1102,7 +1102,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     this._hasMore = this.state.cellsAroundViewport.last < itemCount - 1;
 
     const innerRet = (
-      <VirtualizedListContextProvider
+      <VirtualizedListContextProvider<Data>
         value={{
           cellKey: null,
           getScrollMetrics: this._getScrollMetrics,
@@ -1163,7 +1163,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props<Data>) {
     const { data, extraData } = this.props;
     if (data !== prevProps.data || extraData !== prevProps.extraData) {
       // clear the viewableIndices cache to also trigger
@@ -1209,7 +1209,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
   _highestMeasuredFrameIndex = 0;
   _indicesToKeys: Map<number, string> = new Map();
   _lastFocusedCellKey: string | null = null;
-  _nestedChildLists: ChildListCollection<VirtualizedList> =
+  _nestedChildLists: ChildListCollection<VirtualizedList<Data>> =
     new ChildListCollection();
   _offsetFromParentVirtualizedList: number = 0;
   _prevParentOffset: number = 0;
@@ -1829,7 +1829,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
   _createViewToken = (
     index: number,
     isViewable: boolean,
-    props: FrameMetricProps
+    props: FrameMetricProps<Data>
     // $FlowFixMe[missing-local-annot]
   ) => {
     const { data, getItem } = props;
@@ -1846,7 +1846,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
    * Gets an approximate offset to an item at a given index. Supports
    * fractional indices.
    */
-  _getOffsetApprox = (index: number, props: FrameMetricProps): number => {
+  _getOffsetApprox = (index: number, props: FrameMetricProps<Data>): number => {
     if (Number.isInteger(index)) {
       return this.__getFrameMetricsApprox(index, props).offset;
     } else {
@@ -1859,7 +1859,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
     }
   };
 
-  __getFrameMetricsApprox = (index: number, props: FrameMetricProps) => {
+  __getFrameMetricsApprox = (index: number, props: FrameMetricProps<Data>) => {
     const frame = this._getFrameMetrics(index, props);
     if (frame && frame.index === index) {
       // check for invalid frames due to row re-ordering
@@ -1883,7 +1883,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
 
   _getFrameMetrics = (
     index: number,
-    props: FrameMetricProps
+    props: FrameMetricProps<Data>
   ): {
     length: number,
     offset: number,
@@ -1909,7 +1909,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
   };
 
   _getNonViewportRenderRegions = (
-    props: FrameMetricProps
+    props: FrameMetricProps<Data>
   ): ReadonlyArray<{
     first: number,
     last: number
@@ -1978,7 +1978,7 @@ class VirtualizedList extends StateSafePureComponent<Props, State, VirtualizedLi
   };
 
   _updateViewableItems(
-    props: FrameMetricProps,
+    props: FrameMetricProps<Data>,
     cellsAroundViewport: { first: number, last: number }
   ) {
     this._viewabilityTuples.forEach((tuple) => {

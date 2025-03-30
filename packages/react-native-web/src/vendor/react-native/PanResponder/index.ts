@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -124,7 +121,7 @@ const currentCentroidY = TouchHistoryMath.currentCentroidY;
  * [PanResponder example in RNTester](https://github.com/facebook/react-native/blob/master/RNTester/js/PanResponderExample.js)
  */
 
-export type GestureState = {|
+export type GestureState = {
   /**
    * ID of the gestureState - persisted as long as there at least one touch on screen
    */
@@ -181,7 +178,7 @@ export type GestureState = {|
    * @private
    */
   _accountsForMovesUpTo: number
-|};
+};
 
 type ActiveCallback = (
   event: PressEvent,
@@ -189,33 +186,33 @@ type ActiveCallback = (
 ) => boolean;
 
 type InteractionState = {
-  handle: ?number,
+  handle: number | null,
   shouldCancelClick: boolean,
-  timeout: ?TimeoutID
+  timeout: number | null
 };
 
-type PassiveCallback = (event: PressEvent, gestureState: GestureState) => mixed;
+type PassiveCallback = (event: PressEvent, gestureState: GestureState) => unknown;
 
-type PanResponderConfig = $ReadOnly<{|
-  onMoveShouldSetPanResponder?: ?ActiveCallback,
-  onMoveShouldSetPanResponderCapture?: ?ActiveCallback,
-  onStartShouldSetPanResponder?: ?ActiveCallback,
-  onStartShouldSetPanResponderCapture?: ?ActiveCallback,
+type PanResponderConfig = {
+  onMoveShouldSetPanResponder?: ActiveCallback,
+  onMoveShouldSetPanResponderCapture?: ActiveCallback,
+  onStartShouldSetPanResponder?: ActiveCallback,
+  onStartShouldSetPanResponderCapture?: ActiveCallback,
   /**
    * The body of `onResponderGrant` returns a bool, but the vast majority of
    * callsites return void and this TODO notice is found in it:
    *   TODO: t7467124 investigate if this can be removed
    */
-  onPanResponderGrant?: ?(PassiveCallback | ActiveCallback),
-  onPanResponderReject?: ?PassiveCallback,
-  onPanResponderStart?: ?PassiveCallback,
-  onPanResponderEnd?: ?PassiveCallback,
-  onPanResponderRelease?: ?PassiveCallback,
-  onPanResponderMove?: ?PassiveCallback,
-  onPanResponderTerminate?: ?PassiveCallback,
-  onPanResponderTerminationRequest?: ?ActiveCallback,
-  onShouldBlockNativeResponder?: ?ActiveCallback
-|}>;
+  onPanResponderGrant?: PassiveCallback | ActiveCallback,
+  onPanResponderReject?: PassiveCallback,
+  onPanResponderStart?: PassiveCallback,
+  onPanResponderEnd?: PassiveCallback,
+  onPanResponderRelease?: PassiveCallback,
+  onPanResponderMove?: PassiveCallback,
+  onPanResponderTerminate?: PassiveCallback,
+  onPanResponderTerminationRequest?: ActiveCallback,
+  onShouldBlockNativeResponder?: ActiveCallback
+};
 
 const PanResponder = {
   /**
@@ -321,7 +318,7 @@ const PanResponder = {
    */
   _updateGestureStateOnMove(
     gestureState: GestureState,
-    touchHistory: $PropertyType<PressEvent, 'touchHistory'>
+    touchHistory: PressEvent['touchHistory']
   ) {
     gestureState.numberActiveTouches = touchHistory.numberActiveTouches;
     gestureState.moveX = currentCentroidXOfTouchesChangedAfter(
@@ -389,9 +386,9 @@ const PanResponder = {
    *  accordingly. (numberActiveTouches) may not be totally accurate unless you
    *  are the responder.
    */
-  create(config: PanResponderConfig): {|
-    getInteractionHandle: () => ?number,
-    panHandlers: {|
+  create(config: PanResponderConfig): {
+    getInteractionHandle: () => number | null,
+    panHandlers: {
       onClickCapture: (event: any) => void,
       onMoveShouldSetResponder: (event: PressEvent) => boolean,
       onMoveShouldSetResponderCapture: (event: PressEvent) => boolean,
@@ -405,8 +402,8 @@ const PanResponder = {
       onResponderTerminationRequest: (event: PressEvent) => boolean,
       onStartShouldSetResponder: (event: PressEvent) => boolean,
       onStartShouldSetResponderCapture: (event: PressEvent) => boolean
-    |}
-  |} {
+    }
+  } {
     const interactionState: InteractionState = {
       handle: null,
       shouldCancelClick: false,
@@ -578,7 +575,7 @@ const PanResponder = {
 
     return {
       panHandlers,
-      getInteractionHandle(): ?number {
+      getInteractionHandle(): number | null {
         return interactionState.handle;
       }
     };
@@ -587,7 +584,7 @@ const PanResponder = {
 
 function clearInteractionHandle(
   interactionState: InteractionState,
-  callback: ?(ActiveCallback | PassiveCallback),
+  callback: ActiveCallback | PassiveCallback | undefined,
   event: PressEvent,
   gestureState: GestureState
 ) {
@@ -601,18 +598,17 @@ function clearInteractionHandle(
 }
 
 function clearInteractionTimeout(interactionState: InteractionState) {
-  clearTimeout(interactionState.timeout);
+  if (interactionState.timeout) {
+    clearTimeout(interactionState.timeout);
+  }
 }
 
 function setInteractionTimeout(interactionState: InteractionState) {
   interactionState.timeout = setTimeout(() => {
     interactionState.shouldCancelClick = false;
-  }, 250);
+  }, 250) as unknown as number;
 }
 
-export type PanResponderInstance = $Call<
-  $PropertyType<typeof PanResponder, 'create'>,
-  PanResponderConfig
->;
+export type PanResponderInstance = ReturnType<typeof PanResponder.create>;
 
 export default PanResponder;

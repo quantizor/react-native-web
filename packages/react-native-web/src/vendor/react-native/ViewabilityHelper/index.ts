@@ -14,7 +14,7 @@ import invariant from '../../../modules/invariant';
 export type ViewToken = {
   item: any,
   key: string,
-  index: number | undefined,
+  index: number | null,
   isViewable: boolean,
   section?: any | undefined,
 };

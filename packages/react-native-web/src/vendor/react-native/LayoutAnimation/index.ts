@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -25,21 +22,21 @@ type Type =
 
 type Property = 'opacity' | 'scaleX' | 'scaleY' | 'scaleXY';
 
-type AnimationConfig = $ReadOnly<{|
+type AnimationConfig = {
   duration?: number,
   delay?: number,
   springDamping?: number,
   initialVelocity?: number,
   type?: Type,
   property?: Property
-|}>;
+};
 
-type LayoutAnimationConfig = $ReadOnly<{|
+type LayoutAnimationConfig = {
   duration: number,
   create?: AnimationConfig,
   update?: AnimationConfig,
   delete?: AnimationConfig
-|}>;
+};
 
 function configureNext(
   config: LayoutAnimationConfig,
@@ -49,7 +46,6 @@ function configureNext(
     UIManager.configureNextLayoutAnimation(
       config,
       onAnimationDidEnd ?? function () {},
-      function () {} /* unused onError */
     );
   }
 }
@@ -72,8 +68,8 @@ const Presets = {
     300,
     'easeInEaseOut',
     'opacity'
-  ): LayoutAnimationConfig),
-  linear: (create(500, 'linear', 'opacity'): LayoutAnimationConfig),
+  )),
+  linear: (create(500, 'linear', 'opacity')),
   spring: {
     duration: 700,
     create: {
@@ -134,19 +130,19 @@ const LayoutAnimation = {
     scaleY: 'scaleY',
     scaleXY: 'scaleXY'
   }),
-  checkConfig(...args: Array<mixed>) {
+  checkConfig(...args: Array<unknown>) {
     console.error('LayoutAnimation.checkConfig(...) has been disabled.');
   },
   Presets,
-  easeInEaseOut: (configureNext.bind(null, Presets.easeInEaseOut): (
+  easeInEaseOut: configureNext.bind(null, Presets.easeInEaseOut) as (
     onAnimationDidEnd?: any
-  ) => void),
-  linear: (configureNext.bind(null, Presets.linear): (
+  ) => void,
+  linear: configureNext.bind(null, Presets.linear) as (
     onAnimationDidEnd?: any
-  ) => void),
-  spring: (configureNext.bind(null, Presets.spring): (
+  ) => void,
+  spring: configureNext.bind(null, Presets.spring) as (
     onAnimationDidEnd?: any
-  ) => void)
+  ) => void,
 };
 
 export default LayoutAnimation;
