@@ -5,35 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import View, { type ViewProps } from '../../../exports/View';
-import StyleSheet from '../../../exports/StyleSheet';
-import deepDiffer from '../deepDiffer';
-import Platform from '../../../exports/Platform';
-import invariant from '../../../modules/invariant';
 import * as React from 'react';
-
-type ScrollViewNativeComponent = any;
-type ViewStyleProp = ViewProps['style'];
+import Platform from '../../../exports/Platform';
+import StyleSheet from '../../../exports/StyleSheet';
+import View, { type ViewProps } from '../../../exports/View';
+import invariant from '../../../modules/invariant';
+import deepDiffer from '../deepDiffer';
 import type {
   ViewToken,
   ViewabilityConfig,
   ViewabilityConfigCallbackPair
 } from '../ViewabilityHelper';
-import type { RenderItemType, RenderItemProps } from '../VirtualizedList';
-type ScrollResponderType = any;
+import type { RenderItemProps, RenderItemType } from '../VirtualizedList';
 import VirtualizedList from '../VirtualizedList';
-import { keyExtractor as defaultKeyExtractor, keyExtractor } from '../VirtualizeUtils';
+import { keyExtractor as defaultKeyExtractor } from '../VirtualizeUtils';
+
+type ScrollViewNativeComponent = any;
+type ViewStyleProp = ViewProps['style'];
+type ScrollResponderType = any;
 
 import memoizeOne from 'memoize-one';
-
-type $FlowFixMe = any;
 
 type RequiredProps<ItemT> = {
   /**
    * An array (or array-like list) of items to render. Other data types can be
    * used by targetting VirtualizedList directly.
    */
-  data?: ArrayLike<ItemT>
+  data?: ArrayLike<ItemT>;
 };
 
 type OptionalProps<ItemT> = {
@@ -63,18 +61,18 @@ type OptionalProps<ItemT> = {
    * `highlight` and `unhighlight` (which set the `highlighted: boolean` prop) are insufficient for
    * your use-case.
    */
-  renderItem?: RenderItemType<ItemT>,
+  renderItem?: RenderItemType<ItemT>;
 
   /**
    * Optional custom style for multi-item rows generated when numColumns > 1.
    */
-  columnWrapperStyle?: ViewStyleProp,
+  columnWrapperStyle?: ViewStyleProp;
   /**
    * A marker property for telling the list to re-render (since it implements `PureComponent`). If
    * any of your `renderItem`, Header, Footer, etc. functions depend on anything outside of the
    * `data` prop, stick it here and treat it immutably.
    */
-  extraData?: any,
+  extraData?: any;
   /**
    * `getItemLayout` is an optional optimizations that let us skip measurement of dynamic content if
    * you know the height of items a priori. `getItemLayout` is the most efficient, and is easy to
@@ -92,44 +90,44 @@ type OptionalProps<ItemT> = {
     data: ArrayLike<ItemT>,
     index: number
   ) => {
-    length: number,
-    offset: number,
-    index: number,
-  },
+    length: number;
+    offset: number;
+    index: number;
+  };
   /**
    * If true, renders items next to each other horizontally instead of stacked vertically.
    */
-  horizontal?: boolean,
+  horizontal?: boolean;
   /**
    * How many items to render in the initial batch. This should be enough to fill the screen but not
    * much more. Note these items will never be unmounted as part of the windowed rendering in order
    * to improve perceived performance of scroll-to-top actions.
    */
-  initialNumToRender?: number,
+  initialNumToRender?: number;
   /**
    * Instead of starting at the top with the first item, start at `initialScrollIndex`. This
    * disables the "scroll to top" optimization that keeps the first `initialNumToRender` items
    * always rendered and immediately renders the items starting at this initial index. Requires
    * `getItemLayout` to be implemented.
    */
-  initialScrollIndex?: number,
+  initialScrollIndex?: number;
   /**
    * Reverses the direction of scroll. Uses scale transforms of -1.
    */
-  inverted?: boolean,
+  inverted?: boolean;
   /**
    * Used to extract a unique key for a given item at the specified index. Key is used for caching
    * and as the react key to track item re-ordering. The default extractor checks `item.key`, then
    * falls back to using the index, like React does.
    */
-  keyExtractor?: (item: ItemT, index: number) => string,
+  keyExtractor?: (item: ItemT, index: number) => string;
   /**
    * Multiple columns can only be rendered with `horizontal={false}` and will zig-zag like a
    * `flexWrap` layout. Items should all be the same height - masonry layouts are not supported.
    *
    * The default value is 1.
    */
-  numColumns?: number,
+  numColumns?: number;
   /**
    * Note: may have bugs (missing content) in some circumstances - use at your own risk.
    *
@@ -137,15 +135,15 @@ type OptionalProps<ItemT> = {
    *
    * The default value is true for Android.
    */
-  removeClippedSubviews?: boolean,
+  removeClippedSubviews?: boolean;
   /**
    * See `ScrollView` for flow type and further documentation.
    */
-  fadingEdgeLength?: number,
+  fadingEdgeLength?: number;
   /**
    * Enable an optimization to memoize the item renderer to prevent unnecessary rerenders.
    */
-  strictMode?: boolean
+  strictMode?: boolean;
 };
 
 /**
@@ -165,20 +163,23 @@ function isArrayLike(data: unknown): boolean {
   return typeof Object(data).length === 'number';
 }
 
-type FlatListProps<ItemT> = RequiredProps<ItemT> & OptionalProps<ItemT>
+type FlatListProps<ItemT> = RequiredProps<ItemT> & OptionalProps<ItemT>;
 
 type VirtualizedListProps = React.ComponentProps<typeof VirtualizedList>;
 
 type Diff<T, U> = T & Pick<U, Exclude<keyof U, keyof T>>;
 
 export type Props<ItemT> = Diff<
-{
-  getItem: VirtualizedListProps['getItem'],
-  getItemCount: VirtualizedListProps['getItemCount'],
-  getItemLayout: VirtualizedListProps['getItemLayout'],
-  renderItem: VirtualizedListProps['renderItem'],
-  keyExtractor: VirtualizedListProps['keyExtractor'],
-}, VirtualizedListProps> & FlatListProps<ItemT>;
+  {
+    getItem: VirtualizedListProps['getItem'];
+    getItemCount: VirtualizedListProps['getItemCount'];
+    getItemLayout: VirtualizedListProps['getItemLayout'];
+    renderItem: VirtualizedListProps['renderItem'];
+    keyExtractor: VirtualizedListProps['keyExtractor'];
+  },
+  VirtualizedListProps
+> &
+  FlatListProps<ItemT>;
 
 /**
  * A performant interface for rendering simple, flat lists, supporting the most handy features:
@@ -288,7 +289,9 @@ export type Props<ItemT> = Diff<
  *
  * Also inherits [ScrollView Props](docs/scrollview.html#props), unless it is nested in another FlatList of same orientation.
  */
-class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
+class FlatList<ItemT extends {} = any> extends React.PureComponent<
+  Props<ItemT>
+> {
   /**
    * Scrolls to the end of the content. May be janky without `getItemLayout` prop.
    */
@@ -307,10 +310,10 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
    * `getItemLayout` prop.
    */
   scrollToIndex(params: {
-    animated?: boolean,
-    index: number,
-    viewOffset?: number,
-    viewPosition?: number,
+    animated?: boolean;
+    index: number;
+    viewOffset?: number;
+    viewPosition?: number;
   }) {
     if (this._listRef) {
       this._listRef.scrollToIndex(params);
@@ -324,10 +327,10 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
    * `getItemLayout` prop.
    */
   scrollToItem(params: {
-    animated?: boolean,
-    item: ItemT,
-    viewOffset?: number,
-    viewPosition?: number,
+    animated?: boolean;
+    item: ItemT;
+    viewOffset?: number;
+    viewPosition?: number;
   }) {
     if (this._listRef) {
       this._listRef.scrollToItem(params);
@@ -339,7 +342,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
    *
    * Check out [scrollToOffset](docs/virtualizedlist.html#scrolltooffset) of VirtualizedList
    */
-  scrollToOffset(params: { animated?: boolean, offset: number }) {
+  scrollToOffset(params: { animated?: boolean; offset: number }) {
     if (this._listRef) {
       this._listRef.scrollToOffset(params);
     }
@@ -407,9 +410,6 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
         }));
     } else if (this.props.onViewableItemsChanged) {
       this._virtualizedListPairs.push({
-        /* $FlowFixMe[incompatible-call] (>=0.63.0 site=react_native_fb) This
-         * comment suppresses an error found when Flow v0.63 was deployed. To
-         * see the error delete this comment and run Flow. */
         viewabilityConfig: this.props.viewabilityConfig,
         onViewableItemsChanged: this._createOnViewableItemsChanged(
           this.props.onViewableItemsChanged
@@ -418,7 +418,6 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
     }
   }
 
-  // $FlowFixMe[missing-local-annot]
   componentDidUpdate(prevProps: Props<ItemT>) {
     invariant(
       prevProps.numColumns === this.props.numColumns,
@@ -526,9 +525,7 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
       );
 
       return (items as ItemT[])
-        .map((item, kk) =>
-          keyExtractor(item, index * numColumns + kk)
-        )
+        .map((item, kk) => keyExtractor(item, index * numColumns + kk))
         .join(':');
     }
 
@@ -548,16 +545,16 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
   _createOnViewableItemsChanged(
     onViewableItemsChanged: (info: {
-      viewableItems: Array<ViewToken>,
-      changed: Array<ViewToken>,
-      viewabilityConfig: ViewabilityConfig,
-      }) => void
+      viewableItems: Array<ViewToken>;
+      changed: Array<ViewToken>;
+      viewabilityConfig: ViewabilityConfig;
+    }) => void
   ) {
     return (info: {
-      viewableItems: Array<ViewToken>,
-      changed: Array<ViewToken>,
-      viewabilityConfig: ViewabilityConfig,
-      }) => {
+      viewableItems: Array<ViewToken>;
+      changed: Array<ViewToken>;
+      viewabilityConfig: ViewabilityConfig;
+    }) => {
       const numColumns = numColumnsOrDefault(this.props.numColumns);
       if (onViewableItemsChanged) {
         if (numColumns > 1) {
@@ -569,7 +566,11 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
           info.changed.forEach((v) =>
             this._pushMultiColumnViewable(changed, v)
           );
-          onViewableItemsChanged({ viewableItems, changed, viewabilityConfig: info.viewabilityConfig });
+          onViewableItemsChanged({
+            viewableItems,
+            changed,
+            viewabilityConfig: info.viewabilityConfig
+          });
         } else {
           onViewableItemsChanged(info);
         }
@@ -578,7 +579,11 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
   }
 
   _renderer = (
-    ListItemComponent: React.ComponentType<any> | React.ReactElement<any> | keyof React.JSX.IntrinsicElements | undefined,
+    ListItemComponent:
+      | React.ComponentType<any>
+      | React.ReactElement<any>
+      | keyof React.JSX.IntrinsicElements
+      | undefined,
     renderItem: RenderItemType<ItemT> | undefined,
     columnWrapperStyle: ViewStyleProp,
     numColumns: number | undefined,

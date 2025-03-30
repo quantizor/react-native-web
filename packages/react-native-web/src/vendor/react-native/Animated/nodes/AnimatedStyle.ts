@@ -16,9 +16,19 @@ import StyleSheet from '../../../../exports/StyleSheet';
 
 const flattenStyle = StyleSheet.flatten;
 
-function createAnimatedStyle(inputStyle: any): Object {
+type AnimatedStyleObject<Value extends {}> = {
+  [key: string]:
+    | AnimatedNode<Value>
+    | InstanceType<typeof AnimatedTransform>
+    | AnimatedStyleObject<Value>;
+};
+
+function createAnimatedStyle<Value extends {}>(
+  inputStyle: any
+): AnimatedStyleObject<Value> {
   const style = flattenStyle(inputStyle);
-  const animatedStyles = {};
+  const animatedStyles: AnimatedStyleObject<Value> = {};
+
   for (const key in style) {
     const value = style[key];
     if (key === 'transform' && Array.isArray(value)) {
@@ -32,9 +42,11 @@ function createAnimatedStyle(inputStyle: any): Object {
   return animatedStyles;
 }
 
-class AnimatedStyle extends AnimatedWithChildren {
+class AnimatedStyle<Value extends {}> extends AnimatedWithChildren<
+  AnimatedStyleObject<Value>[]
+> {
   _inputStyle: any;
-  _style: Object;
+  _style: AnimatedStyleObject<Value>;
 
   constructor(style: any) {
     super();
@@ -63,7 +75,7 @@ class AnimatedStyle extends AnimatedWithChildren {
     return updatedStyle;
   }
 
-  __getValue(): Array<Object> {
+  __getValue(): AnimatedStyleObject<Value>[] {
     return [this._inputStyle, this._walkStyleAndGetValues(this._style)];
   }
 

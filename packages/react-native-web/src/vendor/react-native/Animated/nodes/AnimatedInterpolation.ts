@@ -23,14 +23,15 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 
 type ExtrapolateType = 'extend' | 'identity' | 'clamp';
 
-export type InterpolationConfigType<OutputT extends number | string> = Readonly<{
-  inputRange: ReadonlyArray<number>,
-  outputRange: ReadonlyArray<OutputT>,
-  easing?: (input: number) => number,
-  extrapolate?: ExtrapolateType,
-  extrapolateLeft?: ExtrapolateType,
-  extrapolateRight?: ExtrapolateType
-}>;
+export type InterpolationConfigType<OutputT extends number | string> =
+  Readonly<{
+    inputRange: ReadonlyArray<number>;
+    outputRange: ReadonlyArray<OutputT>;
+    easing?: (input: number) => number;
+    extrapolate?: ExtrapolateType;
+    extrapolateLeft?: ExtrapolateType;
+    extrapolateRight?: ExtrapolateType;
+  }>;
 
 const linear = (t: number) => t;
 
@@ -42,7 +43,9 @@ function createInterpolation<OutputT extends number | string>(
   config: InterpolationConfigType<OutputT>
 ): (input: number) => OutputT {
   if (config.outputRange && typeof config.outputRange[0] === 'string') {
-    return createInterpolationFromStringOutputRange(config as InterpolationConfigType<string>) as (input: number) => OutputT;
+    return createInterpolationFromStringOutputRange(
+      config as InterpolationConfigType<string>
+    ) as (input: number) => OutputT;
   }
 
   const outputRange = config.outputRange;
@@ -209,20 +212,23 @@ function createInterpolationFromStringOutputRange<OutputT extends string>(
   //   [200, 250],
   //   [0, 0.5],
   // ]
-  const outputRanges = outputRange[0].match(stringShapeRegex)!.map(() => [] as number[]);
+  const outputRanges = outputRange[0]
+    .match(stringShapeRegex)!
+    .map(() => [] as number[]);
   outputRange.forEach((value) => {
     value.match(stringShapeRegex)?.forEach((number, i) => {
       outputRanges[i].push(Number(number));
     });
   });
 
-  const interpolations = (outputRange[0]
-    .match(stringShapeRegex) || []).map((value, i) => {
+  const interpolations = (outputRange[0].match(stringShapeRegex) || []).map(
+    (value, i) => {
       return createInterpolation({
         ...config,
         outputRange: outputRanges[i]
       });
-    });
+    }
+  );
 
   // rgba requires that the r,g,b are integers.... so we want to round them, but we *dont* want to
   // round the opacity (4th column).
@@ -291,17 +297,20 @@ function checkInfiniteRange(name: string, arr: ReadonlyArray<number | string>) {
 
 class AnimatedInterpolation<
   OutputT extends number | string
-> extends AnimatedWithChildren {
+> extends AnimatedWithChildren<any, OutputT> {
   // Export for testing.
   static __createInterpolation: <OutputT extends number | string>(
     config: InterpolationConfigType<OutputT>
   ) => (input: number) => string | number = createInterpolation;
 
-  _parent: AnimatedNode;
+  _parent: AnimatedNode<any, OutputT>;
   _config: InterpolationConfigType<OutputT>;
   _interpolation: (input: number) => OutputT;
 
-  constructor(parent: AnimatedNode, config: InterpolationConfigType<OutputT>) {
+  constructor(
+    parent: AnimatedNode<any, OutputT>,
+    config: InterpolationConfigType<OutputT>
+  ) {
     super();
     this._parent = parent;
     this._config = config;
@@ -313,8 +322,8 @@ class AnimatedInterpolation<
     super.__makeNative(platformConfig);
   }
 
-  __getValue(): number | string {
-    const parentValue: number = this._parent.__getValue();
+  __getValue(): OutputT {
+    const parentValue: OutputT = this._parent.__getValue();
     invariant(
       typeof parentValue === 'number',
       'Cannot interpolate an input which is not a number.'
@@ -322,10 +331,10 @@ class AnimatedInterpolation<
     return this._interpolation(parentValue);
   }
 
-  interpolate<NewOutputT extends number | string>(
-    config: InterpolationConfigType<NewOutputT>
-  ): AnimatedInterpolation<NewOutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<OutputT>
+  ): AnimatedInterpolation<OutputT> {
+    return new AnimatedInterpolation<OutputT>(this, config);
   }
 
   __attach(): void {

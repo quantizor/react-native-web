@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -17,23 +14,20 @@ import { shouldUseNativeDriver } from '../NativeAnimatedHelper';
 import type AnimatedValue from '../nodes/AnimatedValue';
 import type { AnimationConfig, EndCallback } from './Animation';
 
-export type DecayAnimationConfig = {
-  ...AnimationConfig,
+export interface DecayAnimationConfig extends AnimationConfig {
   velocity:
     | number
     | {
-        x: number,
-        y: number,
-        ...
-      },
-  deceleration?: number
-};
+        x: number;
+        y: number;
+      };
+  deceleration?: number;
+}
 
-export type DecayAnimationConfigSingle = {
-  ...AnimationConfig,
-  velocity: number,
-  deceleration?: number
-};
+export interface DecayAnimationConfigSingle extends AnimationConfig {
+  velocity: number;
+  deceleration?: number;
+}
 
 class DecayAnimation extends Animation {
   _startTime: number;
@@ -54,12 +48,12 @@ class DecayAnimation extends Animation {
     this.__iterations = config.iterations ?? 1;
   }
 
-  __getNativeAnimationConfig(): {|
-    deceleration: number,
-    iterations: number,
-    type: $TEMPORARY$string<'decay'>,
-    velocity: number
-  |} {
+  __getNativeAnimationConfig(): {
+    deceleration: number;
+    iterations: number;
+    type: 'decay';
+    velocity: number;
+  } {
     return {
       type: 'decay',
       deceleration: this._deceleration,
@@ -71,8 +65,8 @@ class DecayAnimation extends Animation {
   start(
     fromValue: number,
     onUpdate: (value: number) => void,
-    onEnd: ?EndCallback,
-    previousAnimation: ?Animation,
+    onEnd: EndCallback | null,
+    previousAnimation: Animation | null,
     animatedValue: AnimatedValue
   ): void {
     this.__active = true;

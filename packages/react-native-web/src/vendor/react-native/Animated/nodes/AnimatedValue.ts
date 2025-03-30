@@ -18,7 +18,7 @@ import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type AnimatedTracking from './AnimatedTracking';
 
 export type AnimatedValueConfig = Readonly<{
-  useNativeDriver: boolean
+  useNativeDriver: boolean;
 }>;
 
 const NativeAnimatedAPI = NativeAnimatedHelper.API;
@@ -45,18 +45,17 @@ const NativeAnimatedAPI = NativeAnimatedHelper.API;
  * this two-phases process is to deal with composite props such as
  * transform which can receive values from multiple parents.
  */
-function _flush(rootNode: AnimatedValue): void {
-  const animatedStyles = new Set();
-  function findAnimatedStyles(node: AnimatedValue | AnimatedNode) {
-    /* $FlowFixMe[prop-missing] (>=0.68.0 site=react_native_fb) This comment
-     * suppresses an error found when Flow v0.68 was deployed. To see the error
-     * delete this comment and run Flow. */
+function _flush<T extends AnimatedValue>(rootNode: T): void {
+  const animatedStyles = new Set<{ update: () => void }>();
+
+  function findAnimatedStyles(node: AnimatedNode) {
     if ('update' in node && typeof node.update === 'function') {
-      animatedStyles.add(node);
+      animatedStyles.add(node as AnimatedNode & { update: () => void });
     } else {
       node.__getChildren().forEach(findAnimatedStyles);
     }
   }
+
   findAnimatedStyles(rootNode);
 
   animatedStyles.forEach((animatedStyle) => animatedStyle.update());
@@ -81,11 +80,11 @@ function _executeAsAnimatedBatch(id: string, operation: () => void) {
  *
  * See https://reactnative.dev/docs/animatedvalue
  */
-class AnimatedValue extends AnimatedWithChildren {
+class AnimatedValue extends AnimatedWithChildren<any, number> {
   _value: number;
   _startingValue: number;
   _offset: number;
-  _animation: Animation | null;
+  _animation: Animation<number> | null;
   _tracking: AnimatedTracking | null;
 
   constructor(value: number, config?: AnimatedValueConfig) {
@@ -223,10 +222,10 @@ class AnimatedValue extends AnimatedWithChildren {
    * Interpolates the value before updating the property, e.g. mapping 0-1 to
    * 0-10.
    */
-  interpolate<OutputT extends number | string>(
-    config: InterpolationConfigType<OutputT>
-  ): AnimatedInterpolation<OutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<number>
+  ): AnimatedInterpolation<number> {
+    return new AnimatedInterpolation<number>(this, config);
   }
 
   /**

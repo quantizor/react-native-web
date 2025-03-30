@@ -15,12 +15,17 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
-class AnimatedDivision extends AnimatedWithChildren {
-  _a: AnimatedNode;
-  _b: AnimatedNode;
+export type AnimatedDivisionValue = number;
+
+class AnimatedDivision extends AnimatedWithChildren<AnimatedDivisionValue> {
+  _a: AnimatedNode<AnimatedDivisionValue>;
+  _b: AnimatedNode<AnimatedDivisionValue>;
   _warnedAboutDivideByZero: boolean = false;
 
-  constructor(a: AnimatedNode | number, b: AnimatedNode | number) {
+  constructor(
+    a: AnimatedNode | AnimatedDivisionValue,
+    b: AnimatedNode | AnimatedDivisionValue
+  ) {
     super();
     if (b === 0 || (b instanceof AnimatedNode && b.__getValue() === 0)) {
       console.error('Detected potential division by zero in AnimatedDivision');
@@ -35,7 +40,7 @@ class AnimatedDivision extends AnimatedWithChildren {
     super.__makeNative(platformConfig);
   }
 
-  __getValue(): number {
+  __getValue(): AnimatedDivisionValue {
     const a = this._a.__getValue();
     const b = this._b.__getValue();
     if (b === 0) {
@@ -51,10 +56,10 @@ class AnimatedDivision extends AnimatedWithChildren {
     return a / b;
   }
 
-  interpolate<OutputT extends number | string>(
-    config: InterpolationConfigType<OutputT>
-  ): AnimatedInterpolation<OutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<AnimatedDivisionValue>
+  ): AnimatedInterpolation<AnimatedDivisionValue> {
+    return new AnimatedInterpolation<AnimatedDivisionValue>(this, config);
   }
 
   __attach(): void {

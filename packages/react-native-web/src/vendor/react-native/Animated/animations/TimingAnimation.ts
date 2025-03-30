@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -25,32 +22,29 @@ import type { RgbaValue } from '../nodes/AnimatedColor';
 
 import AnimatedColor from '../nodes/AnimatedColor';
 
-export type TimingAnimationConfig = $ReadOnly<{
-  ...AnimationConfig,
+export interface TimingAnimationConfig extends AnimationConfig {
   toValue:
     | number
     | AnimatedValue
     | {
-        x: number,
-        y: number,
-        ...
+        x: number;
+        y: number;
       }
     | AnimatedValueXY
     | RgbaValue
     | AnimatedColor
-    | AnimatedInterpolation<number>,
-  easing?: (value: number) => number,
-  duration?: number,
-  delay?: number
-}>;
+    | AnimatedInterpolation<number>;
+  easing?: (value: number) => number;
+  duration?: number;
+  delay?: number;
+}
 
-export type TimingAnimationConfigSingle = $ReadOnly<{
-  ...AnimationConfig,
-  toValue: number,
-  easing?: (value: number) => number,
-  duration?: number,
-  delay?: number
-}>;
+export interface TimingAnimationConfigSingle extends AnimationConfig {
+  toValue: number;
+  easing?: (value: number) => number;
+  duration?: number;
+  delay?: number;
+}
 
 let _easeInOut;
 function easeInOut() {
@@ -71,7 +65,7 @@ class TimingAnimation extends Animation {
   _animationFrame: any;
   _timeout: any;
   _useNativeDriver: boolean;
-  _platformConfig: ?PlatformConfig;
+  _platformConfig?: PlatformConfig;
 
   constructor(config: TimingAnimationConfigSingle) {
     super();
@@ -87,7 +81,7 @@ class TimingAnimation extends Animation {
 
   __getNativeAnimationConfig(): any {
     const frameDuration = 1000.0 / 60.0;
-    const frames = [];
+    const frames: number[] = [];
     const numFrames = Math.round(this._duration / frameDuration);
     for (let frame = 0; frame < numFrames; frame++) {
       frames.push(this._easing(frame / numFrames));
@@ -105,8 +99,8 @@ class TimingAnimation extends Animation {
   start(
     fromValue: number,
     onUpdate: (value: number) => void,
-    onEnd: ?EndCallback,
-    previousAnimation: ?Animation,
+    onEnd: EndCallback | null,
+    previousAnimation: Animation | null,
     animatedValue: AnimatedValue
   ): void {
     this.__active = true;

@@ -14,12 +14,12 @@ import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
 import invariant from '../../../../modules/invariant';
 
-class AnimatedProps extends AnimatedNode {
+class AnimatedProps extends AnimatedNode<any, any> {
   _props: Object;
   _animatedView: any;
   _callback: () => void;
 
-  constructor(props: {style?: any}, callback: () => void) {
+  constructor(props: { style?: any }, callback: () => void) {
     super();
     if (props.style) {
       props = {

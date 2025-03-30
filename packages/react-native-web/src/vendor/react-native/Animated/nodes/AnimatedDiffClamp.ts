@@ -15,14 +15,20 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
-class AnimatedDiffClamp extends AnimatedWithChildren {
-  _a: AnimatedNode;
+export type AnimatedDiffClampValue = number;
+
+class AnimatedDiffClamp extends AnimatedWithChildren<AnimatedDiffClampValue> {
+  _a: AnimatedNode<AnimatedDiffClampValue>;
   _min: number;
   _max: number;
   _value: number;
   _lastValue: number;
 
-  constructor(a: AnimatedNode, min: number, max: number) {
+  constructor(
+    a: AnimatedNode<AnimatedDiffClampValue>,
+    min: number,
+    max: number
+  ) {
     super();
 
     this._a = a;
@@ -36,13 +42,13 @@ class AnimatedDiffClamp extends AnimatedWithChildren {
     super.__makeNative(platformConfig);
   }
 
-  interpolate<OutputT extends number | string>(
-    config: InterpolationConfigType<OutputT>
-  ): AnimatedInterpolation<OutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<AnimatedDiffClampValue>
+  ): AnimatedInterpolation<AnimatedDiffClampValue> {
+    return new AnimatedInterpolation<AnimatedDiffClampValue>(this, config);
   }
 
-  __getValue(): number {
+  __getValue(): AnimatedDiffClampValue {
     const value = this._a.__getValue();
     const diff = value - this._lastValue;
     this._lastValue = value;

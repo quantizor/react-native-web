@@ -12,14 +12,14 @@ import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import type AnimatedValue from '../nodes/AnimatedValue';
 
 export type EndResult = { finished: boolean };
-export type EndCallback = (result: EndResult[]) => void;
+export type EndCallback = (result: EndResult) => void;
 
 export type AnimationConfig = {
-  isInteraction?: boolean,
-  useNativeDriver: boolean,
-  platformConfig?: PlatformConfig,
-  onComplete?: EndCallback | null,
-  iterations?: number
+  isInteraction?: boolean;
+  useNativeDriver: boolean;
+  platformConfig?: PlatformConfig;
+  onComplete?: EndCallback | null;
+  iterations?: number;
 };
 
 let startNativeAnimationNextId = 1;
@@ -27,7 +27,7 @@ let startNativeAnimationNextId = 1;
 // Important note: start() and stop() will only be called at most once.
 // Once an animation has been stopped or finished its course, it will
 // not be reused.
-class Animation {
+class Animation<T extends number = number> {
   __active: boolean;
   __isInteraction: boolean;
   __nativeId: number;
@@ -37,7 +37,7 @@ class Animation {
     fromValue: number,
     onUpdate: (value: number) => void,
     onEnd: EndCallback | null,
-    previousAnimation: Animation | null,
+    previousAnimation: Animation<T> | null,
     animatedValue: AnimatedValue
   ): void {}
   stop(): void {
@@ -51,7 +51,7 @@ class Animation {
     throw new Error('This animation type cannot be offloaded to native');
   }
   // Helper function for subclasses to make sure onEnd is only called once.
-  __debouncedOnEnd(result: EndResult[]): void {
+  __debouncedOnEnd(result: EndResult): void {
     const onEnd = this.__onEnd;
     this.__onEnd = null;
     onEnd && onEnd(result);

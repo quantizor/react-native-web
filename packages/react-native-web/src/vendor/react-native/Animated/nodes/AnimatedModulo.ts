@@ -15,11 +15,13 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 import type { InterpolationConfigType } from './AnimatedInterpolation';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 
-class AnimatedModulo extends AnimatedWithChildren {
-  _a: AnimatedNode;
+export type AnimatedModuloValue = number;
+
+class AnimatedModulo extends AnimatedWithChildren<AnimatedModuloValue> {
+  _a: AnimatedNode<AnimatedModuloValue>;
   _modulus: number;
 
-  constructor(a: AnimatedNode, modulus: number) {
+  constructor(a: AnimatedNode<AnimatedModuloValue>, modulus: number) {
     super();
     this._a = a;
     this._modulus = modulus;
@@ -30,16 +32,16 @@ class AnimatedModulo extends AnimatedWithChildren {
     super.__makeNative(platformConfig);
   }
 
-  __getValue(): number {
+  __getValue(): AnimatedModuloValue {
     return (
       ((this._a.__getValue() % this._modulus) + this._modulus) % this._modulus
     );
   }
 
-  interpolate<OutputT extends number | string>(
-    config: InterpolationConfigType<OutputT>
-  ): AnimatedInterpolation<OutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<AnimatedModuloValue>
+  ): AnimatedInterpolation<AnimatedModuloValue> {
+    return new AnimatedInterpolation<AnimatedModuloValue>(this, config);
   }
 
   __attach(): void {

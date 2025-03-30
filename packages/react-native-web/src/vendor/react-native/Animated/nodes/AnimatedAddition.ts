@@ -16,11 +16,16 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import type { InterpolationConfigType } from './AnimatedInterpolation';
 
-class AnimatedAddition extends AnimatedWithChildren {
-  _a: AnimatedNode;
-  _b: AnimatedNode;
+export type AnimatedAdditionValue = number;
 
-  constructor(a: AnimatedNode | number, b: AnimatedNode | number) {
+class AnimatedAddition extends AnimatedWithChildren<AnimatedAdditionValue> {
+  _a: AnimatedNode<AnimatedAdditionValue>;
+  _b: AnimatedNode<AnimatedAdditionValue>;
+
+  constructor(
+    a: AnimatedNode | AnimatedAdditionValue,
+    b: AnimatedNode | AnimatedAdditionValue
+  ) {
     super();
     this._a = typeof a === 'number' ? new AnimatedValue(a) : a;
     this._b = typeof b === 'number' ? new AnimatedValue(b) : b;
@@ -32,14 +37,14 @@ class AnimatedAddition extends AnimatedWithChildren {
     super.__makeNative(platformConfig);
   }
 
-  __getValue(): number {
+  __getValue(): AnimatedAdditionValue {
     return this._a.__getValue() + this._b.__getValue();
   }
 
-  interpolate<OutputT extends number | string>(
-    config: InterpolationConfigType<OutputT>
-  ): AnimatedInterpolation<OutputT> {
-    return new AnimatedInterpolation(this, config);
+  interpolate(
+    config: InterpolationConfigType<AnimatedAdditionValue>
+  ): AnimatedInterpolation<AnimatedAdditionValue> {
+    return new AnimatedInterpolation<AnimatedAdditionValue>(this, config);
   }
 
   __attach(): void {

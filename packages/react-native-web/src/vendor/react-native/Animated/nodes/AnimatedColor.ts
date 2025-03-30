@@ -19,23 +19,23 @@ type NativeColorValue = any;
 type ProcessedColorValue = any;
 
 export type AnimatedColorConfig = Readonly<{
-  useNativeDriver: boolean
+  useNativeDriver: boolean;
 }>;
 
 type ColorListenerCallback = (value: ColorValue) => unknown;
 
 export type RgbaValue = {
-  r: number,
-  g: number,
-  b: number,
-  a: number,
+  r: number;
+  g: number;
+  b: number;
+  a: number;
 };
 
 type RgbaAnimatedValue = {
-  r: AnimatedValue,
-  g: AnimatedValue,
-  b: AnimatedValue,
-  a: AnimatedValue,
+  r: AnimatedValue;
+  g: AnimatedValue;
+  b: AnimatedValue;
+  a: AnimatedValue;
 };
 
 const NativeAnimatedAPI = NativeAnimatedHelper.API;
@@ -43,32 +43,29 @@ const NativeAnimatedAPI = NativeAnimatedHelper.API;
 const defaultColor: RgbaValue = { r: 0, g: 0, b: 0, a: 1.0 };
 let _uniqueId = 1;
 
-const processColorObject = (color: NativeColorValue): ?NativeColorValue => {
+const processColorObject = (
+  color?: NativeColorValue
+): NativeColorValue | undefined => {
   return color;
 };
 
 /* eslint no-bitwise: 0 */
-function processColor(
-  color?: ColorValue | RgbaValue
-): NativeColorValue | null {
+function processColor(color?: ColorValue | RgbaValue): NativeColorValue | null {
   if (color === undefined || color === null) {
     return null;
   }
 
   if (isRgbaValue(color)) {
-    return color
+    return color;
   }
 
-  let normalizedColor: ?ProcessedColorValue = normalizeColor(
-    color
-  );
+  let normalizedColor: ProcessedColorValue | null = normalizeColor(color);
   if (normalizedColor === undefined || normalizedColor === null) {
     return null;
   }
 
   if (typeof normalizedColor === 'object') {
-    const processedColorObj: ?NativeColorValue =
-      processColorObject(normalizedColor);
+    const processedColorObj = processColorObject(normalizedColor);
     if (processedColorObj != null) {
       return processedColorObj;
     }
@@ -104,19 +101,21 @@ function isRgbaAnimatedValue(value: any): value is RgbaAnimatedValue {
   );
 }
 
-export default class AnimatedColor extends AnimatedWithChildren<string> {
+type AnimatedColorValue = {
+  r: string;
+  g: string;
+  b: string;
+  a: string;
+};
+
+export default class AnimatedColor extends AnimatedWithChildren<AnimatedColorValue> {
   r: AnimatedValue;
   g: AnimatedValue;
   b: AnimatedValue;
   a: AnimatedValue;
-  nativeColor: ?NativeColorValue;
+  nativeColor?: NativeColorValue;
   _listeners: {
-    [key: string]: {
-      r: string,
-      g: string,
-      b: string,
-      a: string,
-    },
+    [key: string]: AnimatedColorValue;
   } = {};
 
   constructor(
@@ -134,7 +133,7 @@ export default class AnimatedColor extends AnimatedWithChildren<string> {
       this.a = rgbaAnimatedValue.a;
     } else {
       const processedColor: RgbaValue | NativeColorValue =
-        processColor((value: ColorValue | RgbaValue)) ?? defaultColor;
+        processColor(value as ColorValue | RgbaValue) ?? defaultColor;
       let initColor: RgbaValue = defaultColor;
       if (isRgbaValue(processedColor)) {
         initColor = processedColor;

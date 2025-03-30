@@ -3,21 +3,27 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
 
 import AnimatedNode from './AnimatedNode';
 import AnimatedWithChildren from './AnimatedWithChildren';
-import NativeAnimatedHelper from '../NativeAnimatedHelper';
+import NativeAnimatedHelper, {
+  AnimatedTransformConfig
+} from '../NativeAnimatedHelper';
 
-class AnimatedTransform extends AnimatedWithChildren {
-  _transforms: $ReadOnlyArray<Object>;
+export type AnimatedTransformValue = Record<
+  string,
+  string | number | AnimatedNode<string | number>
+>;
 
-  constructor(transforms: $ReadOnlyArray<Object>) {
+class AnimatedTransform extends AnimatedWithChildren<
+  readonly AnimatedTransformValue[]
+> {
+  _transforms: readonly AnimatedTransformValue[];
+
+  constructor(transforms: readonly AnimatedTransformValue[]) {
     super();
     this._transforms = transforms;
   }
@@ -34,7 +40,7 @@ class AnimatedTransform extends AnimatedWithChildren {
     super.__makeNative();
   }
 
-  __getValue(): $ReadOnlyArray<Object> {
+  __getValue(): readonly AnimatedTransformValue[] {
     return this._transforms.map((transform) => {
       const result = {};
       for (const key in transform) {
@@ -49,7 +55,7 @@ class AnimatedTransform extends AnimatedWithChildren {
     });
   }
 
-  __getAnimatedValue(): $ReadOnlyArray<Object> {
+  __getAnimatedValue(): readonly AnimatedTransformValue[] {
     return this._transforms.map((transform) => {
       const result = {};
       for (const key in transform) {
@@ -89,7 +95,7 @@ class AnimatedTransform extends AnimatedWithChildren {
   }
 
   __getNativeConfig(): any {
-    const transConfigs = [];
+    const transConfigs: AnimatedTransformConfig[] = [];
 
     this._transforms.forEach((transform) => {
       for (const key in transform) {

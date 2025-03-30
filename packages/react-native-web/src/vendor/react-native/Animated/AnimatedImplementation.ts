@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -42,12 +39,11 @@ import type { Mapping, EventConfig } from './AnimatedEvent';
 import AnimatedColor from './nodes/AnimatedColor';
 
 export type CompositeAnimation = {
-  start: (callback?: ?EndCallback) => void,
-  stop: () => void,
-  reset: () => void,
-  _startNativeLoop: (iterations?: number) => void,
-  _isUsingNativeDriver: () => boolean,
-  ...
+  start: (callback?: EndCallback | null) => void;
+  stop: () => void;
+  reset: () => void;
+  _startNativeLoop: (iterations?: number) => void;
+  _isUsingNativeDriver: () => boolean;
 };
 
 const add = function (
@@ -91,24 +87,24 @@ const diffClamp = function (
 };
 
 const _combineCallbacks = function (
-  callback: ?EndCallback,
-  config: $ReadOnly<{ ...AnimationConfig, ... }>
+  callback: EndCallback | null | undefined,
+  config: Pick<AnimationConfig, 'onComplete'>
 ) {
   if (callback && config.onComplete) {
-    return (...args: Array<EndResult>) => {
-      config.onComplete && config.onComplete(...args);
-      callback && callback(...args);
+    return (result: EndResult) => {
+      config.onComplete && config.onComplete(result);
+      callback && callback(result);
     };
   } else {
-    return callback || config.onComplete;
+    return callback || config.onComplete || null;
   }
 };
 
-const maybeVectorAnim = function (
+const maybeVectorAnim = function <Config extends AnimationConfig>(
   value: AnimatedValue | AnimatedValueXY | AnimatedColor,
-  config: Object,
-  anim: (value: AnimatedValue, config: Object) => CompositeAnimation
-): ?CompositeAnimation {
+  config: Config,
+  anim: (value: AnimatedValue, config: Config) => CompositeAnimation
+): CompositeAnimation | null {
   if (value instanceof AnimatedValueXY) {
     const configX = { ...config };
     const configY = { ...config };
@@ -119,8 +115,8 @@ const maybeVectorAnim = function (
         configY[key] = y;
       }
     }
-    const aX = anim((value: AnimatedValueXY).x, configX);
-    const aY = anim((value: AnimatedValueXY).y, configY);
+    const aX = anim(value.x, configX);
+    const aY = anim(value.y, configY);
     // We use `stopTogether: false` here because otherwise tracking will break
     // because the second animation will get stopped before it can update.
     return parallel([aX, aY], { stopTogether: false });
@@ -143,10 +139,10 @@ const maybeVectorAnim = function (
         configA[key] = a;
       }
     }
-    const aR = anim((value: AnimatedColor).r, configR);
-    const aG = anim((value: AnimatedColor).g, configG);
-    const aB = anim((value: AnimatedColor).b, configB);
-    const aA = anim((value: AnimatedColor).a, configA);
+    const aR = anim(value.r, configR);
+    const aG = anim(value.g, configG);
+    const aB = anim(value.b, configB);
+    const aA = anim(value.a, configA);
     // We use `stopTogether: false` here because otherwise tracking will break
     // because the second animation will get stopped before it can update.
     return parallel([aR, aG, aB, aA], { stopTogether: false });
@@ -161,12 +157,13 @@ const spring = function (
   const start = function (
     animatedValue: AnimatedValue | AnimatedValueXY | AnimatedColor,
     configuration: SpringAnimationConfig,
-    callback?: ?EndCallback
+    callback?: EndCallback | null
   ): void {
     callback = _combineCallbacks(callback, configuration);
     const singleValue: any = animatedValue;
     const singleConfig: any = configuration;
     singleValue.stopTracking();
+
     if (configuration.toValue instanceof AnimatedNode) {
       singleValue.track(
         new AnimatedTracking(
@@ -181,9 +178,10 @@ const spring = function (
       singleValue.animate(new SpringAnimation(singleConfig), callback);
     }
   };
+
   return (
     maybeVectorAnim(value, config, spring) || {
-      start: function (callback?: ?EndCallback): void {
+      start: function (callback?: EndCallback | null): void {
         start(value, config, callback);
       },
 
@@ -197,7 +195,7 @@ const spring = function (
 
       _startNativeLoop: function (iterations?: number): void {
         const singleConfig = { ...config, iterations };
-        start(value, singleConfig);
+        start(value, singleConfig, null);
       },
 
       _isUsingNativeDriver: function (): boolean {
@@ -214,7 +212,7 @@ const timing = function (
   const start = function (
     animatedValue: AnimatedValue | AnimatedValueXY | AnimatedColor,
     configuration: TimingAnimationConfig,
-    callback?: ?EndCallback
+    callback?: EndCallback | null
   ): void {
     callback = _combineCallbacks(callback, configuration);
     const singleValue: any = animatedValue;
@@ -237,7 +235,7 @@ const timing = function (
 
   return (
     maybeVectorAnim(value, config, timing) || {
-      start: function (callback?: ?EndCallback): void {
+      start: function (callback?: EndCallback | null): void {
         start(value, config, callback);
       },
 
@@ -268,7 +266,7 @@ const decay = function (
   const start = function (
     animatedValue: AnimatedValue | AnimatedValueXY | AnimatedColor,
     configuration: DecayAnimationConfig,
-    callback?: ?EndCallback
+    callback?: EndCallback | null
   ): void {
     callback = _combineCallbacks(callback, configuration);
     const singleValue: any = animatedValue;
@@ -279,7 +277,7 @@ const decay = function (
 
   return (
     maybeVectorAnim(value, config, decay) || {
-      start: function (callback?: ?EndCallback): void {
+      start: function (callback?: EndCallback | null): void {
         start(value, config, callback);
       },
 
@@ -308,7 +306,7 @@ const sequence = function (
 ): CompositeAnimation {
   let current = 0;
   return {
-    start: function (callback?: ?EndCallback) {
+    start: function (callback?: EndCallback | null) {
       const onComplete = function (result: EndResult) {
         if (!result.finished) {
           callback && callback(result);
@@ -361,12 +359,11 @@ const sequence = function (
 
 type ParallelConfig = {
   // If one is stopped, stop all.  default: true
-  stopTogether?: boolean,
-  ...
+  stopTogether?: boolean;
 };
 const parallel = function (
   animations: Array<CompositeAnimation>,
-  config?: ?ParallelConfig
+  config?: ParallelConfig
 ): CompositeAnimation {
   let doneCount = 0;
   // Make sure we only call stop() at most once for each animation
@@ -374,7 +371,7 @@ const parallel = function (
   const stopTogether = !(config && config.stopTogether === false);
 
   const result = {
-    start: function (callback?: ?EndCallback) {
+    start: function (callback?: EndCallback | null) {
       if (doneCount === animations.length) {
         callback && callback({ finished: true });
         return;
@@ -454,20 +451,21 @@ const stagger = function (
 };
 
 type LoopAnimationConfig = {
-  iterations: number,
-  resetBeforeIteration?: boolean,
-  ...
+  iterations: number;
+  resetBeforeIteration?: boolean;
 };
 
 const loop = function (
   animation: CompositeAnimation,
-  // $FlowFixMe[prop-missing]
-  { iterations = -1, resetBeforeIteration = true }: LoopAnimationConfig = {}
+  { iterations, resetBeforeIteration }: LoopAnimationConfig = {
+    iterations: -1,
+    resetBeforeIteration: true
+  }
 ): CompositeAnimation {
   let isFinished = false;
   let iterationsSoFar = 0;
   return {
-    start: function (callback?: ?EndCallback) {
+    start: function (callback?: EndCallback | null) {
       const restart = function (result: EndResult = { finished: true }): void {
         if (
           isFinished ||
@@ -516,7 +514,7 @@ const loop = function (
 };
 
 function forkEvent(
-  event: ?AnimatedEvent | ?Function,
+  event: AnimatedEvent | Function | null,
   listener: Function
 ): AnimatedEvent | Function {
   if (!event) {
@@ -533,7 +531,7 @@ function forkEvent(
 }
 
 function unforkEvent(
-  event: ?AnimatedEvent | ?Function,
+  event: AnimatedEvent | Function | null,
   listener: Function
 ): void {
   if (event && event instanceof AnimatedEvent) {
@@ -542,7 +540,7 @@ function unforkEvent(
 }
 
 const event = function (
-  argMapping: $ReadOnlyArray<?Mapping>,
+  argMapping: ReadonlyArray<Mapping>,
   config: EventConfig
 ): any {
   const animatedEvent = new AnimatedEvent(argMapping, config);

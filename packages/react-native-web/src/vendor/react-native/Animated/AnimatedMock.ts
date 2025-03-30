@@ -36,13 +36,13 @@ import AnimatedColor from './nodes/AnimatedColor';
 // callback, which may trigger another animation
 let inAnimationCallback = false;
 function mockAnimationStart(
-  start: (callback?: ?EndCallback) => void
-): (callback?: ?EndCallback) => void {
+  start: (callback?: EndCallback | null) => void
+): (callback?: EndCallback | null) => void {
   return (callback) => {
     const guardedCallback =
       callback == null
         ? callback
-        : (...args: Array<EndResult>) => {
+        : (result: EndResult) => {
             if (inAnimationCallback) {
               console.warn(
                 'Ignoring recursive animation callback when running mock animations'
@@ -51,7 +51,7 @@ function mockAnimationStart(
             }
             inAnimationCallback = true;
             try {
-              callback(...args);
+              callback(result);
             } finally {
               inAnimationCallback = false;
             }
@@ -61,12 +61,11 @@ function mockAnimationStart(
 }
 
 export type CompositeAnimation = {
-  start: (callback?: ?EndCallback) => void,
-  stop: () => void,
-  reset: () => void,
-  _startNativeLoop: (iterations?: number) => void,
-  _isUsingNativeDriver: () => boolean,
-  ...
+  start: (callback?: EndCallback | null) => void;
+  stop: () => void;
+  reset: () => void;
+  _startNativeLoop: (iterations?: number) => void;
+  _isUsingNativeDriver: () => boolean;
 };
 
 const emptyAnimation = {
@@ -83,7 +82,7 @@ const mockCompositeAnimation = (
   animations: Array<CompositeAnimation>
 ): CompositeAnimation => ({
   ...emptyAnimation,
-  start: mockAnimationStart((callback?: ?EndCallback): void => {
+  start: mockAnimationStart((callback?: EndCallback | null): void => {
     animations.forEach((animation) => animation.start());
     callback?.({ finished: true });
   })
@@ -96,7 +95,7 @@ const spring = function (
   const anyValue: any = value;
   return {
     ...emptyAnimation,
-    start: mockAnimationStart((callback?: ?EndCallback): void => {
+    start: mockAnimationStart((callback?: EndCallback | null): void => {
       anyValue.setValue(config.toValue);
       callback?.({ finished: true });
     })
@@ -110,7 +109,7 @@ const timing = function (
   const anyValue: any = value;
   return {
     ...emptyAnimation,
-    start: mockAnimationStart((callback?: ?EndCallback): void => {
+    start: mockAnimationStart((callback?: EndCallback | null): void => {
       anyValue.setValue(config.toValue);
       callback?.({ finished: true });
     })
@@ -130,10 +129,10 @@ const sequence = function (
   return mockCompositeAnimation(animations);
 };
 
-type ParallelConfig = { stopTogether?: boolean, ... };
+type ParallelConfig = { stopTogether?: boolean };
 const parallel = function (
   animations: Array<CompositeAnimation>,
-  config?: ?ParallelConfig
+  config?: ParallelConfig
 ): CompositeAnimation {
   return mockCompositeAnimation(animations);
 };
@@ -149,8 +148,7 @@ const stagger = function (
   return mockCompositeAnimation(animations);
 };
 
-const loop = function (
-): CompositeAnimation {
+const loop = function (): CompositeAnimation {
   return emptyAnimation;
 };
 

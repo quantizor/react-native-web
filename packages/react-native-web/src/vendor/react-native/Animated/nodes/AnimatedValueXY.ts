@@ -12,9 +12,14 @@ import AnimatedWithChildren from './AnimatedWithChildren';
 
 import invariant from '../../../../modules/invariant';
 
-type ValueXYListenerCallback = (value: { x: number, y: number }) => unknown;
+type ValueXYListenerCallback = (value: { x: number; y: number }) => unknown;
 
 let _uniqueId = 1;
+
+type AnimatedValueXYListener = {
+  x: string;
+  y: string;
+};
 
 /**
  * 2D Value for driving 2D animations, such as pan gestures. Almost identical
@@ -22,24 +27,22 @@ let _uniqueId = 1;
  *
  * See https://reactnative.dev/docs/animatedvaluexy.html
  */
-class AnimatedValueXY extends AnimatedWithChildren<string> {
+class AnimatedValueXY extends AnimatedWithChildren<AnimatedValueXYListener> {
   x: AnimatedValue;
   y: AnimatedValue;
   _listeners: {
     [key: string]: {
-      x: string,
-      y: string,
-    },
+      x: string;
+      y: string;
+    };
   };
 
-  constructor(
-    valueIn?: {
-      x: number | AnimatedValue,
-      y: number | AnimatedValue,
-    }
-  ) {
+  constructor(valueIn?: {
+    x: number | AnimatedValue;
+    y: number | AnimatedValue;
+  }) {
     super();
-    const value: any = valueIn || { x: 0, y: 0 }; // @flowfixme: shouldn't need `: any`
+    const value: any = valueIn || { x: 0, y: 0 };
     if (typeof value.x === 'number' && typeof value.y === 'number') {
       this.x = new AnimatedValue(value.x);
       this.y = new AnimatedValue(value.y);
@@ -61,7 +64,7 @@ class AnimatedValueXY extends AnimatedWithChildren<string> {
    *
    * See https://reactnative.dev/docs/animatedvaluexy.html#setvalue
    */
-  setValue(value: { x: number, y: number }) {
+  setValue(value: { x: number; y: number }) {
     this.x.setValue(value.x);
     this.y.setValue(value.y);
   }
@@ -73,7 +76,7 @@ class AnimatedValueXY extends AnimatedWithChildren<string> {
    *
    * See https://reactnative.dev/docs/animatedvaluexy.html#setoffset
    */
-  setOffset(offset: { x: number, y: number }) {
+  setOffset(offset: { x: number; y: number }) {
     this.x.setOffset(offset.x);
     this.y.setOffset(offset.y);
   }
@@ -101,8 +104,8 @@ class AnimatedValueXY extends AnimatedWithChildren<string> {
   }
 
   __getValue(): {
-    x: number,
-    y: number,
+    x: number;
+    y: number;
   } {
     return {
       x: this.x.__getValue(),
@@ -115,9 +118,7 @@ class AnimatedValueXY extends AnimatedWithChildren<string> {
    *
    * See https://reactnative.dev/docs/animatedvaluexy.html#resetanimation
    */
-  resetAnimation(
-    callback?: (value: { x: number, y: number }) => void
-  ): void {
+  resetAnimation(callback?: (value: { x: number; y: number }) => void): void {
     this.x.resetAnimation();
     this.y.resetAnimation();
     callback && callback(this.__getValue());
@@ -130,9 +131,7 @@ class AnimatedValueXY extends AnimatedWithChildren<string> {
    *
    * See https://reactnative.dev/docs/animatedvaluexy.html#stopanimation
    */
-  stopAnimation(
-    callback?: (value: { x: number, y: number }) => void
-  ): void {
+  stopAnimation(callback?: (value: { x: number; y: number }) => void): void {
     this.x.stopAnimation();
     this.y.stopAnimation();
     callback && callback(this.__getValue());

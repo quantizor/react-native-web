@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -17,22 +14,24 @@ import {
   shouldUseNativeDriver
 } from '../NativeAnimatedHelper';
 
-import type { EndCallback } from '../animations/Animation';
+import type { AnimationConfig, EndCallback } from '../animations/Animation';
+
+export type AnimatedTrackingValue = number;
 
 class AnimatedTracking extends AnimatedNode {
   _value: AnimatedValue;
   _parent: AnimatedNode;
-  _callback: ?EndCallback;
-  _animationConfig: Object;
+  _callback: EndCallback | null;
+  _animationConfig: AnimationConfig;
   _animationClass: any;
   _useNativeDriver: boolean;
 
   constructor(
     value: AnimatedValue,
-    parent: AnimatedNode,
+    parent: AnimatedNode<any, number>,
     animationClass: any,
-    animationConfig: Object,
-    callback?: ?EndCallback
+    animationConfig: AnimationConfig,
+    callback?: EndCallback | null
   ) {
     super();
     this._value = value;
@@ -40,7 +39,7 @@ class AnimatedTracking extends AnimatedNode {
     this._animationClass = animationClass;
     this._animationConfig = animationConfig;
     this._useNativeDriver = shouldUseNativeDriver(animationConfig);
-    this._callback = callback;
+    this._callback = callback ?? null;
     this.__attach();
   }
 
@@ -51,7 +50,7 @@ class AnimatedTracking extends AnimatedNode {
     this._value.__makeNative();
   }
 
-  __getValue(): Object {
+  __getValue(): AnimatedTrackingValue {
     return this._parent.__getValue();
   }
 
@@ -76,7 +75,7 @@ class AnimatedTracking extends AnimatedNode {
     this._value.animate(
       new this._animationClass({
         ...this._animationConfig,
-        toValue: (this._animationConfig.toValue: any).__getValue()
+        toValue: this._animationConfig.toValue.__getValue()
       }),
       this._callback
     );

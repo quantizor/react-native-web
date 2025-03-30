@@ -12,8 +12,11 @@ import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import AnimatedNode from './AnimatedNode';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
-class AnimatedWithChildren<ListenerValue = number> extends AnimatedNode<ListenerValue> {
-  _children: Array<AnimatedWithChildren<ListenerValue>>;
+class AnimatedWithChildren<
+  ListenerValue extends {} = number,
+  ActualValue extends {} = any
+> extends AnimatedNode<ListenerValue, ActualValue> {
+  _children: Array<AnimatedWithChildren<ListenerValue, ActualValue>>;
 
   constructor() {
     super();
@@ -34,7 +37,7 @@ class AnimatedWithChildren<ListenerValue = number> extends AnimatedNode<Listener
     super.__makeNative(platformConfig);
   }
 
-  __addChild(child: AnimatedWithChildren<ListenerValue>): void {
+  __addChild(child: AnimatedWithChildren<any, any>): void {
     if (this._children.length === 0) {
       this.__attach();
     }
@@ -49,7 +52,7 @@ class AnimatedWithChildren<ListenerValue = number> extends AnimatedNode<Listener
     }
   }
 
-  __removeChild(child: AnimatedWithChildren<ListenerValue>): void {
+  __removeChild(child: AnimatedWithChildren<any, any>): void {
     const index = this._children.indexOf(child);
     if (index === -1) {
       console.warn("Trying to remove a child that doesn't exist");
@@ -67,11 +70,11 @@ class AnimatedWithChildren<ListenerValue = number> extends AnimatedNode<Listener
     }
   }
 
-  __getChildren(): Array<AnimatedWithChildren<ListenerValue>> {
+  __getChildren(): Array<AnimatedWithChildren<ListenerValue, ActualValue>> {
     return this._children;
   }
 
-  __callListeners(value: ListenerValue): void {
+  __callListeners(value: ActualValue): void {
     super.__callListeners(value);
     if (!this.__isNative) {
       for (const child of this._children) {

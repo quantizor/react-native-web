@@ -3,9 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @flow
- * @format
  */
 
 'use strict';
@@ -19,14 +16,21 @@ import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import { EventSubscription } from '../../EventEmitter/NativeEventEmitter';
 import { AnimatedNodeConfig } from '../NativeAnimatedModule';
 
-type ValueListenerCallback<ListenerValue> = ((state: { value: ListenerValue }) => unknown);
+type ValueListenerCallback<ListenerValue> = (state: {
+  value: ListenerValue;
+}) => unknown;
 
 let _uniqueId = 1;
 
 // Note(vjeux): this would be better as an interface but flow doesn't
 // support them yet
-class AnimatedNode<ListenerValue = number> {
-  _listeners: { [key: string]: ListenerValue | ValueListenerCallback<ListenerValue> };
+class AnimatedNode<
+  ListenerValue extends {} = number,
+  ActualValue extends {} = ListenerValue
+> {
+  _listeners: {
+    [key: string]: ListenerValue | ValueListenerCallback<ListenerValue>;
+  };
   _platformConfig?: PlatformConfig;
   __nativeAnimatedValueListener?: EventSubscription | null;
   __attach(): void {}
@@ -36,13 +40,15 @@ class AnimatedNode<ListenerValue = number> {
       this.__nativeTag = undefined;
     }
   }
-  __getValue(): any {}
-  __getAnimatedValue(): any {
+  __getValue(): ActualValue {
+    return {} as ActualValue;
+  }
+  __getAnimatedValue(): ActualValue {
     return this.__getValue();
   }
-  __addChild(child: AnimatedNode<ListenerValue>) {}
-  __removeChild(child: AnimatedNode<ListenerValue>) {}
-  __getChildren(): Array<AnimatedNode<ListenerValue>> {
+  __addChild(child: AnimatedNode<any, any>) {}
+  __removeChild(child: AnimatedNode<any, any>) {}
+  __getChildren(): Array<AnimatedNode<any, any>> {
     return [];
   }
 
@@ -137,11 +143,11 @@ class AnimatedNode<ListenerValue = number> {
       );
   }
 
-  __onAnimatedValueUpdateReceived(value: ListenerValue) {
+  __onAnimatedValueUpdateReceived(value: ActualValue) {
     this.__callListeners(value);
   }
 
-  __callListeners(value: ListenerValue): void {
+  __callListeners(value: ActualValue): void {
     for (const key in this._listeners) {
       if (typeof this._listeners[key] === 'function') {
         // @ts-ignore fake news
@@ -191,7 +197,7 @@ class AnimatedNode<ListenerValue = number> {
     return this.__getValue();
   }
 
-  __getPlatformConfig(): PlatformConfig | undefined{
+  __getPlatformConfig(): PlatformConfig | undefined {
     return this._platformConfig;
   }
   __setPlatformConfig(platformConfig?: PlatformConfig) {
