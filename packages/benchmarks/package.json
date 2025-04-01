@@ -1,28 +1,29 @@
 {
   "private": true,
   "name": "benchmarks",
-  "version": "0.0.0",
   "scripts": {
-    "clean": "del-cli ./dist",
-    "build": "NODE_ENV=production npm run dev",
-    "dev": "npm run clean && mkdir -p dist && cp -f index.html dist/index.html && webpack --config ./webpack.config.js"
+    "clean": "rimraf dist",
+    "build": "npm run clean && mkdir -p dist && cp -f index.html dist/index.html && NODE_ENV=production webpack --config ./webpack.config.js",
+    "dev": "webpack-serve --static dist --port 3003 --open"
   },
   "dependencies": {
     "classnames": "^2.3.1",
     "d3-scale-chromatic": "^3.0.0",
     "prop-types": "^15.6.0",
-    "react": ">=17.0.2",
-    "react-dom": ">=17.0.2",
-    "react-native-web": "0.18.10"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-native-web": "npm:react-native-web-fork@latest"
   },
   "devDependencies": {
-    "babel-loader": "^8.2.5",
-    "babel-plugin-react-native-web": "0.18.10",
+    "@types/webpack-env": "^1.18.8",
+    "babel-loader": "^8.4.1",
+    "babel-plugin-react-native-web": "0.18.12",
     "css-loader": "^6.7.1",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpack-serve": "^4.0.0"
   }
 }

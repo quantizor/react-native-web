@@ -1,6 +1,5 @@
 {
-  "javascript.validate.enable": false,
-  "typescript.validate.enable": false,
-  "flow.useNPMPackagedFlow": true,
-  "flow.pathToFlow": "${workspaceFolder}/node_modules/.bin/flow"
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.prettierPath": "node_modules/prettier"
 }

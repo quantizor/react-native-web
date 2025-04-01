@@ -4,8 +4,9 @@ const path = require('path');
 
 const appDirectory = path.resolve(__dirname);
 
-module.exports = {
+module.exports = /** @type {import('webpack').Configuration} */ ({
   mode: 'production',
+  devtool: 'source-map',
   context: __dirname,
   entry: './src/index',
   output: {
@@ -32,7 +33,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
+        test: /\.[j|t]sx?$/,
         include: [path.resolve(appDirectory, 'src')],
         use: {
           loader: 'babel-loader',
@@ -53,6 +54,7 @@ module.exports = {
   resolve: {
     alias: {
       'react-native': 'react-native-web'
-    }
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   }
-};
+});

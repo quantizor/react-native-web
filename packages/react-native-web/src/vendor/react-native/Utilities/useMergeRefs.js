@@ -8,10 +8,10 @@
  * @format
  */
 
-import {useCallback} from 'react';
+import { useCallback } from 'react';
 
-type CallbackRef<T> = T => mixed;
-type ObjectRef<T> = {current: T, ...};
+type CallbackRef<T> = (T) => mixed;
+type ObjectRef<T> = { current: T, ... };
 
 type Ref<T> = CallbackRef<T> | ObjectRef<T>;
 
@@ -39,6 +39,6 @@ export default function useMergeRefs<T>(
         }
       }
     },
-    [...refs], // eslint-disable-line react-hooks/exhaustive-deps
+    [...refs] // eslint-disable-line react-hooks/exhaustive-deps
   );
 }
