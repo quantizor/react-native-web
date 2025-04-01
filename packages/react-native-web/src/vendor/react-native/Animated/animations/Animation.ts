@@ -10,6 +10,7 @@
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 import type { PlatformConfig } from '../AnimatedPlatformConfig';
 import type AnimatedValue from '../nodes/AnimatedValue';
+import AnimatedNode from '../nodes/AnimatedNode';
 
 export type EndResult = { finished: boolean };
 export type EndCallback = (result: EndResult) => void;
@@ -19,6 +20,7 @@ export type AnimationConfig = {
   useNativeDriver: boolean;
   platformConfig?: PlatformConfig;
   onComplete?: EndCallback | null;
+  toValue: AnimatedNode<any, any> | unknown;
   iterations?: number;
 };
 
@@ -33,6 +35,9 @@ class Animation<T extends number = number> {
   __nativeId: number;
   __onEnd: EndCallback | null;
   __iterations: number;
+
+  constructor(_?: AnimationConfig) {}
+
   start(
     fromValue: number,
     onUpdate: (value: number) => void,

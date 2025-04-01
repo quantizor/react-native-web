@@ -85,7 +85,7 @@ class AnimatedValue extends AnimatedWithChildren<any, number> {
   _startingValue: number;
   _offset: number;
   _animation: Animation<number> | null;
-  _tracking: AnimatedTracking | null;
+  _tracking: AnimatedTracking<number> | null;
 
   constructor(value: number, config?: AnimatedValueConfig) {
     super();
@@ -271,7 +271,7 @@ class AnimatedValue extends AnimatedWithChildren<any, number> {
   /**
    * Typically only used internally.
    */
-  track(tracking: AnimatedTracking): void {
+  track(tracking: AnimatedTracking<number>): void {
     this.stopTracking();
     this._tracking = tracking;
     // Make sure that the tracking animation starts executing

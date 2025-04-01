@@ -26,19 +26,12 @@ import AnimatedNode from '../nodes/AnimatedNode';
 
 export interface SpringAnimationConfig extends AnimationConfig {
   toValue:
-    | number
     | AnimatedValue
     | {
         x: number;
         y: number;
       }
     | AnimatedValueXY
-    | {
-        r: number;
-        g: number;
-        b: number;
-        a: number;
-      }
     | AnimatedColor
     | AnimatedInterpolation<number>
     | AnimatedNode<any, number>;

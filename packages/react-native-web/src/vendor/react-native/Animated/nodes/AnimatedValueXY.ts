@@ -16,6 +16,11 @@ type ValueXYListenerCallback = (value: { x: number; y: number }) => unknown;
 
 let _uniqueId = 1;
 
+export type AnimatedValueXYValue = {
+  x: number;
+  y: number;
+};
+
 type AnimatedValueXYListener = {
   x: string;
   y: string;
@@ -27,7 +32,10 @@ type AnimatedValueXYListener = {
  *
  * See https://reactnative.dev/docs/animatedvaluexy.html
  */
-class AnimatedValueXY extends AnimatedWithChildren<AnimatedValueXYListener> {
+class AnimatedValueXY extends AnimatedWithChildren<
+  AnimatedValueXYListener,
+  AnimatedValueXYValue
+> {
   x: AnimatedValue;
   y: AnimatedValue;
   _listeners: {
@@ -103,10 +111,7 @@ class AnimatedValueXY extends AnimatedWithChildren<AnimatedValueXYListener> {
     this.y.extractOffset();
   }
 
-  __getValue(): {
-    x: number;
-    y: number;
-  } {
+  __getValue(): AnimatedValueXYValue {
     return {
       x: this.x.__getValue(),
       y: this.y.__getValue()

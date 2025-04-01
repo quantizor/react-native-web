@@ -15,21 +15,22 @@ import {
 } from '../NativeAnimatedHelper';
 
 import type { AnimationConfig, EndCallback } from '../animations/Animation';
+import Animation from '../animations/Animation';
 
 export type AnimatedTrackingValue = number;
 
-class AnimatedTracking extends AnimatedNode {
+class AnimatedTracking<Value extends {}> extends AnimatedNode<any, Value> {
   _value: AnimatedValue;
-  _parent: AnimatedNode;
+  _parent: AnimatedNode<any, Value>;
   _callback: EndCallback | null;
   _animationConfig: AnimationConfig;
-  _animationClass: any;
+  _animationClass: typeof Animation;
   _useNativeDriver: boolean;
 
   constructor(
     value: AnimatedValue,
-    parent: AnimatedNode<any, number>,
-    animationClass: any,
+    parent: AnimatedNode<any, Value>,
+    animationClass: typeof Animation,
     animationConfig: AnimationConfig,
     callback?: EndCallback | null
   ) {
@@ -50,7 +51,7 @@ class AnimatedTracking extends AnimatedNode {
     this._value.__makeNative();
   }
 
-  __getValue(): AnimatedTrackingValue {
+  __getValue(): Value {
     return this._parent.__getValue();
   }
 
@@ -75,7 +76,10 @@ class AnimatedTracking extends AnimatedNode {
     this._value.animate(
       new this._animationClass({
         ...this._animationConfig,
-        toValue: this._animationConfig.toValue.__getValue()
+        toValue:
+          typeof this._animationConfig.toValue === 'function'
+            ? this._animationConfig.toValue()
+            : this._animationConfig.toValue
       }),
       this._callback
     );

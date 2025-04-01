@@ -19,7 +19,7 @@ import AnimatedProps from './nodes/AnimatedProps';
 import AnimatedSubtraction from './nodes/AnimatedSubtraction';
 import AnimatedTracking from './nodes/AnimatedTracking';
 import AnimatedValue from './nodes/AnimatedValue';
-import AnimatedValueXY from './nodes/AnimatedValueXY';
+import AnimatedValueXY, { AnimatedValueXYValue } from './nodes/AnimatedValueXY';
 import DecayAnimation from './animations/DecayAnimation';
 import SpringAnimation from './animations/SpringAnimation';
 import TimingAnimation from './animations/TimingAnimation';
@@ -36,7 +36,7 @@ import type { DecayAnimationConfig } from './animations/DecayAnimation';
 import type { SpringAnimationConfig } from './animations/SpringAnimation';
 import type { Mapping, EventConfig } from './AnimatedEvent';
 
-import AnimatedColor from './nodes/AnimatedColor';
+import AnimatedColor, { AnimatedColorValue } from './nodes/AnimatedColor';
 
 export type CompositeAnimation = {
   start: (callback?: EndCallback | null) => void;
@@ -106,13 +106,22 @@ const maybeVectorAnim = function <Config extends AnimationConfig>(
   anim: (value: AnimatedValue, config: Config) => CompositeAnimation
 ): CompositeAnimation | null {
   if (value instanceof AnimatedValueXY) {
+    // split vector into its respective components to be animated individually
     const configX = { ...config };
     const configY = { ...config };
+
     for (const key in config) {
-      const { x, y } = config[key];
-      if (x !== undefined && y !== undefined) {
-        configX[key] = x;
-        configY[key] = y;
+      const xyConfig = config[key] as Partial<AnimatedValueXYValue>;
+      if (
+        xyConfig != null &&
+        typeof xyConfig === 'object' &&
+        xyConfig.x !== undefined &&
+        xyConfig.y !== undefined
+      ) {
+        // @ts-expect-error don't know how to type this
+        configX[key] = xyConfig.x;
+        // @ts-expect-error don't know how to type this
+        configY[key] = xyConfig.y;
       }
     }
     const aX = anim(value.x, configX);
@@ -121,22 +130,31 @@ const maybeVectorAnim = function <Config extends AnimationConfig>(
     // because the second animation will get stopped before it can update.
     return parallel([aX, aY], { stopTogether: false });
   } else if (value instanceof AnimatedColor) {
+    // split colors into their respective channels to be animated individually
+
     const configR = { ...config };
     const configG = { ...config };
     const configB = { ...config };
     const configA = { ...config };
+
     for (const key in config) {
-      const { r, g, b, a } = config[key];
+      const colorConfig = config[key] as Partial<AnimatedColorValue>;
       if (
-        r !== undefined &&
-        g !== undefined &&
-        b !== undefined &&
-        a !== undefined
+        colorConfig != null &&
+        typeof colorConfig === 'object' &&
+        colorConfig.r !== undefined &&
+        colorConfig.g !== undefined &&
+        colorConfig.b !== undefined &&
+        colorConfig.a !== undefined
       ) {
-        configR[key] = r;
-        configG[key] = g;
-        configB[key] = b;
-        configA[key] = a;
+        // @ts-expect-error don't know how to type this
+        configR[key] = colorConfig.r;
+        // @ts-expect-error don't know how to type this
+        configG[key] = colorConfig.g;
+        // @ts-expect-error don't know how to type this
+        configB[key] = colorConfig.b;
+        // @ts-expect-error don't know how to type this
+        configA[key] = colorConfig.a;
       }
     }
     const aR = anim(value.r, configR);
@@ -166,7 +184,7 @@ const spring = function (
 
     if (configuration.toValue instanceof AnimatedNode) {
       singleValue.track(
-        new AnimatedTracking(
+        new AnimatedTracking<{}>(
           singleValue,
           configuration.toValue,
           SpringAnimation,
@@ -220,7 +238,7 @@ const timing = function (
     singleValue.stopTracking();
     if (configuration.toValue instanceof AnimatedNode) {
       singleValue.track(
-        new AnimatedTracking(
+        new AnimatedTracking<{}>(
           singleValue,
           configuration.toValue,
           TimingAnimation,
