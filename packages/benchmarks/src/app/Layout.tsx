@@ -2,7 +2,11 @@ import { colors } from './theme';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-export default class Layout extends Component {
+export default class Layout extends Component<{
+  viewPanel: React.ReactNode;
+  actionPanel: React.ReactNode;
+  listPanel: React.ReactNode;
+}> {
   state = {
     widescreen: false
   };
@@ -61,6 +65,6 @@ const styles = StyleSheet.create({
     height: '33.33%'
   },
   layer: {
-    transform: [{ translateZ: '0' }]
+    transform: [{ rotateZ: '0' }]
   }
 });

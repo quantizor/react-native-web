@@ -8,7 +8,21 @@ import {
 
 const targetSize = 10;
 
-class SierpinskiTriangle extends React.Component {
+class SierpinskiTriangle extends React.Component<{
+  components: {
+    Dot: React.ComponentType<{
+      color: string;
+      size: number;
+      x: number;
+      y: number;
+    }>;
+  };
+  x: number;
+  y: number;
+  depth: number;
+  renderCount: number;
+  s: number;
+}> {
   static displayName = 'SierpinskiTriangle';
 
   static benchmarkType = BenchmarkType.UPDATE;

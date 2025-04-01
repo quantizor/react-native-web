@@ -8,6 +8,7 @@ import ReportCard from './ReportCard';
 import Text from './Text';
 import Layout from './Layout';
 import { colors } from './theme';
+import { BenchResultsType } from './Benchmark/types';
 
 const Overlay = () => <View style={[StyleSheet.absoluteFill, { zIndex: 2 }]} />;
 
@@ -28,7 +29,11 @@ export default class App extends Component<
     currentBenchmarkName: string;
     currentLibraryName: string;
     status: 'idle' | 'running' | 'complete';
-    results: Record<string, Test>[];
+    results: (BenchResultsType & {
+      benchmarkName: string;
+      libraryName: string;
+      libraryVersion: string;
+    })[];
   }
 > {
   _shouldHideBenchmark = false;
@@ -139,7 +144,6 @@ export default class App extends Component<
                     mean={r.mean}
                     meanLayout={r.meanLayout}
                     meanScripting={r.meanScripting}
-                    runTime={r.runTime}
                     sampleCount={r.sampleCount}
                     stdDev={r.stdDev}
                   />
@@ -172,7 +176,6 @@ export default class App extends Component<
                       forceLayout={true}
                       getComponentProps={getComponentProps}
                       onComplete={this._createHandleComplete({
-                        sampleCount,
                         benchmarkName: currentBenchmarkName,
                         libraryName: currentLibraryName
                       })}
@@ -227,8 +230,14 @@ export default class App extends Component<
   };
 
   _createHandleComplete =
-    ({ benchmarkName, libraryName, sampleCount }) =>
-    (results) => {
+    ({
+      benchmarkName,
+      libraryName
+    }: {
+      benchmarkName: string;
+      libraryName: string;
+    }) =>
+    (results: BenchResultsType) => {
       this.setState(
         (state) => ({
           results: state.results.concat([

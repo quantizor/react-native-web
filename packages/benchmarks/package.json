@@ -1,11 +1,10 @@
 {
   "private": true,
   "name": "benchmarks",
-  "version": "0.0.0",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "NODE_ENV=production npm run dev",
-    "dev": "npm run clean && mkdir -p dist && cp -f index.html dist/index.html && webpack --config ./webpack.config.js"
+    "build": "npm run clean && mkdir -p dist && cp -f index.html dist/index.html && NODE_ENV=production webpack --config ./webpack.config.js",
+    "dev": "webpack-serve --static dist --port 3003 --open"
   },
   "dependencies": {
     "classnames": "^2.3.1",
@@ -24,6 +23,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpack-serve": "^4.0.0"
   }
 }

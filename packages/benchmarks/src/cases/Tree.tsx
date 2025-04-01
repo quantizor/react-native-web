@@ -1,7 +1,21 @@
 import { BenchmarkType } from '../app/Benchmark';
 import React, { Component } from 'react';
 
-class Tree extends Component {
+class Tree extends Component<{
+  breadth: number;
+  components: {
+    Box: React.ComponentType<{
+      children?: React.ReactNode;
+      color?: number;
+      fixed?: boolean;
+      layout?: string;
+      outer?: boolean;
+    }>;
+  };
+  depth: number;
+  id: number;
+  wrap: number;
+}> {
   static displayName = 'Tree';
 
   static benchmarkType = BenchmarkType.MOUNT;

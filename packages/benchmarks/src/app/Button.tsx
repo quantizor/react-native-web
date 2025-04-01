@@ -1,9 +1,20 @@
-// @flow
-
-import { StyleSheet, TouchableHighlight, Text } from 'react-native';
+import {
+  StyleSheet,
+  TouchableHighlight,
+  Text,
+  ButtonProps,
+  StyleProp,
+  ViewStyle,
+  TextStyle
+} from 'react-native';
 import React, { Component } from 'react';
 
-export default class Button extends Component<*> {
+export default class Button extends Component<
+  ButtonProps & {
+    style?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+  }
+> {
   static displayName = '@app/Button';
 
   render() {

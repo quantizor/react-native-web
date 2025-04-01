@@ -1,18 +1,14 @@
-import React, { Fragment } from 'react';
-import {
-  unstable_createElement as createElement,
-  StyleSheet
-} from 'react-native';
+import React, { createElement, Fragment } from 'react';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
-    display: 'inline-block',
-    fill: 'currentcolor',
-    height: '1.25em',
+    height: 20,
+    width: 20,
     maxWidth: '100%',
     position: 'relative',
     userSelect: 'none',
-    textAlignVertical: 'text-bottom'
+    textAlignVertical: 'bottom'
   }
 });
 
@@ -20,7 +16,12 @@ const createIcon = (children) => {
   const Icon = (props) =>
     createElement('svg', {
       children,
-      style: [styles.root, props.style],
+      style: {
+        ...styles.root,
+        ...props.style,
+        display: 'inline-block',
+        fill: 'currentcolor'
+      },
       width: 24,
       height: 24,
       viewBox: '0 0 24 24'

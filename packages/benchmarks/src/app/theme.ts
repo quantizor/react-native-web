@@ -11,6 +11,7 @@ const canUseDOM = !!(
 const createPlatformLength = (multiplier) =>
   Platform.select({
     web: `${multiplier}rem`,
+    // @ts-expect-error bug in RN types
     default: multiplier * baseFontSize
   });
 
@@ -19,7 +20,11 @@ const createPlatformLength = (multiplier) =>
  */
 
 export const borderRadii = {
-  normal: Platform.select({ web: '0.35rem', default: 5 }),
+  normal: Platform.select({
+    web: '0.35rem',
+    // @ts-expect-error bug in RN types
+    default: 5
+  }),
   infinite: '9999px'
 };
 

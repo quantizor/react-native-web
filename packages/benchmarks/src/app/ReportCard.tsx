@@ -1,15 +1,24 @@
-/* @noflow */
-
 import Text from './Text';
 import { StyleSheet, View } from 'react-native';
 import React, { Fragment } from 'react';
 
 const fmt = (time: number) => {
-  const i = Number(Math.round(time + 'e2') + 'e-2').toFixed(2);
+  const i = parseFloat(
+    Number(Math.round(Number(time + 'e2')) + 'e-2').toFixed(2)
+  );
   return 10 / i > 1 ? `0${i}` : i;
 };
 
-class ReportCard extends React.PureComponent {
+class ReportCard extends React.PureComponent<{
+  benchmarkName: string;
+  libraryName: string;
+  sampleCount?: number;
+  mean?: number;
+  meanLayout?: number;
+  meanScripting?: number;
+  stdDev?: number;
+  libraryVersion?: string;
+}> {
   render() {
     const {
       benchmarkName,
@@ -35,7 +44,7 @@ class ReportCard extends React.PureComponent {
           </Text>
         </View>
         <View style={styles.right}>
-          {mean ? (
+          {mean && stdDev && meanScripting && meanLayout ? (
             <Fragment>
               <Text style={[styles.bold, styles.monoFont]}>
                 {fmt(mean)} ±{fmt(stdDev)} ms

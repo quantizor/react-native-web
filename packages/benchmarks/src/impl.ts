@@ -22,7 +22,7 @@ type ImplementationType = {
 const toImplementations = <T extends RequireContext>(
   context: T
 ): Array<ImplementationType> =>
-  Object.keys(context).map((path) => {
+  context.keys().map((path) => {
     const components = context(path).default;
     const name = path.split('/')[1];
     const version = dependencies[name] || '';
