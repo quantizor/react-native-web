@@ -1,15 +1,17 @@
-import App from './app/App';
-import impl from './impl';
+import App, { type Test } from './app/App';
+import impl, { ComponentsType } from './impl';
 import Tree from './cases/Tree';
 import SierpinskiTriangle from './cases/SierpinskiTriangle';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 const implementations = impl;
 const packageNames = Object.keys(implementations);
 
-const createTestBlock = (fn) => {
+const createTestBlock = (
+  fn: (components: ComponentsType) => Partial<Test>
+): Record<string, Test> => {
   return packageNames.reduce((testSetups, packageName) => {
     const { name, components, version } = implementations[packageName];
     const {
@@ -29,6 +31,7 @@ const createTestBlock = (fn) => {
       version,
       name
     };
+
     return testSetups;
   }, {});
 };
@@ -69,9 +72,9 @@ const tests = {
     Provider: components.Provider,
     sampleCount: 100
   }))
-};
+} satisfies Record<string, Record<string, Test>>;
 
-const root = document.querySelector('.root');
+const root = document.querySelector('.root')!;
 const element = <App tests={tests} />;
 
 ReactDOM.createRoot(root).render(element);

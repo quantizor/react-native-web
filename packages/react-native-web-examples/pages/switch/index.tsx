@@ -6,6 +6,13 @@ function Divider() {
   return <View style={styles.divider} />;
 }
 
+const trackColorToRN = (trackColor: string) => {
+  return {
+    true: trackColor,
+    false: trackColor
+  };
+};
+
 export default function SwitchPage() {
   const [checked, setChecked] = React.useState(true);
 
@@ -35,7 +42,7 @@ export default function SwitchPage() {
         <Switch
           disabled={true}
           thumbColor="#fff"
-          trackColor="#E0245E"
+          trackColor={trackColorToRN('#E0245E')}
           value={false}
         />
         <Divider />
@@ -144,19 +151,42 @@ export default function SwitchPage() {
         <Switch activeTrackColor="#ccc" thumbColor="#E0245E" value={false} />
       </View>
       <View style={styles.row}>
-        <Switch thumbColor="#fff" trackColor="#1DA1F2" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#1DA1F2')}
+          value={false}
+        />
         <Divider />
-        <Switch thumbColor="#fff" trackColor="#17BF63" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#17BF63')}
+          value={false}
+        />
         <Divider />
-        <Switch thumbColor="#fff" trackColor="#FFAD1F" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#FFAD1F')}
+          value={false}
+        />
         <Divider />
-        <Switch thumbColor="#fff" trackColor="#F45D22" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#F45D22')}
+          value={false}
+        />
         <Divider />
-        <Switch thumbColor="#fff" trackColor="#794BC4" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#794BC4')}
+          value={false}
+        />
         <Divider />
-        <Switch thumbColor="#fff" trackColor="#E0245E" value={false} />
+        <Switch
+          thumbColor="#fff"
+          trackColor={trackColorToRN('#E0245E')}
+          value={false}
+        />
       </View>
-
       <View style={styles.row}>
         <Switch
           style={{ height: 32, width: 32 }}

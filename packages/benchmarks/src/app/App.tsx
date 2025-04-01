@@ -1,6 +1,7 @@
 import Benchmark from './Benchmark';
+// @ts-expect-error not implemented in react-native anymore
 import { Picker, StyleSheet, ScrollView, Pressable, View } from 'react-native';
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import Button from './Button';
 import { IconClear, IconEye } from './Icons';
 import ReportCard from './ReportCard';
@@ -10,12 +11,36 @@ import { colors } from './theme';
 
 const Overlay = () => <View style={[StyleSheet.absoluteFill, { zIndex: 2 }]} />;
 
-export default class App extends Component {
-  static displayName = '@app/App';
+export type Test = {
+  Component: ComponentType<any>;
+  Provider: ComponentType<any>;
+  getComponentProps: (
+    props: Record<string, unknown>
+  ) => Record<string, unknown>;
+  sampleCount: number;
+  benchmarkType: string;
+  version: string;
+};
 
-  constructor(props, context) {
-    super(props, context);
+export default class App extends Component<
+  { tests: Record<string, Record<string, Test>> },
+  {
+    currentBenchmarkName: string;
+    currentLibraryName: string;
+    status: 'idle' | 'running' | 'complete';
+    results: Record<string, Test>[];
+  }
+> {
+  _shouldHideBenchmark = false;
+  _benchWrapperRef: HTMLDivElement;
+  _benchmarkRef: InstanceType<typeof Benchmark>;
+  _scrollRef: InstanceType<typeof ScrollView>;
+
+  constructor(props) {
+    super(props);
+
     const currentBenchmarkName = Object.keys(props.tests)[0];
+
     this.state = {
       currentBenchmarkName,
       currentLibraryName: 'react-native-web',
@@ -30,8 +55,13 @@ export default class App extends Component {
       this.state;
     const currentImplementation =
       tests[currentBenchmarkName][currentLibraryName];
-    const { Component, Provider, getComponentProps, sampleCount } =
-      currentImplementation;
+    const {
+      Component,
+      Provider,
+      getComponentProps,
+      sampleCount,
+      benchmarkType
+    } = currentImplementation;
 
     return (
       <Layout
@@ -149,7 +179,7 @@ export default class App extends Component {
                       ref={this._setBenchRef}
                       sampleCount={sampleCount}
                       timeout={20000}
-                      type={Component.benchmarkType}
+                      type={benchmarkType}
                     />
                   </View>
                 </React.Fragment>
@@ -178,7 +208,7 @@ export default class App extends Component {
       () => ({ status: 'running' }),
       () => {
         if (this._shouldHideBenchmark && this._benchWrapperRef) {
-          this._benchWrapperRef.style.opacity = 0;
+          this._benchWrapperRef.style.opacity = '0';
         }
         this._benchmarkRef.start();
         this._scrollToEnd();
@@ -190,7 +220,9 @@ export default class App extends Component {
   _handleVisuallyHideBenchmark = () => {
     this._shouldHideBenchmark = !this._shouldHideBenchmark;
     if (this._benchWrapperRef) {
-      this._benchWrapperRef.style.opacity = this._shouldHideBenchmark ? 0 : 1;
+      this._benchWrapperRef.style.opacity = this._shouldHideBenchmark
+        ? '0'
+        : '1';
     }
   };
 
@@ -294,6 +326,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     ...StyleSheet.absoluteFillObject,
+    // @ts-expect-error not available in react-native, but rnw supports it as a passthrough
     appearance: 'none',
     opacity: 0,
     width: '100%'

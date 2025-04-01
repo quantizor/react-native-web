@@ -4,9 +4,9 @@
   "name": "react-ui-monorepo",
   "scripts": {
     "clean": "rimraf './packages/*/dist'",
-    "build": "yarn clean && yarn workspaces foreach -p -t build",
+    "build": "yarn clean && yarn workspaces foreach -W --exclude react-ui-monorepo run build",
     "compile": "yarn build",
-    "dev": "yarn dev --workspaces --if-present",
+    "dev": "yarn workspaces foreach -W --exclude react-ui-monorepo run dev",
     "format": "prettier --check \"**/*.js\"",
     "format:fix": "prettier --write \"**/*.js\"",
     "lint": "eslint configs packages scripts --config ./configs/.eslintrc",
