@@ -12,6 +12,7 @@ import { preprocess } from './preprocess';
 import { styleq } from 'styleq';
 import { validate } from './validate';
 import canUseDOM from '../../modules/canUseDom';
+import { ViewStyle } from '../View';
 
 declare global {
   interface Window {
@@ -131,7 +132,7 @@ function compose(style1: any, style2: any): any {
 /**
  * flatten
  */
-function flatten(...styles: any): { [key: string]: any } {
+function flatten(...styles: any): ViewStyle {
   const flatArray = styles.flat(Infinity);
   const result = {};
   for (let i = 0; i < flatArray.length; i++) {
@@ -160,7 +161,7 @@ type StyleProps = [string, { [key: string]: string } | null];
 type Options = {
   shadow?: boolean;
   textShadow?: boolean;
-  writingDirection?: 'ltr' | 'rtl';
+  writingDirection?: 'ltr' | 'rtl' | 'auto';
 };
 
 function StyleSheet(styles: any, options: Options = {} as Options): StyleProps {

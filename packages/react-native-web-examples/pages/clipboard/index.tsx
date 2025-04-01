@@ -28,7 +28,7 @@ export default function ClipboardPage() {
 const styles = StyleSheet.create({
   buttonBox: {
     maxWidth: 300,
-    marginTop: '1rem'
+    marginTop: 16
   },
   textInput: {
     borderColor: '#AAB8C2',

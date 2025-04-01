@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: '1rem',
+    gap: 16,
     flexWrap: 'wrap',
-    marginVertical: '1rem'
+    marginVertical: 16
   }
 });

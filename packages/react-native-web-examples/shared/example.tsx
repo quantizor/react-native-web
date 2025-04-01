@@ -1,8 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { type DimensionValue, StyleSheet, Text, View } from 'react-native';
 
 export default function Example(props) {
+  const [height, setHeight] = useState<DimensionValue>('100%');
+
+  useEffect(() => {
+    function handleResize() {
+      setHeight(window.visualViewport.height);
+    }
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <View style={styles.root}>
+    <View style={[{ height: height }]}>
       <View style={styles.header}>
         <Text aria-label="Back" href="/" style={styles.back}>
           <svg
@@ -23,11 +40,8 @@ export default function Example(props) {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    height: '100vh'
-  },
   header: {
-    paddingVertical: '1em',
+    paddingVertical: 16,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1
   },
@@ -35,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    width: 'fit-content',
+    width: 'auto',
     margin: 'auto'
   },
   back: {
@@ -51,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    overflowY: 'scroll'
+    overflow: 'scroll',
+    paddingVertical: 16
   }
 });

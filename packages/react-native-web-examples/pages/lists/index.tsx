@@ -3,8 +3,6 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @noflow
  */
 'use strict';
 
@@ -18,16 +16,17 @@ import {
   Pressable,
   Text,
   TextInput,
-  View
+  View,
+  TextInputProps
 } from 'react-native';
 import Example from '../../shared/example';
 
 type Item = {
-  title: string,
-  text: string,
-  key: string,
-  pressed: boolean,
-  noImage?: ?boolean
+  title: string;
+  text: string;
+  key: string;
+  pressed: boolean;
+  noImage?: boolean;
 };
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -77,12 +76,12 @@ function genItemData(count: number, start: number = 0): Array<Item> {
 }
 
 class ItemComponent extends React.PureComponent<{
-  fixedHeight?: ?boolean,
-  horizontal?: ?boolean,
-  item: Item,
-  onPress: (key: string) => void,
-  onShowUnderlay?: () => void,
-  onHideUnderlay?: () => void
+  fixedHeight?: boolean;
+  horizontal?: boolean;
+  item: Item;
+  onPress: (key: string) => void;
+  onShowUnderlay?: () => void;
+  onHideUnderlay?: () => void;
 }> {
   _onPress = () => {
     this.props.onPress(this.props.item.key);
@@ -105,7 +104,9 @@ class ItemComponent extends React.PureComponent<{
             fixedHeight && { height: ITEM_HEIGHT }
           ]}
         >
-          {!item.noImage && <Image source={imgSource} style={styles.thumb} />}
+          {!item.noImage && (
+            <Image source={{ uri: imgSource }} style={styles.thumb} />
+          )}
           <Text
             numberOfLines={horizontal || fixedHeight ? 3 : undefined}
             style={styles.text}
@@ -150,7 +151,9 @@ class SeparatorComponent extends React.PureComponent<{}> {
   }
 }
 
-class ItemSeparatorComponent extends React.PureComponent<{}> {
+class ItemSeparatorComponent extends React.PureComponent<{
+  highlighted: boolean;
+}> {
   render() {
     const style = this.props.highlighted
       ? [
@@ -162,18 +165,24 @@ class ItemSeparatorComponent extends React.PureComponent<{}> {
   }
 }
 
-class Spindicator extends React.PureComponent<{}> {
+class Spindicator extends React.PureComponent<{
+  value: Animated.Value;
+}> {
   render() {
     return (
       <Animated.View
         style={[
           styles.spindicator,
           {
-            rotate: this.props.value.interpolate({
-              inputRange: [0, 5000],
-              outputRange: ['0deg', '360deg'],
-              extrapolate: 'extend'
-            })
+            transform: [
+              {
+                rotate: this.props.value.interpolate({
+                  inputRange: [0, 5000],
+                  outputRange: ['0deg', '360deg'],
+                  extrapolate: 'extend'
+                })
+              }
+            ]
           }
         ]}
       />
@@ -196,7 +205,10 @@ function getItemLayout(data: any, index: number, horizontal?: boolean) {
   return { length, offset: (length + separator) * index + header, index };
 }
 
-function pressItem(context: Object, key: string) {
+function pressItem(
+  context: InstanceType<typeof SingleColumnExample>,
+  key: string
+) {
   const index = Number(key);
   const pressed = !context.state.data[index].pressed;
   context.setState((state) => {
@@ -210,20 +222,25 @@ function pressItem(context: Object, key: string) {
   });
 }
 
-function renderSmallSwitchOption(context: Object, key: string) {
+function renderSmallSwitchOption(
+  context: InstanceType<typeof SingleColumnExample>,
+  key: Extract<keyof SingleColumnExampleState, string>
+) {
   return (
     <View style={styles.option}>
       <Text>{key}:</Text>
       <Switch
-        onValueChange={(value) => context.setState({ [key]: value })}
+        onValueChange={(value) =>
+          context.setState((state) => ({ ...state, [key]: value }))
+        }
         style={styles.smallSwitch}
-        value={context.state[key]}
+        value={!!context.state[key]}
       />
     </View>
   );
 }
 
-function PlainInput(props: Object) {
+function PlainInput(props: TextInputProps) {
   return (
     <TextInput
       autoCapitalize="none"
@@ -236,7 +253,21 @@ function PlainInput(props: Object) {
   );
 }
 
-class SingleColumnExample extends React.PureComponent {
+type SingleColumnExampleState = {
+  data: Item[];
+  debug: boolean;
+  horizontal: boolean;
+  inverted: boolean;
+  filterText: string;
+  fixedHeight: boolean;
+  logViewable: boolean;
+  virtualized: boolean;
+};
+
+class SingleColumnExample extends React.PureComponent<
+  {},
+  SingleColumnExampleState
+> {
   static title = '<FlatList>';
   static description = 'Performant, scrollable list of data.';
 
@@ -250,6 +281,8 @@ class SingleColumnExample extends React.PureComponent {
     logViewable: false,
     virtualized: true
   };
+
+  _listRef: InstanceType<typeof FlatList>;
 
   _onChangeFilterText = (filterText) => {
     this.setState({ filterText });
@@ -373,12 +406,12 @@ class SingleColumnExample extends React.PureComponent {
   // the viewable area.
   _onViewableItemsChanged = (info: {
     changed: Array<{
-      key: string,
-      isViewable: boolean,
-      item: any,
-      index: ?number,
-      section?: any
-    }>
+      key: string;
+      isViewable: boolean;
+      item: any;
+      index: number;
+      section?: any;
+    }>;
   }) => {
     // Impressions can be logged here
     if (this.state.logViewable) {
@@ -392,7 +425,6 @@ class SingleColumnExample extends React.PureComponent {
     this._listRef.recordInteraction();
     pressItem(this, key);
   };
-  _listRef: AnimatedFlatList;
 }
 
 const styles = StyleSheet.create({

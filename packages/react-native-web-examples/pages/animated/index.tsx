@@ -1,13 +1,16 @@
-import React, { useRef } from 'react';
+import * as React from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import Example from '../../shared/example';
 
 export default function AnimatedPage() {
-  const anim = useRef(new Animated.Value(0));
+  const anim = React.useRef(new Animated.Value(0));
+  const targetValue = React.useRef(0);
 
   const animateBox = () => {
+    targetValue.current += 1;
+
     Animated.timing(anim.current, {
-      toValue: 1,
+      toValue: targetValue.current,
       duration: 1000,
       useNativeDriver: false
     }).start();

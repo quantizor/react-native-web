@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { AppRegistry, Text, StyleSheet } from 'react-native';
 import Example from '../../shared/example';
 
@@ -35,8 +35,10 @@ export default function AppStatePage() {
     const app2 = AppRegistry.runApplication('App', { rootTag: shadowRootTag });
 
     return () => {
-      app1.unmount();
-      app2.unmount();
+      // @ts-expect-error rn types are too specific
+      AppRegistry.unmountApplicationComponentAtRootTag(iframeRootTag);
+      // @ts-expect-error rn types are too specific
+      AppRegistry.unmountApplicationComponentAtRootTag(shadowRootTag);
     };
   }, []);
 

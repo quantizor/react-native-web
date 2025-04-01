@@ -31,7 +31,7 @@ const AppStates = {
   ACTIVE: 'active'
 };
 
-let changeEmitter: EventEmitter<Record<string, unknown>> | null = null;
+let changeEmitter: EventEmitter<Record<string, any>> | null = null;
 
 export default class AppState {
   static isAvailable = canUseDOM && !!document[VISIBILITY_STATE_PROPERTY];
@@ -51,7 +51,10 @@ export default class AppState {
     }
   }
 
-  static addEventListener(type: typeof EVENT_TYPES[number], handler: (...args: unknown[]) => unknown) {
+  static addEventListener(
+    type: (typeof EVENT_TYPES)[number],
+    handler: (...args: any[]) => any
+  ) {
     if (AppState.isAvailable) {
       invariant(
         EVENT_TYPES.indexOf(type) !== -1,

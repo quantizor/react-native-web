@@ -8,7 +8,7 @@ const source =
 export default function ImageBackgroundPage() {
   return (
     <Example title="ImageBackground">
-      <ImageBackground source={source} style={styles.image}>
+      <ImageBackground source={{ uri: source }} style={styles.image}>
         <Text style={styles.text}>Child content</Text>
       </ImageBackground>
     </Example>
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '1.5rem'
+    marginTop: 24
   },
   text: {
     color: 'white',

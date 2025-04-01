@@ -11,9 +11,9 @@ import StyleSheet from '../StyleSheet';
 import View from '../View';
 
 type Props = {
-  WrapperComponent?: React.ComponentType<any> | undefined,
-  children?: React.ReactNode,
-  rootTag: any
+  WrapperComponent?: React.ComponentType<any> | undefined;
+  children?: React.ReactNode;
+  rootTag: any;
 };
 
 const RootTagContext: React.Context<any> = React.createContext(null);
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
     flex: 1,
     pointerEvents: 'box-none'
   }
-});
+} as const);

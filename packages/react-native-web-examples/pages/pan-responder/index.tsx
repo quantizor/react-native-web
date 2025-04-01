@@ -1,21 +1,25 @@
-/**
- * @flow
- */
 import React from 'react';
-import { PanResponder, StyleSheet, View } from 'react-native';
+import {
+  PanResponder,
+  PanResponderGestureState,
+  StyleSheet,
+  View,
+  ViewStyle
+} from 'react-native';
 import Example from '../../shared/example';
 
 const CIRCLE_SIZE = 80;
 
 class DraggableCircle extends React.PureComponent {
-  _panResponder = {};
-  _previousLeft = 0;
-  _previousTop = 0;
-  _circleStyles = {};
+  _panResponder: ReturnType<typeof PanResponder.create>;
+  _previousLeft: number = 0;
+  _previousTop: number = 0;
+  _circleStyles: ViewStyle = {};
   circle = null;
 
-  constructor() {
-    super();
+  constructor(props: {}) {
+    super(props);
+
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -83,26 +87,38 @@ class DraggableCircle extends React.PureComponent {
     return true;
   };
 
-  _handlePanResponderGrant = (e: Object, gestureState: Object) => {
+  _handlePanResponderGrant = (
+    e: Object,
+    gestureState: PanResponderGestureState
+  ) => {
     this._highlight();
   };
 
-  _handlePanResponderMove = (e: Object, gestureState: Object) => {
+  _handlePanResponderMove = (
+    e: Object,
+    gestureState: PanResponderGestureState
+  ) => {
     this._circleStyles.left = this._previousLeft + gestureState.dx;
     this._circleStyles.top = this._previousTop + gestureState.dy;
     this._updateNativeStyles();
   };
 
-  _handlePanResponderEnd = (e: Object, gestureState: Object) => {
+  _handlePanResponderEnd = (
+    e: Object,
+    gestureState: PanResponderGestureState
+  ) => {
     this._unHighlight();
     this._previousLeft += gestureState.dx;
     this._previousTop += gestureState.dy;
   };
 }
 
-class LocationXY extends React.Component {
-  constructor() {
-    super();
+class LocationXY extends React.Component<{}, { translateX: number }> {
+  panResponder: ReturnType<typeof PanResponder.create>;
+
+  constructor(props: {}) {
+    super(props);
+
     this.state = { translateX: 0 };
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -140,6 +156,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
+    // @ts-expect-error rn does not know about DOM-specific CSS, should we add it to the augmentation?
     touchAction: 'none'
   },
   container: {
@@ -153,13 +170,13 @@ const styles = StyleSheet.create({
   },
   outer: {
     width: 250,
-    height: 50,
+    height: 30,
     backgroundColor: 'skyblue'
   },
   inner: {
     width: 30,
     height: 30,
-    backgroundColor: 'lightblue'
+    backgroundColor: 'black'
   }
 });
 

@@ -20,10 +20,10 @@ type StyleElement = ReactElement<unknown, 'style'>;
 type AppParams = Object;
 type Runnable = {
   getApplication?: (AppParams) => {
-    element: ReactElement,
-    getStyleElement: (any) => StyleElement
-  },
-  run: (AppParams) => any
+    element: ReactElement;
+    getStyleElement: (any) => StyleElement;
+  };
+  run: (AppParams) => any;
 };
 
 export type ComponentProvider = () => ComponentType<any>;
@@ -33,10 +33,10 @@ export type ComponentProviderInstrumentationHook = (
 export type WrapperComponentProvider = (any) => ComponentType<any>;
 
 export type AppConfig = {
-  appKey: string,
-  component?: ComponentProvider,
-  run?: Runnable['run'],
-  section?: boolean
+  appKey: string;
+  component?: ComponentProvider;
+  run?: Runnable['run'];
+  section?: boolean;
 };
 
 const emptyObject = {};
@@ -57,7 +57,7 @@ export default class AppRegistry {
   static getApplication(
     appKey: string,
     appParameters?: AppParams
-  ): { element: ReactElement, getStyleElement: (any) => StyleElement } | undefined {
+  ): { element: ReactElement } | undefined {
     invariant(
       runnables[appKey] && runnables[appKey].getApplication,
       `Application ${appKey} has not been registered. ` +
@@ -112,11 +112,17 @@ export default class AppRegistry {
     return appKey;
   }
 
-  static runApplication(appKey: string, appParameters: {rootTag: {id: string}}): Application {
+  static runApplication(
+    appKey: string,
+    appParameters: { rootTag: { id: string } }
+  ): Application {
     const isDevelopment =
       process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
     if (isDevelopment) {
-      const params = { ...appParameters, rootTag: `#${appParameters.rootTag.id}` };
+      const params = {
+        ...appParameters,
+        rootTag: `#${appParameters.rootTag.id}`
+      };
 
       console.log(
         `Running application "${appKey}" with appParams:\n`,

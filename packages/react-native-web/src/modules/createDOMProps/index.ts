@@ -40,8 +40,14 @@ const pointerEventsStyles = StyleSheet.create({
 } as const);
 
 // TODO: re-evaluate this code, we need to pull in RN types so this is correct
-const createDOMProps = <T extends React.ComponentType<any> | keyof React.JSX.IntrinsicElements>(elementType: T, rawProps?: React.ComponentProps<T>, options?: {writingDirection?: 'ltr' | 'rtl'}) => {
-  const props = rawProps ?? emptyObject as React.ComponentProps<T>;
+const createDOMProps = <
+  T extends React.ComponentType<any> | keyof React.JSX.IntrinsicElements
+>(
+  elementType: T,
+  rawProps?: React.ComponentProps<T>,
+  options?: { writingDirection?: 'ltr' | 'rtl' | 'auto' }
+) => {
+  const props = rawProps ?? (emptyObject as React.ComponentProps<T>);
 
   const {
     'aria-activedescendant': ariaActiveDescendant,

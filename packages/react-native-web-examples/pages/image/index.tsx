@@ -24,10 +24,10 @@ export default function ImagePage() {
   return (
     <Example title="Image">
       <Divider />
-      <Image defaultSource={placeholder} style={styles.base} />
+      <Image defaultSource={{ uri: placeholder }} style={styles.base} />
       <Divider />
       <Image
-        defaultSource={placeholder}
+        defaultSource={{ uri: placeholder }}
         onError={() => {
           console.log('error');
         }}
@@ -40,7 +40,7 @@ export default function ImagePage() {
         onLoadStart={() => {
           console.log('load-start');
         }}
-        source={source}
+        source={{ uri: source }}
         style={styles.base}
       />
       <Divider />
@@ -49,35 +49,35 @@ export default function ImagePage() {
           <Text style={styles.text}>Static image</Text>
           <Image
             resizeMode="cover"
-            source={'/image/ladybug.jpg'}
+            source={{ uri: '/image/ladybug.jpg' }}
             style={styles.image}
           />
         </View>
         <View style={styles.column}>
           <Text style={styles.text}>Progressive JPEG</Text>
-          <Image source={pjpeg} style={styles.image} />
+          <Image source={{ uri: pjpeg }} style={styles.image} />
         </View>
       </View>
       <Divider />
       <View style={styles.row}>
         <View style={styles.column}>
           <Text style={styles.text}>Animated GIF</Text>
-          <Image source={agif} style={styles.image} />
+          <Image source={{ uri: agif }} style={styles.image} />
         </View>
         <View style={styles.column}>
           <Text style={styles.text}>PNG (base64)</Text>
-          <Image source={dataBase64Png} style={styles.image} />
+          <Image source={{ uri: dataBase64Png }} style={styles.image} />
         </View>
       </View>
       <Divider />
       <View style={styles.row}>
         <View style={styles.column}>
           <Text style={styles.text}>SVG (base64)</Text>
-          <Image source={dataBase64Svg} style={styles.image} />
+          <Image source={{ uri: dataBase64Svg }} style={styles.image} />
         </View>
         <View style={styles.column}>
           <Text style={styles.text}>SVG (inline data)</Text>
-          <Image source={dataSvg} style={styles.image} />
+          <Image source={{ uri: dataSvg }} style={styles.image} />
         </View>
       </View>
       <Divider />
@@ -86,7 +86,7 @@ export default function ImagePage() {
           <Text style={[styles.text]}>Center</Text>
           <Image
             resizeMode="center"
-            source={resizesource}
+            source={{ uri: resizesource }}
             style={styles.resizeMode}
           />
         </View>
@@ -94,7 +94,7 @@ export default function ImagePage() {
           <Text style={[styles.text]}>Contain</Text>
           <Image
             resizeMode="contain"
-            source={resizesource}
+            source={{ uri: resizesource }}
             style={styles.resizeMode}
           />
         </View>
@@ -105,7 +105,7 @@ export default function ImagePage() {
           <Text style={[styles.text]}>Cover</Text>
           <Image
             resizeMode="cover"
-            source={resizesource}
+            source={{ uri: resizesource }}
             style={styles.resizeMode}
           />
         </View>
@@ -113,7 +113,7 @@ export default function ImagePage() {
           <Text style={[styles.text]}>Stretch</Text>
           <Image
             resizeMode="stretch"
-            source={resizesource}
+            source={{ uri: resizesource }}
             style={styles.resizeMode}
           />
         </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     width: 300
   },
   divider: {
-    height: '1rem'
+    height: 16
   },
   row: {
     flexDirection: 'row',
@@ -136,11 +136,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   column: {
-    marginBottom: '1rem',
-    marginHorizontal: '1rem'
+    marginBottom: 16,
+    marginHorizontal: 16
   },
   text: {
-    marginBottom: '0.5rem',
+    marginBottom: 8,
     textAlign: 'center'
   },
   image: {

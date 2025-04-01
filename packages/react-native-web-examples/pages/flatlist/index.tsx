@@ -1,7 +1,13 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  type FlatListProps
+} from 'react-native';
 import Example from '../../shared/example';
-import { FlatList, Text, Pressable, View } from 'react-native-web';
 
 const multiSelectData = ['First', 'Second', 'Third'].map((title, id) => ({
   id,
@@ -10,7 +16,12 @@ const multiSelectData = ['First', 'Second', 'Third'].map((title, id) => ({
 const minimalData = ['a', 'b', 'c', 'd', 'e'].map((key) => ({ key }));
 const pageExamplesData = ['minimal', 'multiSelect'].map((type) => ({ type }));
 
-class MyListItem extends React.PureComponent {
+class MyListItem extends React.PureComponent<
+  (typeof multiSelectData)[number] & {
+    onPressItem: (id: number) => void;
+    selected: boolean;
+  }
+> {
   _onPress = () => {
     this.props.onPressItem(this.props.id);
   };
@@ -29,7 +40,10 @@ class MyListItem extends React.PureComponent {
   }
 }
 
-class MultiSelectList extends React.PureComponent {
+class MultiSelectList extends React.PureComponent<
+  Pick<FlatListProps<any>, 'data'>,
+  { selected: Map<string, boolean> }
+> {
   state = { selected: new Map() };
 
   _keyExtractor = (item, index) => item.id;
@@ -44,7 +58,7 @@ class MultiSelectList extends React.PureComponent {
     });
   };
 
-  _renderItem = ({ item }) => (
+  _renderItem = ({ item }: { item: (typeof multiSelectData)[number] }) => (
     <MyListItem
       id={item.id}
       onPressItem={this._onPressItem}
@@ -56,7 +70,7 @@ class MultiSelectList extends React.PureComponent {
   render() {
     return (
       <FlatList
-        data={multiSelectData}
+        data={this.props.data}
         extraData={this.state}
         keyExtractor={this._keyExtractor}
         renderItem={this._renderItem}
@@ -87,7 +101,7 @@ function renderExampleItem({ item }) {
       return (
         <View style={styles.exampleContainer}>
           <Text style={styles.exampleHeaderText}>Multi-Select FlatList:</Text>
-          <MultiSelectList />
+          <MultiSelectList data={multiSelectData} />
         </View>
       );
     default:

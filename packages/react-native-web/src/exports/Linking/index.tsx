@@ -92,7 +92,9 @@ class Linking {
     }
     try {
       open(url, target);
+      // https://github.com/necolas/react-native-web/issues/1650
       this._dispatchEvent('onOpen', url);
+      this._dispatchEvent('open', url);
       return Promise.resolve();
     } catch (e) {
       return Promise.reject(e);

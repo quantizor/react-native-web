@@ -88,19 +88,19 @@ export default function TextInputPage() {
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    padding: '1rem'
+    padding: 16
   },
   textinput: {
     height: 26,
     borderWidth: 0.5,
     borderColor: '#0f0f0f',
     padding: 4,
-    marginVertical: '1rem'
+    marginVertical: 16
   },
   multiline: {
     borderWidth: 0.5,
     borderColor: '#0f0f0f',
     padding: 4,
-    marginVertical: '1rem'
+    marginVertical: 16
   }
 });

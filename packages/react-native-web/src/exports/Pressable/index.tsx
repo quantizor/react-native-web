@@ -20,52 +20,55 @@ import StyleSheet from '../StyleSheet';
 import View from '../View';
 
 export type StateCallbackType = {
-  focused: boolean,
-  hovered: boolean,
-  pressed: boolean
+  focused: boolean;
+  hovered: boolean;
+  pressed: boolean;
 };
 
 type ViewStyleProp = ViewProps['style'];
 
 interface Props extends Omit<ViewProps, 'children' | 'style'> {
-  children: React.ReactNode | ((state: StateCallbackType) => React.ReactNode),
+  children: React.ReactNode | ((state: StateCallbackType) => React.ReactNode);
   // Duration (in milliseconds) from `onPressIn` before `onLongPress` is called.
-  delayLongPress?: number | undefined,
+  delayLongPress?: number | undefined;
   // Duration (in milliseconds) from `onPressStart` is called after pointerdown
-  delayPressIn?: number | undefined,
+  delayPressIn?: number | undefined;
   // Duration (in milliseconds) from `onPressEnd` is called after pointerup.
-  delayPressOut?: number | undefined,
+  delayPressOut?: number | undefined;
   // Whether the press behavior is disabled.
-  disabled?: boolean | undefined,
+  disabled?: boolean | undefined;
   // Called when the view is hovered
-  onHoverIn?: HoverEventsConfig['onHoverStart'],
+  onHoverIn?: HoverEventsConfig['onHoverStart'];
   // Called when the view is no longer hovered
-  onHoverOut?: HoverEventsConfig['onHoverEnd'],
+  onHoverOut?: HoverEventsConfig['onHoverEnd'];
   // Called when this view's layout changes
-  onLayout?: ViewProps['onLayout'],
+  onLayout?: ViewProps['onLayout'];
   // Called when a long-tap gesture is detected.
-  onLongPress?: PressResponderConfig['onLongPress'],
+  onLongPress?: PressResponderConfig['onLongPress'];
   // Called when a single tap gesture is detected.
-  onPress?: PressResponderConfig['onPress'],
+  onPress?: PressResponderConfig['onPress'];
   // Called when a touch is engaged, before `onPress`.
-  onPressIn?: PressResponderConfig['onPressStart'],
+  onPressIn?: PressResponderConfig['onPressStart'];
   // Called when a touch is moving, after `onPressIn`.
-  onPressMove?: PressResponderConfig['onPressMove'],
+  onPressMove?: PressResponderConfig['onPressMove'];
   // Called when a touch is released, before `onPress`.
-  onPressOut?: PressResponderConfig['onPressEnd'],
-  style?: ViewStyleProp | ((state: StateCallbackType) => ViewStyleProp),
+  onPressOut?: PressResponderConfig['onPressEnd'];
+  style?: ViewStyleProp | ((state: StateCallbackType) => ViewStyleProp);
   /**
    * Used only for documentation or testing (e.g. snapshot testing).
    */
-  testOnly_hovered?: boolean | undefined,
-  testOnly_pressed?: boolean | undefined
-};
+  testOnly_hovered?: boolean | undefined;
+  testOnly_pressed?: boolean | undefined;
+}
 
 /**
  * Component used to build display components that should respond to whether the
  * component is currently pressed or not.
  */
-function Pressable(props: Props, forwardedRef: React.Ref<ViewRef>): React.ReactNode {
+function Pressable(
+  props: Props,
+  forwardedRef: React.Ref<ViewRef>
+): React.ReactNode {
   const {
     children,
     delayLongPress,
@@ -205,7 +208,6 @@ function Pressable(props: Props, forwardedRef: React.Ref<ViewRef>): React.ReactN
       onKeyDown={keyDownHandler}
       ref={setRef}
       style={[
-        // @ts-expect-error RN-specific value that will be handled in createElement
         disabled ? styles.disabled : styles.active,
         typeof style === 'function' ? style(interactionState) : style
       ]}

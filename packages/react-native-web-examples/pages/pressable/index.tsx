@@ -21,11 +21,10 @@ export default function PressablePage() {
 
   return (
     <Example title="Pressable">
-      <View style={styles.container}>
+      <View style={styles.container} onKeyDown={(e) => console.log(e.key)}>
         <Pressable
-          delayLongPress="750"
-          delayPressIn={delay}
-          delayPressOut={delay}
+          delayLongPress={750}
+          unstable_pressDelay={delay}
           disabled={disabled}
           onBlur={handleEvent('onBlur')}
           onFocus={handleEvent('onFocus')}
@@ -55,7 +54,7 @@ export default function PressablePage() {
             onPress={() => setDisabled((state) => !state)}
             title={disabled ? 'Enable' : 'Disable'}
           />
-          <View style={{ width: '1rem' }} />
+          <View style={{ width: 16 }} />
           <Button
             onPress={() => setDelay((state) => (state === 0 ? 350 : 0))}
             title={delay === 0 ? 'Add delay' : 'Remove delay'}
@@ -75,7 +74,7 @@ export default function PressablePage() {
 const styles = StyleSheet.create({
   container: {
     maxWidth: 500,
-    padding: '1rem',
+    padding: 16,
     width: '100%'
   },
   pressable: {
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row',
-    marginVertical: '1rem'
+    marginVertical: 16
   },
   eventLogBox: {
     padding: 10,

@@ -4,8 +4,6 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @noflow
  */
 
 /* eslint-disable no-use-before-define */
@@ -71,13 +69,15 @@ function TextAlignmentExample(props) {
 }
 
 function withRTLState(Component) {
-  return class extends React.Component {
-    constructor(...args) {
-      super(...args);
-      this.state = {
-        isRTL: false
-      };
+  return class extends React.Component<
+    {},
+    {
+      isRTL: boolean;
     }
+  > {
+    state = {
+      isRTL: false
+    };
 
     render() {
       const isRTL = this.state.isRTL;
@@ -90,11 +90,7 @@ function withRTLState(Component) {
 const RTLToggler = ({ isRTL, setRTL }) => {
   const toggleRTL = () => setRTL(!isRTL);
   return (
-    <Pressable
-      aria-label="Change layout direction"
-      color="gray"
-      onPress={toggleRTL}
-    >
+    <Pressable aria-label="Change layout direction" onPress={toggleRTL}>
       <Text>{isRTL ? 'RTL' : 'LTR'}</Text>
     </Pressable>
   );
@@ -369,7 +365,14 @@ const blockStyles = StyleSheet.create({
   }
 });
 
-class LayoutRTLExample extends React.Component {
+class LayoutRTLExample extends React.Component<
+  {},
+  {
+    toggleStatus: Record<string, boolean>;
+    isRTL: boolean;
+    containerWidth: number;
+  }
+> {
   constructor(props) {
     super(props);
 
@@ -413,14 +416,6 @@ class LayoutRTLExample extends React.Component {
           style={[styles.fontSizeSmall, styles.textAlignRight]}
           title={'textAlign: "right"'}
         />
-        <TextAlignmentExample
-          style={[styles.fontSizeSmall, styles.textAlignStart]}
-          title={'textAlign: "start"'}
-        />
-        <TextAlignmentExample
-          style={[styles.fontSizeSmall, styles.textAlignEnd]}
-          title={'textAlign: "end"'}
-        />
         <PaddingExample />
         <MarginExample />
         <PositionExample />
@@ -447,12 +442,12 @@ class LayoutRTLExample extends React.Component {
             ]}
           >
             <View style={{ alignItems: 'center' }}>
-              <Image source={iconSource} style={styles.image} />
+              <Image source={{ uri: iconSource }} style={styles.image} />
               <Text style={styles.fontSizeSmall}>No RTL flip</Text>
             </View>
             <View style={{ alignItems: 'center' }}>
               <Image
-                source={iconSource}
+                source={{ uri: iconSource }}
                 style={[
                   styles.image,
                   { transform: `scaleX(${this.state.isRTL ? -1 : 1})` }
@@ -557,12 +552,6 @@ const styles = StyleSheet.create({
   textAlignRight: {
     textAlign: 'right'
   },
-  textAlignStart: {
-    textAlign: 'start'
-  },
-  textAlignEnd: {
-    textAlign: 'end'
-  },
   flexDirectionRow: {
     flexDirection: 'row'
   },
@@ -574,6 +563,10 @@ const styles = StyleSheet.create({
     padding: 8,
     textAlign: 'center',
     fontWeight: '500'
+  },
+  textBox: {
+    justifyContent: 'center',
+    height: '100%'
   }
 });
 

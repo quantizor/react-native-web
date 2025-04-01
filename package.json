@@ -4,7 +4,7 @@
   "name": "react-ui-monorepo",
   "scripts": {
     "clean": "rimraf './packages/*/dist'",
-    "build": "yarn clean && yarn build --workspaces --if-present",
+    "build": "yarn clean && yarn workspaces foreach -p -t build",
     "compile": "yarn build",
     "dev": "yarn dev --workspaces --if-present",
     "format": "prettier --check \"**/*.js\"",

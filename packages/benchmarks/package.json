@@ -3,7 +3,7 @@
   "name": "benchmarks",
   "version": "0.0.0",
   "scripts": {
-    "clean": "del-cli ./dist",
+    "clean": "rimraf dist",
     "build": "NODE_ENV=production npm run dev",
     "dev": "npm run clean && mkdir -p dist && cp -f index.html dist/index.html && webpack --config ./webpack.config.js"
   },

@@ -9,7 +9,7 @@ export default function LinkingPage(props) {
 
   React.useEffect(() => {
     console.log('adding listener');
-    const listener = Linking.addEventListener('onOpen', () => {
+    const listener = Linking.addEventListener('open', () => {
       console.log('onOpen event');
     });
     return () => {
@@ -32,7 +32,9 @@ export default function LinkingPage(props) {
         Linking.openURL
       </Text>
       <Text
+        // @ts-ignore the "href" prop is a RNW-specific prop, how to best augment rn's types in this scenario?
         href="https://mathiasbynens.github.io/rel-noopener/malicious.html"
+        // @ts-ignore the "hrefAttrs" prop is a RNW-specific prop, how to best augment rn's types in this scenario?
         hrefAttrs={{
           target: '_blank'
         }}

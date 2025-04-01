@@ -143,58 +143,110 @@ export type AccessibilityProps = {
   accessibilityValueText?: string | undefined;
 };
 
+// TODO: investigate overlap, why are RN types reimplemented here vs just added DOM ones?
 export type EventProps = {
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onAuxClick?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onBlur?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onClick?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onContextMenu?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onFocus?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onGotPointerCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onKeyDown?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onKeyUp?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onLayout?: (e: LayoutEvent) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onLostPointerCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMoveShouldSetResponder?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMoveShouldSetResponderCapture?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerCancel?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerDown?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerEnter?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerMove?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerLeave?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerOut?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerOver?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onPointerUp?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderEnd?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderGrant?: (e: any) => void | boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderMove?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderReject?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderRelease?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderStart?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderTerminate?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onResponderTerminationRequest?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onScrollShouldSetResponder?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onScrollShouldSetResponderCapture?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onSelectionChangeShouldSetResponder?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onSelectionChangeShouldSetResponderCapture?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onStartShouldSetResponder?: (e: any) => boolean;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onStartShouldSetResponderCapture?: (e: any) => boolean;
   // unstable
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseDown?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseEnter?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseLeave?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseMove?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseOver?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseOut?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onMouseUp?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onScroll?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchCancel?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchCancelCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchEnd?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchEndCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchMove?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchMoveCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchStart?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onTouchStartCapture?: (e: any) => void;
+  /** Added by react-native-web, it will probably be ignored for other platforms. */
   onWheel?: (e: any) => void;
 };
 
@@ -204,11 +256,16 @@ type ExcludeAnimated<T> = {
 
 type ViewStyleWithoutAnimated = ExcludeAnimated<RNViewStyle>;
 
-export type ViewStyle = React.CSSProperties & {
+export type ViewStyle = Omit<React.CSSProperties, 'pointerEvents'> & {
   [K in Exclude<
     keyof ViewStyleWithoutAnimated,
     keyof React.CSSProperties
   >]?: ViewStyleWithoutAnimated[K];
+} & {
+  // for certain styles we'll refine them manually to get the right type (see createDOMProps)
+  pointerEvents?:
+    | ViewStyleWithoutAnimated['pointerEvents']
+    | React.CSSProperties['pointerEvents'];
 };
 
 export type ViewProps = AccessibilityProps &
@@ -226,7 +283,7 @@ export type ViewProps = AccessibilityProps &
     React.HTMLAttributes<HTMLElement>,
     'style' | 'dir' | keyof EventProps
   > & {
-    dir?: 'ltr' | 'rtl' | undefined;
+    dir?: 'ltr' | 'rtl' | 'auto' | undefined;
     ref?: React.Ref<HTMLElement & PlatformMethods>;
     style?: StyleProp<ViewStyle>;
     // unstable

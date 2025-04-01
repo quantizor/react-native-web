@@ -1,5 +1,6 @@
 import React from 'react';
-import { ProgressBar, StyleSheet, View } from 'react-native';
+// @ts-expect-error RN removed ProgressBar at some point
+import { ProgressBar, StyleSheet, View, Text } from 'react-native';
 import Example from '../../shared/example';
 
 function Divider() {
@@ -9,6 +10,11 @@ function Divider() {
 export default function ProgressBarPage() {
   return (
     <Example title="ProgressBar">
+      <Text style={styles.title}>
+        This component was removed from react-native proper, but is retained in
+        react-native-web for backward compatibility... for now.
+      </Text>
+
       <View style={styles.container}>
         <Divider />
         <ProgressBar indeterminate trackColor="#D1E3F6" />
@@ -55,13 +61,18 @@ export default function ProgressBarPage() {
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    padding: '1rem'
+    padding: 16
   },
   divider: {
-    height: '1rem'
+    height: 16
   },
   custom: {
     borderRadius: 10,
     height: 20
+  },
+  title: {
+    fontSize: 20,
+    marginVertical: 20,
+    textAlign: 'center'
   }
 });

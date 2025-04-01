@@ -1,4 +1,5 @@
-import { CheckBox, StyleSheet, View } from 'react-native';
+// @ts-expect-error react-native no longer exports CheckBox but rnw does
+import { CheckBox, StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import Example from '../../shared/example';
 
@@ -20,12 +21,17 @@ export default function CheckboxPage() {
 
   return (
     <Example title="CheckBox">
+      <Text style={styles.title}>
+        This component was removed from react-native proper, but is retained in
+        react-native-web for backward compatibility... for now.
+      </Text>
+
       <View style={styles.row}>
-        <CheckBox disabled style={styles.item} value={false} />
+        <CheckBox disabled value={false} />
         <Divider />
-        <CheckBox disabled style={styles.item} value={true} />
+        <CheckBox disabled value={true} />
         <Divider />
-        <CheckBox aria-readonly style={styles.item} value={true} />
+        <CheckBox aria-readonly value={true} />
       </View>
       <View style={styles.row}>
         <CheckBox value={false} />
@@ -64,5 +70,10 @@ const styles = StyleSheet.create({
   },
   divider: {
     width: 10
+  },
+  title: {
+    fontSize: 20,
+    marginVertical: 20,
+    textAlign: 'center'
   }
 });
