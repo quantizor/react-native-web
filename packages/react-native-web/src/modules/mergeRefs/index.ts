@@ -8,10 +8,10 @@
 import * as React from 'react';
 
 export default function mergeRefs<T>(
-  ...args: ReadonlyArray<React.Ref<T>>
+  ...args: ReadonlyArray<React.Ref<T> | undefined>
 ): (node: T | null) => void {
   return function forwardRef(node: T | null) {
-    args.forEach((ref: React.Ref<T>) => {
+    args.forEach((ref) => {
       if (ref == null) {
         return;
       }

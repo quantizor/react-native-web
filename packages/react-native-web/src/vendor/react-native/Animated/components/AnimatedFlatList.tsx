@@ -20,6 +20,4 @@ const FlatListWithEventThrottle = React.forwardRef(
   ) => <FlatList scrollEventThrottle={0.0001} {...props} ref={ref} />
 );
 
-export default createAnimatedComponent<typeof FlatList<any>>(
-  FlatListWithEventThrottle
-);
+export default createAnimatedComponent(FlatListWithEventThrottle);

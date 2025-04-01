@@ -18,7 +18,9 @@ import type {
 } from './VirtualizedListProps';
 
 import RefreshControl from '../../../exports/RefreshControl/index';
-import ScrollView, {type ScrollViewRef} from '../../../exports/ScrollView/index';
+import ScrollView, {
+  type ScrollViewRef
+} from '../../../exports/ScrollView/index';
 import View, { type ViewProps } from '../../../exports/View/index';
 import StyleSheet from '../../../exports/StyleSheet/index';
 
@@ -35,7 +37,7 @@ import {
   VirtualizedListCellContextProvider,
   VirtualizedListContext,
   VirtualizedListContextProvider,
-  VirtualizedListContextType,
+  VirtualizedListContextType
 } from './VirtualizedListContext';
 import {
   computeWindowedRenderLimits,
@@ -59,17 +61,17 @@ type ScrollResponderType = any;
 type ViewStyleProp = ViewProps['style'];
 
 type ViewabilityHelperCallbackTuple = {
-  viewabilityHelper: ViewabilityHelper,
+  viewabilityHelper: ViewabilityHelper;
   onViewableItemsChanged: (info: {
-    viewableItems: Array<ViewToken>,
-    changed: Array<ViewToken>,
-    viewabilityConfig: ViewabilityConfig,
-  }) => void,
+    viewableItems: Array<ViewToken>;
+    changed: Array<ViewToken>;
+    viewabilityConfig: ViewabilityConfig;
+  }) => void;
 };
 
 type State = {
-  renderMask: CellRenderMask,
-  cellsAroundViewport: { first: number, last: number }
+  renderMask: CellRenderMask;
+  cellsAroundViewport: { first: number; last: number };
 };
 
 /**
@@ -93,12 +95,16 @@ function maxToRenderPerBatchOrDefault(maxToRenderPerBatch: number | undefined) {
 }
 
 // onStartReachedThresholdOrDefault(this.props.onStartReachedThreshold)
-function onStartReachedThresholdOrDefault(onStartReachedThreshold: number | undefined) {
+function onStartReachedThresholdOrDefault(
+  onStartReachedThreshold: number | undefined
+) {
   return onStartReachedThreshold ?? 2;
 }
 
 // onEndReachedThresholdOrDefault(this.props.onEndReachedThreshold)
-function onEndReachedThresholdOrDefault(onEndReachedThreshold: number | undefined) {
+function onEndReachedThresholdOrDefault(
+  onEndReachedThreshold: number | undefined
+) {
   return onEndReachedThreshold ?? 2;
 }
 
@@ -159,7 +165,13 @@ function findLastWhere<T>(
  * - As an effort to remove defaultProps, use helper functions when referencing certain props
  *
  */
-class VirtualizedList<Data extends readonly any[] = readonly any[]> extends StateSafePureComponent<Props<Data>, State, VirtualizedListContextType<Data>> {
+class VirtualizedList<
+  Data extends readonly any[] = readonly any[]
+> extends StateSafePureComponent<
+  Props<Data>,
+  State,
+  VirtualizedListContextType<Data>
+> {
   static contextType: typeof VirtualizedListContext = VirtualizedListContext;
 
   // scrollToEnd may be janky without getItemLayout prop
@@ -200,10 +212,10 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
 
   // scrollToIndex may be janky without getItemLayout prop
   scrollToIndex(params: {
-    animated?: boolean | undefined,
-    index: number,
-    viewOffset?: number,
-    viewPosition?: number,
+    animated?: boolean | undefined;
+    index: number;
+    viewOffset?: number;
+    viewPosition?: number;
   }): void {
     const {
       data,
@@ -272,10 +284,10 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   // scrollToItem may be janky without getItemLayout prop. Required linear scan through items -
   // use scrollToIndex instead if possible.
   scrollToItem(params: {
-    animated?: boolean | undefined,
-    item: Item,
-    viewOffset?: number,
-    viewPosition?: number,
+    animated?: boolean | undefined;
+    item: Item;
+    viewOffset?: number;
+    viewPosition?: number;
   }) {
     const { item } = params;
     const { data, getItem, getItemCount } = this.props;
@@ -298,7 +310,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
    * Param `animated` (`true` by default) defines whether the list
    * should do an animation while scrolling.
    */
-  scrollToOffset(params: { animated?: boolean | undefined, offset: number }) {
+  scrollToOffset(params: { animated?: boolean | undefined; offset: number }) {
     const { animated, offset } = params;
 
     if (this._scrollRef == null) {
@@ -359,7 +371,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   }
 
   getScrollRef() {
-      return this._scrollRef;
+    return this._scrollRef;
   }
 
   _getCellKey(): string {
@@ -383,8 +395,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   };
 
   _registerAsNestedChild = (childList: {
-    cellKey: string,
-    ref: InstanceType<typeof VirtualizedList<Data>>
+    cellKey: string;
+    ref: InstanceType<typeof VirtualizedList<Data>>;
   }): void => {
     this._nestedChildLists.add(childList.ref, childList.cellKey);
     if (this._hasInteracted) {
@@ -393,7 +405,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   };
 
   _unregisterAsNestedChild = (childList: {
-    ref: InstanceType<typeof VirtualizedList<Data>>
+    ref: InstanceType<typeof VirtualizedList<Data>>;
   }): void => {
     this._nestedChildLists.remove(childList.ref);
   };
@@ -427,14 +439,17 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
       }
     }
 
-    const initialRenderRegion = VirtualizedList._initialRenderRegion<Data>(props);
+    const initialRenderRegion =
+      VirtualizedList._initialRenderRegion<Data>(props);
 
     this.state = {
       cellsAroundViewport: initialRenderRegion,
-      renderMask: VirtualizedList._createRenderMask<Data>(props, initialRenderRegion)
+      renderMask: VirtualizedList._createRenderMask<Data>(
+        props,
+        initialRenderRegion
+      )
     };
   }
-
 
   _checkProps(props: Props<Data>) {
     const { onScroll, windowSize, getItemCount, data, initialScrollIndex } =
@@ -486,8 +501,10 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
 
   static _createRenderMask<Data extends readonly any[]>(
     props: Props<Data>,
-    cellsAroundViewport: { first: number, last: number },
-    additionalRegions?: ReadonlyArray<{ first: number, last: number }> | undefined
+    cellsAroundViewport: { first: number; last: number },
+    additionalRegions?:
+      | ReadonlyArray<{ first: number; last: number }>
+      | undefined
   ): CellRenderMask {
     const itemCount = props.getItemCount(props.data);
 
@@ -528,7 +545,9 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
     return renderMask;
   }
 
-  static _initialRenderRegion<Data extends readonly any[]>(props: Props<Data>): { first: number, last: number } {
+  static _initialRenderRegion<Data extends readonly any[]>(
+    props: Props<Data>
+  ): { first: number; last: number } {
     const itemCount = props.getItemCount(props.data);
 
     const firstCellIndex = Math.max(
@@ -565,67 +584,67 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   }
 
   // REACT-NATIVE-WEB patch to preserve during future RN merges: Support inverted wheel scroller.
-    // For issue https://github.com/necolas/react-native-web/issues/995
-    invertedWheelEventHandler = (ev: WheelEvent) => {
-      if (!ev.target || !(ev.target instanceof HTMLElement)) {
-        return;
-      }
+  // For issue https://github.com/necolas/react-native-web/issues/995
+  invertedWheelEventHandler = (ev: WheelEvent) => {
+    if (!ev.target || !(ev.target instanceof HTMLElement)) {
+      return;
+    }
 
-      const scrollOffset = this.props.horizontal
-        ? ev.target.scrollLeft
-        : ev.target.scrollTop;
-      const scrollLength = this.props.horizontal
-        ? ev.target.scrollWidth
-        : ev.target.scrollHeight;
-      const clientLength = this.props.horizontal
-        ? ev.target.clientWidth
-        : ev.target.clientHeight;
-      const isEventTargetScrollable = scrollLength > clientLength;
-      const delta = this.props.horizontal
-      // @ts-expect-error old deprecated property
-        ? ev.deltaX || ev.wheelDeltaX
-         // @ts-expect-error old deprecated property
-        : ev.deltaY || ev.wheelDeltaY;
-      let leftoverDelta = delta;
-      if (isEventTargetScrollable) {
-        leftoverDelta =
-          delta < 0
-            ? Math.min(delta + scrollOffset, 0)
-            : Math.max(delta - (scrollLength - clientLength - scrollOffset), 0);
-      }
-      const targetDelta = delta - leftoverDelta;
+    const scrollOffset = this.props.horizontal
+      ? ev.target.scrollLeft
+      : ev.target.scrollTop;
+    const scrollLength = this.props.horizontal
+      ? ev.target.scrollWidth
+      : ev.target.scrollHeight;
+    const clientLength = this.props.horizontal
+      ? ev.target.clientWidth
+      : ev.target.clientHeight;
+    const isEventTargetScrollable = scrollLength > clientLength;
+    const delta = this.props.horizontal
+      ? // @ts-expect-error old deprecated property
+        ev.deltaX || ev.wheelDeltaX
+      : // @ts-expect-error old deprecated property
+        ev.deltaY || ev.wheelDeltaY;
+    let leftoverDelta = delta;
+    if (isEventTargetScrollable) {
+      leftoverDelta =
+        delta < 0
+          ? Math.min(delta + scrollOffset, 0)
+          : Math.max(delta - (scrollLength - clientLength - scrollOffset), 0);
+    }
+    const targetDelta = delta - leftoverDelta;
 
-      if (
-        this.props.inverted &&
-        this._scrollRef &&
-        this._scrollRef.getScrollableNode
-      ) {
-        const node = this._scrollRef.getScrollableNode();
+    if (
+      this.props.inverted &&
+      this._scrollRef &&
+      this._scrollRef.getScrollableNode
+    ) {
+      const node = this._scrollRef.getScrollableNode();
 
-        if (node) {
-          if (this.props.horizontal) {
-            ev.target.scrollLeft += targetDelta;
-            const nextScrollLeft = node.scrollLeft - leftoverDelta;
-            node.scrollLeft = !this.props.getItemLayout
-              ? Math.min(nextScrollLeft, this._totalCellLength)
-              : nextScrollLeft;
-          } else {
-            ev.target.scrollTop += targetDelta;
-            const nextScrollTop = node.scrollTop - leftoverDelta;
-            node.scrollTop = !this.props.getItemLayout
-              ? Math.min(nextScrollTop, this._totalCellLength)
-              : nextScrollTop;
-          }
+      if (node) {
+        if (this.props.horizontal) {
+          ev.target.scrollLeft += targetDelta;
+          const nextScrollLeft = node.scrollLeft - leftoverDelta;
+          node.scrollLeft = !this.props.getItemLayout
+            ? Math.min(nextScrollLeft, this._totalCellLength)
+            : nextScrollLeft;
+        } else {
+          ev.target.scrollTop += targetDelta;
+          const nextScrollTop = node.scrollTop - leftoverDelta;
+          node.scrollTop = !this.props.getItemLayout
+            ? Math.min(nextScrollTop, this._totalCellLength)
+            : nextScrollTop;
         }
-
-        ev.preventDefault();
       }
-    };
+
+      ev.preventDefault();
+    }
+  };
 
   _adjustCellsAroundViewport(
     props: Props<Data>,
-    cellsAroundViewport: { first: number, last: number }
-  ): { first: number, last: number } {
+    cellsAroundViewport: { first: number; last: number }
+  ): { first: number; last: number } {
     const { data, getItemCount } = props;
     const onEndReachedThreshold = onEndReachedThresholdOrDefault(
       props.onEndReachedThreshold
@@ -641,7 +660,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
         : cellsAroundViewport;
     }
 
-    let newCellsAroundViewport: { first: number, last: number };
+    let newCellsAroundViewport: { first: number; last: number };
     if (props.disableVirtualization) {
       const renderAhead =
         distanceFromEnd < onEndReachedThreshold * visibleLength
@@ -756,7 +775,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   setupWebWheelHandler() {
     if (this._scrollRef && this._scrollRef.getScrollableNode) {
       this._scrollRef
-        .getScrollableNode()?.addEventListener('wheel', this.invertedWheelEventHandler);
+        .getScrollableNode()
+        ?.addEventListener('wheel', this.invertedWheelEventHandler);
     } else {
       setTimeout(() => this.setupWebWheelHandler(), 50);
       return;
@@ -767,11 +787,15 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   teardownWebWheelHandler() {
     if (this._scrollRef && this._scrollRef.getScrollableNode) {
       this._scrollRef
-        .getScrollableNode()?.removeEventListener('wheel', this.invertedWheelEventHandler);
+        .getScrollableNode()
+        ?.removeEventListener('wheel', this.invertedWheelEventHandler);
     }
   }
 
-  static getDerivedStateFromProps<Data extends readonly any[]>(newProps: Props<Data>, prevState: State): State {
+  static getDerivedStateFromProps(
+    newProps: Props<readonly any[]>,
+    prevState: State
+  ): State {
     // first and last could be stale (e.g. if a new, shorter items props is passed in), so we make
     // sure we're rendering a reasonable range here.
     const itemCount = newProps.getItemCount(newProps.data);
@@ -857,9 +881,9 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   }
 
   static _constrainToItemCount<Data extends readonly any[]>(
-    cells: { first: number, last: number },
+    cells: { first: number; last: number },
     props: Props<Data>
-  ): { first: number, last: number } {
+  ): { first: number; last: number } {
     const itemCount = props.getItemCount(props.data);
     const last = Math.min(itemCount - 1, cells.last);
 
@@ -873,7 +897,10 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
     };
   }
 
-  _onUpdateSeparators = (keys: Array<string | undefined>, newProps: Partial<SeparatorProps<any>>) => {
+  _onUpdateSeparators = (
+    keys: Array<string | undefined>,
+    newProps: Partial<SeparatorProps<any>>
+  ) => {
     keys.forEach((key) => {
       const ref = key != null && this._cellRefs[key];
       ref && ref.updateSeparatorProps(newProps);
@@ -895,7 +922,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
     item: Item,
     index: number,
     props: {
-      keyExtractor?: ((item: Item, index: number) => string) | undefined,
+      keyExtractor?: ((item: Item, index: number) => string) | undefined;
     }
   ) {
     if (props.keyExtractor != null) {
@@ -959,13 +986,13 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
     // 2a. Add a cell for ListEmptyComponent if applicable
     const itemCount = this.props.getItemCount(data);
     if (itemCount === 0 && ListEmptyComponent) {
-      const element: React.ReactElement<any> = ((React.isValidElement(
+      const element: React.ReactElement<any> = React.isValidElement(
         ListEmptyComponent
       ) ? (
         ListEmptyComponent
       ) : (
         <ListEmptyComponent />
-      )));
+      );
       cells.push(
         <VirtualizedListCellContextProvider
           cellKey={this._getCellKey() + '-empty'}
@@ -1192,11 +1219,11 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   _fillRateHelper: FillRateHelper;
   _frames: {
     [key: string]: {
-      inLayout?: boolean,
-      index: number,
-      length: number,
-      offset: number
-    }
+      inLayout?: boolean;
+      index: number;
+      length: number;
+      offset: number;
+    };
   } = {};
   _footerLength = 0;
   // Used for preventing scrollToIndex from being called multiple times for initialScrollIndex
@@ -1419,7 +1446,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
     const normalize =
       this._scrollMetrics.visibleLength /
       (this._scrollMetrics.contentLength || 1);
-    const framesInLayout: ReturnType<typeof this.__getFrameMetricsApprox>[] = [];
+    const framesInLayout: ReturnType<typeof this.__getFrameMetricsApprox>[] =
+      [];
     const itemCount = this.props.getItemCount(this.props.data);
     for (let ii = 0; ii < itemCount; ii++) {
       const frame = this.__getFrameMetricsApprox(ii, this.props);
@@ -1480,8 +1508,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
 
   _selectLength(
     metrics: Readonly<{
-      height: number,
-      width: number,
+      height: number;
+      width: number;
     }>
   ): number {
     return !horizontalOrDefault(this.props.horizontal)
@@ -1491,8 +1519,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
 
   _selectOffset(
     metrics: Readonly<{
-      x: number,
-      y: number,
+      x: number;
+      y: number;
     }>
   ): number {
     return !horizontalOrDefault(this.props.horizontal) ? metrics.y : metrics.x;
@@ -1616,8 +1644,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
    * coordinates relative to the child list.
    */
   _convertParentScrollMetrics = (metrics: {
-    visibleLength: number,
-    offset: number,
+    visibleLength: number;
+    offset: number;
   }) => {
     // Offset of the top of the nested list relative to the top of its parent's viewport
     const offset = metrics.offset - this._offsetFromParentVirtualizedList;
@@ -1884,12 +1912,14 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   _getFrameMetrics = (
     index: number,
     props: FrameMetricProps<Data>
-  ): {
-    length: number,
-    offset: number,
-    index: number,
-    inLayout?: boolean,
-  } | undefined => {
+  ):
+    | {
+        length: number;
+        offset: number;
+        index: number;
+        inLayout?: boolean;
+      }
+    | undefined => {
     const { data, getItem, getItemCount, getItemLayout } = props;
     invariant(
       index >= 0 && index < getItemCount(data),
@@ -1911,8 +1941,8 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
   _getNonViewportRenderRegions = (
     props: FrameMetricProps<Data>
   ): ReadonlyArray<{
-    first: number,
-    last: number
+    first: number;
+    last: number;
   }> => {
     // Keep a viewport's worth of content around the last focused cell to allow
     // random navigation around it without any blanking. E.g. tabbing from one
@@ -1979,7 +2009,7 @@ class VirtualizedList<Data extends readonly any[] = readonly any[]> extends Stat
 
   _updateViewableItems(
     props: FrameMetricProps<Data>,
-    cellsAroundViewport: { first: number, last: number }
+    cellsAroundViewport: { first: number; last: number }
   ) {
     this._viewabilityTuples.forEach((tuple) => {
       tuple.viewabilityHelper.onUpdate(
@@ -2033,3 +2063,4 @@ const styles = StyleSheet.create({
 } as const);
 
 export default VirtualizedList;
+export type { Props as VirtualizedListProps };

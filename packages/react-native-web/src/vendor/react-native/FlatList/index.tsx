@@ -17,7 +17,7 @@ import type {
   ViewabilityConfigCallbackPair
 } from '../ViewabilityHelper';
 import type { RenderItemProps, RenderItemType } from '../VirtualizedList';
-import VirtualizedList from '../VirtualizedList';
+import VirtualizedList, { type VirtualizedListProps } from '../VirtualizedList';
 import { keyExtractor as defaultKeyExtractor } from '../VirtualizeUtils';
 
 type ScrollViewNativeComponent = any;
@@ -164,8 +164,6 @@ function isArrayLike(data: unknown): boolean {
 }
 
 type FlatListProps<ItemT> = RequiredProps<ItemT> & OptionalProps<ItemT>;
-
-type VirtualizedListProps = React.ComponentProps<typeof VirtualizedList>;
 
 type Diff<T, U> = T & Pick<U, Exclude<keyof U, keyof T>>;
 

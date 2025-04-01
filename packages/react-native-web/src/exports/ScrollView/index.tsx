@@ -38,7 +38,7 @@ interface ScrollViewProps
     'contentContainerStyle' | 'refreshControl' | 'style'
   > {
   contentContainerStyle?: StyleProp<ViewStyle>;
-  forwardedRef: React.Ref<any>;
+  forwardedRef?: React.Ref<any>;
   refreshControl?: React.ReactElement<RefreshControlProps>;
   onKeyboardWillShow?: (e: KeyboardEvent) => void;
   onKeyboardWillHide?: (e: KeyboardEvent) => void;

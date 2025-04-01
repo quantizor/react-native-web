@@ -22,7 +22,7 @@ type Item = any;
 
 export type SectionBase<SectionItemT> = _SectionBase<SectionItemT>;
 
-type RequiredProps<SectionT = SectionBase<any>> = {
+type RequiredProps<SectionT extends SectionBase<any>> = {
   /**
    * The actual data to render, akin to the `data` prop in [`<FlatList>`](https://reactnative.dev/docs/flatlist).
    *
@@ -37,7 +37,7 @@ type RequiredProps<SectionT = SectionBase<any>> = {
   sections: ReadonlyArray<SectionT>;
 };
 
-type OptionalProps<SectionT = SectionBase<any>> = {
+type OptionalProps<SectionT extends SectionBase<any>> = {
   /**
    * Default renderer for every item in every section. Can be over-ridden on a per-section basis.
    */
